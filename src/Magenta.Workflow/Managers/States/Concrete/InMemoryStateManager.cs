@@ -1,5 +1,4 @@
-﻿using Magenta.Workflow.Core.Exceptions;
-using Magenta.Workflow.DataTransferObjects.Base;
+﻿using Magenta.Workflow.DataTransferObjects.Base;
 using Magenta.Workflow.Managers.States.Abstracts;
 using System;
 using System.Collections.Generic;
