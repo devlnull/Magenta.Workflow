@@ -1,4 +1,4 @@
-﻿namespace Sepid.Domain.Core.Tasks
+﻿namespace Magenta.Workflow.Core.Tasks
 {
     public class FlowTaskError
     {

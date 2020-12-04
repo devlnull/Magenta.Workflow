@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Sepid.Domain.Core.Tasks
+namespace Magenta.Workflow.Core.Tasks
 {
     public class FlowTaskResult
     {
