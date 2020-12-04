@@ -3,9 +3,53 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Magenta.Workflow", "Magenta.Workflow\Magenta.Workflow.csproj", "{BA057389-1EC3-404F-AA6E-F36768F1B67E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflow", "Workflow", "{32DE56B8-9F96-49AA-92A0-59AFABAA69F0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IO", "IO", "{69B48947-F731-45DF-9206-A20E14AE8BCA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Magenta.Workflow.IO", "Magenta.Workflow.IO\Magenta.Workflow.IO.csproj", "{D9E0B43B-E2D0-491F-A023-918FF804343D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{3533DBA4-36B8-4525-BDB0-801BE3364407}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Magenta.Workflow.SqlServer", "Magenta.Workflow.SqlServer\Magenta.Workflow.SqlServer.csproj", "{97C34864-343C-42AD-835C-AEE6899D66B6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3762D9F8-C483-428D-9D90-601E608BFB23}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Magenta.Workflow.Tests", "Magenta.Workflow.Tests\Magenta.Workflow.Tests.csproj", "{3DEF486B-D300-47BB-AC40-D8E8F73CA0D5}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA057389-1EC3-404F-AA6E-F36768F1B67E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA057389-1EC3-404F-AA6E-F36768F1B67E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA057389-1EC3-404F-AA6E-F36768F1B67E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA057389-1EC3-404F-AA6E-F36768F1B67E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9E0B43B-E2D0-491F-A023-918FF804343D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9E0B43B-E2D0-491F-A023-918FF804343D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9E0B43B-E2D0-491F-A023-918FF804343D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9E0B43B-E2D0-491F-A023-918FF804343D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97C34864-343C-42AD-835C-AEE6899D66B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97C34864-343C-42AD-835C-AEE6899D66B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97C34864-343C-42AD-835C-AEE6899D66B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97C34864-343C-42AD-835C-AEE6899D66B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DEF486B-D300-47BB-AC40-D8E8F73CA0D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DEF486B-D300-47BB-AC40-D8E8F73CA0D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DEF486B-D300-47BB-AC40-D8E8F73CA0D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DEF486B-D300-47BB-AC40-D8E8F73CA0D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BA057389-1EC3-404F-AA6E-F36768F1B67E} = {32DE56B8-9F96-49AA-92A0-59AFABAA69F0}
+		{D9E0B43B-E2D0-491F-A023-918FF804343D} = {69B48947-F731-45DF-9206-A20E14AE8BCA}
+		{97C34864-343C-42AD-835C-AEE6899D66B6} = {3533DBA4-36B8-4525-BDB0-801BE3364407}
+		{3DEF486B-D300-47BB-AC40-D8E8F73CA0D5} = {3762D9F8-C483-428D-9D90-601E608BFB23}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {36DA1011-707B-4E30-AFE6-43AE627D42C3}
