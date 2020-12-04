@@ -1,10 +1,10 @@
-﻿using Magenta.Workflow.Managers.Models;
+﻿using Magenta.Workflow.Managers.Flows.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Magenta.Workflow.Managers.Abstracts
+namespace Magenta.Workflow.Managers.Flows.Abstracts
 {
     public interface IFlowSecurityContext<TKey>
     where TKey : IComparable
@@ -25,5 +25,4 @@ namespace Magenta.Workflow.Managers.Abstracts
         Task<IQueryable<FlowCartableModel>> FilterAccessCartableAsync(IQueryable<FlowCartableModel> query);
         #endregion
     }
-
 }

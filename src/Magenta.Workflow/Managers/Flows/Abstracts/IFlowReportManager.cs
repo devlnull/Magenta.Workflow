@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Magenta.Workflow.Managers.Abstracts
+namespace Magenta.Workflow.Managers.Flows.Abstracts
 {
     public interface IFlowReportManager
     {
