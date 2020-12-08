@@ -5,9 +5,12 @@ namespace Magenta.Workflow.Managers.States.Concrete
 {
     public class StateManagerFactory : ManagerFactory<IStateManager>
     {
+        private static InMemoryStateManager instance;
         public override IStateManager CreateInstance()
         {
-            return new InMemoryStateManager();
+            if (instance == null)
+                instance = new InMemoryStateManager();
+            return instance;
         }
     }
 }

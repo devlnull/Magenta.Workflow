@@ -9,5 +9,15 @@ namespace Magenta.Workflow.Entities.Base
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
         public bool Deleted { get; set; }
+
+        static internal TEntity InitializeType<TEntity>(TEntity entity)
+            where TEntity : FlowEntity
+        {
+            entity.CreatedAt = DateTime.UtcNow;
+            entity.ModifiedAt = DateTime.UtcNow;
+            entity.GuidRow = Guid.NewGuid();
+            entity.Deleted = false;
+            return entity;
+        }
     }
 }
