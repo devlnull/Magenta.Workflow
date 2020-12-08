@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Magenta.Workflow.Managers.Flows.Abstracts
+namespace Magenta.Workflow
 {
     public interface IFlowSecurityContext<TKey>
     where TKey : IComparable
