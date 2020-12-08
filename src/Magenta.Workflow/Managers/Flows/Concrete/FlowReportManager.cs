@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Magenta.Workflow.Managers.Flows.Concrete
+namespace Magenta.Workflow
 {
     public class FlowReportManager
     {

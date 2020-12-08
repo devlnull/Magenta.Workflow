@@ -1,4 +1,4 @@
-﻿using Magenta.Workflow.DataTransferObjects.Base;
+﻿using Magenta.Workflow.Entities.Base;
 
 namespace Magenta.Workflow.Managers.States.Abstracts
 {

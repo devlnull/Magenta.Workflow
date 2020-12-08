@@ -1,6 +1,6 @@
 namespace Magenta.Workflow.Services.FlowTransitions
 {
-    public class FlowTransitionService
+    public class FlowTransitionReasonService
     {
 
     }

@@ -13,6 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Magenta.Workflow.IO\Magenta.Workflow.IO.csproj" />
+    <ProjectReference Include="..\Magenta.Workflow.SqlServer\Magenta.Workflow.SqlServer.csproj" />
     <ProjectReference Include="..\Magenta.Workflow\Magenta.Workflow.csproj" />
   </ItemGroup>
 
