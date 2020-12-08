@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Magenta.Workflow.DataTransferObjects.Base;
+using Magenta.Workflow.Entities.Base;
 using Magenta.Workflow.Structures;
 
-namespace Magenta.Workflow.DataTransferObjects.Flows
+namespace Magenta.Workflow.Entities.Flows
 {
     public class FlowTransition : FlowEntity
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Magenta.Workflow.DataTransferObjects.Base
+namespace Magenta.Workflow.Entities.Base
 {
     public class FlowEntity
     {

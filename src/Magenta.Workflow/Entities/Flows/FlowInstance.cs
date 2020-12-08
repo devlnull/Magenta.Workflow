@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Magenta.Workflow.DataTransferObjects.Base;
+using Magenta.Workflow.Entities.Base;
 
-namespace Magenta.Workflow.DataTransferObjects.Flows
+namespace Magenta.Workflow.Entities.Flows
 {
     public class FlowInstance : FlowEntity
     {

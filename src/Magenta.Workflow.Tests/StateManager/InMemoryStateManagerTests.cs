@@ -1,4 +1,4 @@
-﻿using Magenta.Workflow.DataTransferObjects.Flows;
+﻿using Magenta.Workflow.Entities.Flows;
 using Magenta.Workflow.Managers.States.Abstracts;
 using Magenta.Workflow.Managers.States.Concrete;
 using System.Threading.Tasks;

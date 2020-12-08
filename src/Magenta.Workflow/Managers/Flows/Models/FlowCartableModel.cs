@@ -1,5 +1,5 @@
 ﻿using System;
-using Magenta.Workflow.DataTransferObjects.Flows;
+using Magenta.Workflow.Entities.Flows;
 
 namespace Magenta.Workflow.Managers.Flows.Models
 {
