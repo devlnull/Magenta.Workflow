@@ -2,9 +2,9 @@
 
 namespace Magenta.Workflow
 {
-    public class FlowManagerFactory : IManagerFactory<IFlowManager>
+    public class FlowManagerFactory : ManagerFactory<IFlowManager>
     {
-        public IFlowManager CreateInstance()
+        public override IFlowManager CreateInstance()
         {
             return new FlowManager();
         }

@@ -3,9 +3,9 @@ using Magenta.Workflow.Managers.States.Abstracts;
 
 namespace Magenta.Workflow.Managers.States.Concrete
 {
-    public class StateManagerFactory : IManagerFactory<IStateManager>
+    public class StateManagerFactory : ManagerFactory<IStateManager>
     {
-        public IStateManager CreateInstance()
+        public override IStateManager CreateInstance()
         {
             return new InMemoryStateManager();
         }
