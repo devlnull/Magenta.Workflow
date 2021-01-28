@@ -1,8 +1,9 @@
-﻿using Magenta.Workflow.Entities.Flows;
-using Magenta.Workflow.Services.FlowInstances;
+﻿using Magenta.Workflow.Services.FlowInstances;
 using Magenta.Workflow.Tests.Mock;
 using System.Linq;
 using System.Threading.Tasks;
+using Magenta.Workflow.Context.Flows;
+using Magenta.Workflow.UseCases.InitFlow;
 using Xunit;
 
 namespace Magenta.Workflow.Tests.UseCases
@@ -15,9 +16,9 @@ namespace Magenta.Workflow.Tests.UseCases
             //Arrange
             var state = MockState.MockStateManager();
             var set = state.GetFlowSet<FlowInstance>();
-            var useCase = new Workflow.UseCases.Initializers.InitFlow(new FlowInstanceService(state));
+            var useCase = new InitFlow(new FlowInstanceService(state));
             //Act
-            var result = await useCase.DoAsync(new Workflow.UseCases.Initializers.Models.InitFlowModel()
+            var result = await useCase.DoAsync(new InitFlowModel()
             {
                 TypeId = MockData.GetFlowTypes()[0].GuidRow,
                 AccessPhrase = "secure",

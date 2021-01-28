@@ -1,7 +1,6 @@
-﻿using Magenta.Workflow.Entities.Flows;
-using Magenta.Workflow.Managers.States.Abstracts;
-using Magenta.Workflow.Managers.States.Concrete;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Magenta.Workflow.Context.Flows;
+using Magenta.Workflow.Managers.States;
 using Xunit;
 
 namespace Magenta.Workflow.Tests.StateManager

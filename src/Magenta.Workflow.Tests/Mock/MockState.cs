@@ -1,6 +1,5 @@
-﻿using Magenta.Workflow.Entities.Flows;
-using Magenta.Workflow.Managers.States.Abstracts;
-using Magenta.Workflow.Managers.States.Concrete;
+﻿using Magenta.Workflow.Context.Flows;
+using Magenta.Workflow.Managers.States;
 
 namespace Magenta.Workflow.Tests.Mock
 {

@@ -1,10 +1,10 @@
 using Magenta.Workflow.Core.Tasks;
-using Magenta.Workflow.Entities.Base;
-using Magenta.Workflow.Entities.Flows;
-using Magenta.Workflow.Managers.States.Abstracts;
 using Magenta.Workflow.Services.Base;
 using Magenta.Workflow.Services.FlowInstances.Models;
 using System.Threading.Tasks;
+using Magenta.Workflow.Context.Base;
+using Magenta.Workflow.Context.Flows;
+using Magenta.Workflow.Managers.States;
 
 namespace Magenta.Workflow.Services.FlowInstances
 {
