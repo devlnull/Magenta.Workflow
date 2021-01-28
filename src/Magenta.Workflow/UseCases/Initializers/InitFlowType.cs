@@ -15,7 +15,7 @@ namespace Magenta.Workflow.UseCases.Initializers
             _typeService = typeService ?? throw new ArgumentNullException(nameof(typeService));
         }
 
-        public Task<FlowTaskResult<FlowType>> DoAsync<TEntity, TPayloadEntity>(string name)
+        public Task<FlowResult<FlowType>> DoAsync<TEntity, TPayloadEntity>(string name)
         {
             return _typeService.CreateFlowTypeAsync<TEntity, TPayloadEntity>(name);
         }

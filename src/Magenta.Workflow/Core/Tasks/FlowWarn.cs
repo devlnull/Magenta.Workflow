@@ -1,19 +1,18 @@
 ﻿namespace Magenta.Workflow.Core.Tasks
 {
-    public class FlowTaskError
+    public class FlowWarn
     {
-        public FlowTaskError() { }
-        public FlowTaskError(string message)
+        public FlowWarn(string message)
         {
             Message = message;
         }
 
-        public FlowTaskError(string message, string description) : this(message)
+        public FlowWarn(string message, string description) : this(message)
         {
             Description = description;
         }
 
-        public FlowTaskError(string message, string description, string code)
+        public FlowWarn(string message, string description, string code)
             : this(message, description)
         {
             Code = code;

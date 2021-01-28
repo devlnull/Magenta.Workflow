@@ -1,6 +1,6 @@
 ﻿namespace Magenta.Workflow.Core.Tasks
 {
-    public enum FlowTaskResultTypes
+    public enum FlowResultTypes
     {
         None = 0,
         Warn = 1,

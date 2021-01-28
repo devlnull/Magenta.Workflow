@@ -1,19 +1,19 @@
 ﻿namespace Magenta.Workflow.Core.Tasks
 {
-    public class FlowTaskResult<TResult> : FlowTaskResult
+    public class FlowResult<TResult> : FlowResult
     {
-        public FlowTaskResult() { }
+        public FlowResult() { }
 
-        public FlowTaskResult(TResult result)
+        public FlowResult(TResult result)
         {
             Result = result;
         }
 
         public void SetResult(TResult result) => Result = result;
 
-        public static new FlowTaskResult<TResult> Failed(params FlowTaskError[] errors)
+        public static new FlowResult<TResult> Failed(params FlowError[] errors)
         {
-            var result = new FlowTaskResult<TResult>();
+            var result = new FlowResult<TResult>();
             if (errors != null)
             {
                 result.Errors.AddRange(errors);
@@ -21,9 +21,9 @@
             return result;
         }
 
-        public static new FlowTaskResult<TResult> Warn(params FlowTaskWarn[] warns)
+        public static new FlowResult<TResult> Warn(params FlowWarn[] warns)
         {
-            var result = new FlowTaskResult<TResult>();
+            var result = new FlowResult<TResult>();
             if (warns != null)
             {
                 result.Warns.AddRange(warns);
@@ -31,16 +31,16 @@
             return result;
         }
 
-        public static FlowTaskResult<TResult> Successful(TResult result)
+        public static FlowResult<TResult> Successful(TResult result)
         {
-            return new FlowTaskResult<TResult>()
+            return new FlowResult<TResult>()
             {
                 Result = result,
                 Succeeded = true,
             };
         }
 
-        public FlowTaskResult<TResult> Merge(FlowTaskResult<TResult> secondResult)
+        public FlowResult<TResult> Merge(FlowResult<TResult> secondResult)
         {
             var result = this;
             result.Errors.AddRange(secondResult.Errors);
@@ -51,6 +51,6 @@
 
             return result;
         }
-        public static new FlowTaskResult<TResult> Success { get => new FlowTaskResult<TResult>(); }
+        public static new FlowResult<TResult> Success { get => new FlowResult<TResult>(); }
     }
 }

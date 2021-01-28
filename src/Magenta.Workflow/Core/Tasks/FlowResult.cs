@@ -3,15 +3,15 @@ using System.Linq;
 
 namespace Magenta.Workflow.Core.Tasks
 {
-    public class FlowTaskResult
+    public class FlowResult
     {
-        private static readonly FlowTaskResult _success = new FlowTaskResult
+        private static readonly FlowResult _success = new FlowResult
         {
-            _errors = new List<FlowTaskError>(),
-            _warns = new List<FlowTaskWarn>()
+            _errors = new List<FlowError>(),
+            _warns = new List<FlowWarn>()
         };
-        private List<FlowTaskError> _errors = new List<FlowTaskError>();
-        private List<FlowTaskWarn> _warns = new List<FlowTaskWarn>();
+        private List<FlowError> _errors = new List<FlowError>();
+        private List<FlowWarn> _warns = new List<FlowWarn>();
 
         private bool _succeeded;
         public bool Succeeded
@@ -41,24 +41,24 @@ namespace Magenta.Workflow.Core.Tasks
             }
         }
         public virtual object Result { get; protected set; }
-        private FlowTaskResultTypes _type = FlowTaskResultTypes.None;
-        public FlowTaskResultTypes Type
+        private FlowResultTypes _type = FlowResultTypes.None;
+        public FlowResultTypes Type
         {
             get
             {
                 if (Errors.Any())
-                    _type = FlowTaskResultTypes.Error;
+                    _type = FlowResultTypes.Error;
                 else if (Warns.Any())
-                    _type = FlowTaskResultTypes.Warn;
+                    _type = FlowResultTypes.Warn;
                 return _type;
             }
         }
-        public List<FlowTaskError> Errors => _errors;
-        public List<FlowTaskWarn> Warns => _warns;
+        public List<FlowError> Errors => _errors;
+        public List<FlowWarn> Warns => _warns;
 
-        public static FlowTaskResult Failed(params FlowTaskError[] errors)
+        public static FlowResult Failed(params FlowError[] errors)
         {
-            var result = new FlowTaskResult { Succeeded = false };
+            var result = new FlowResult { Succeeded = false };
             if (errors != null)
             {
                 result._errors.AddRange(errors);
@@ -66,9 +66,9 @@ namespace Magenta.Workflow.Core.Tasks
             return result;
         }
 
-        public static FlowTaskResult Warn(params FlowTaskWarn[] warns)
+        public static FlowResult Warn(params FlowWarn[] warns)
         {
-            var result = new FlowTaskResult { Succeeded = false, Warned = true };
+            var result = new FlowResult { Succeeded = false, Warned = true };
             if (warns != null)
             {
                 result._warns.AddRange(warns);
@@ -76,34 +76,34 @@ namespace Magenta.Workflow.Core.Tasks
             return result;
         }
 
-        public static FlowTaskResult Successful(object result)
+        public static FlowResult Successful(object result)
         {
-            return new FlowTaskResult()
+            return new FlowResult()
             {
                 Result = result,
                 Succeeded = true,
-                _errors = new List<FlowTaskError>() { },
+                _errors = new List<FlowError>() { },
             };
         }
 
-        public static FlowTaskResult Success => _success;
+        public static FlowResult Success => _success;
 
         public override string ToString()
         {
             switch (this.Type)
             {
-                case FlowTaskResultTypes.None:
+                case FlowResultTypes.None:
                     return "Succeeded";
-                case FlowTaskResultTypes.Warn:
+                case FlowResultTypes.Warn:
                     return string.Format("{0} : {1}", "Warned", string.Join(",", Warns.Select(x => x.Message).ToList()));
-                case FlowTaskResultTypes.Error:
+                case FlowResultTypes.Error:
                     return string.Format("{0} : {1}", "Failed", string.Join(",", Errors.Select(x => x.Code).ToList()));
                 default:
                     return string.Empty;
             }
         }
 
-        public FlowTaskResult Merge(FlowTaskResult secondResult)
+        public FlowResult Merge(FlowResult secondResult)
         {
             var result = this;
             result.Errors.AddRange(secondResult.Errors);

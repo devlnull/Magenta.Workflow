@@ -17,7 +17,7 @@ namespace Magenta.Workflow.UseCases.Initializers
             _instanceService = instanceService ?? throw new ArgumentNullException(nameof(instanceService));
         }
 
-        public async Task<FlowTaskResult<FlowInstance>> DoAsync(InitFlowModel model)
+        public async Task<FlowResult<FlowInstance>> DoAsync(InitFlowModel model)
         {
             var instanceModel = new InstanceCreateModel()
             {

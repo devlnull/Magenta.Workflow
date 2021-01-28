@@ -14,7 +14,7 @@ namespace Magenta.Workflow.Services.FlowTypes
 
         }
 
-        public async Task<FlowTaskResult<FlowType>> CreateFlowTypeAsync<TEntity, TPayloadEntity>(string name)
+        public async Task<FlowResult<FlowType>> CreateFlowTypeAsync<TEntity, TPayloadEntity>(string name)
         {
             var set = _stateManager.GetFlowSet<FlowType>();
             var entity = FlowEntity.InitializeType(new FlowType()
@@ -24,7 +24,7 @@ namespace Magenta.Workflow.Services.FlowTypes
                 Name = name,
             });
             var resultTask = await set.CreateAsync(entity);
-            return FlowTaskResult<FlowType>.Successful(resultTask);
+            return FlowResult<FlowType>.Successful(resultTask);
         }
     }
 }
