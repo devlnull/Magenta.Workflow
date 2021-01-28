@@ -18,13 +18,10 @@ namespace Magenta.Workflow.Core.Tasks
         {
             get
             {
-                _succeeded = !Errors.Any() && !Warns.Any();
+                _succeeded = !Errors.Any();
                 return _succeeded;
             }
-            set
-            {
-                _succeeded = value;
-            }
+            set => _succeeded = value;
         }
 
         private bool _warned;
@@ -35,10 +32,7 @@ namespace Magenta.Workflow.Core.Tasks
                 _warned = Warns.Any();
                 return _warned;
             }
-            set
-            {
-                _warned = value;
-            }
+            set => _warned = value;
         }
         public virtual object Result { get; protected set; }
         private FlowResultTypes _type = FlowResultTypes.None;
@@ -95,9 +89,9 @@ namespace Magenta.Workflow.Core.Tasks
                 case FlowResultTypes.None:
                     return "Succeeded";
                 case FlowResultTypes.Warn:
-                    return string.Format("{0} : {1}", "Warned", string.Join(",", Warns.Select(x => x.Message).ToList()));
+                    return $"{"Warned"} : {string.Join(",", Warns.Select(x => x.Message).ToList())}";
                 case FlowResultTypes.Error:
-                    return string.Format("{0} : {1}", "Failed", string.Join(",", Errors.Select(x => x.Code).ToList()));
+                    return $"{"Failed"} : {string.Join(",", Errors.Select(x => x.Code).ToList())}";
                 default:
                     return string.Empty;
             }

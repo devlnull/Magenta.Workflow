@@ -7,6 +7,9 @@
             Message = message;
         }
 
+        public FlowWarn(string message, params string[] args) : this(string.Format(message, args)) { }
+
+
         public FlowWarn(string message, string description) : this(message)
         {
             Description = description;

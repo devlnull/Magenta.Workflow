@@ -13,10 +13,10 @@ namespace Magenta.Workflow.Managers.States
             where TEntity : FlowEntity
         {
             RepoDict.TryGetValue(typeof(TEntity), out object repo);
-            var repoAsFlowSet = repo as FlowSet<TEntity>;
+            var repoAsFlowSet = repo as InMemoryFlowSet<TEntity>;
             if (repoAsFlowSet == null)
             {
-                repoAsFlowSet = new FlowSet<TEntity>();
+                repoAsFlowSet = new InMemoryFlowSet<TEntity>();
                 RepoDict[typeof(TEntity)] = repoAsFlowSet;
             }
             return repoAsFlowSet;

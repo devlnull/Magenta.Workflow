@@ -8,7 +8,7 @@ using Magenta.Workflow.Core.Exceptions;
 
 namespace Magenta.Workflow.Managers.States
 {
-    public class FlowSet<TEntity> : IFlowSet<TEntity>
+    public class InMemoryFlowSet<TEntity> : IFlowSet<TEntity>
         where TEntity : FlowEntity
     {
         private static readonly List<TEntity> _repo = new List<TEntity>();
@@ -16,7 +16,7 @@ namespace Magenta.Workflow.Managers.States
         public string EntityName { get { return typeof(TEntity).GetType().Name; } }
 
 
-        public FlowSet()
+        public InMemoryFlowSet()
         {
             DataSet = _repo;
         }
@@ -26,6 +26,12 @@ namespace Magenta.Workflow.Managers.States
         public Task<bool> AnyAsync()
         {
             return Task.FromResult(_repo.Any());
+        }
+
+        public Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate = null)
+        {
+            var listPredicate = predicate.Compile();
+            return Task.FromResult(_repo.Any(listPredicate));
         }
 
         public Task<long> CountAsync()

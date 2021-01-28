@@ -6,18 +6,18 @@ using Magenta.Workflow.Services.FlowTypes;
 
 namespace Magenta.Workflow.UseCases.InitFlowType
 {
-    public class InitFlowType
+    public class InitFlowTypeRequest : IFlowRequest<InitFlowTypeModel, FlowType>
     {
         private readonly FlowTypeService _typeService;
 
-        public InitFlowType(FlowTypeService typeService)
+        public InitFlowTypeRequest(FlowTypeService typeService)
         {
             _typeService = typeService ?? throw new ArgumentNullException(nameof(typeService));
         }
 
-        public Task<FlowResult<FlowType>> DoAsync<TEntity, TPayloadEntity>(string name)
+        public Task<FlowResult<FlowType>> DoAsync(InitFlowTypeModel model)
         {
-            return _typeService.CreateFlowTypeAsync<TEntity, TPayloadEntity>(name);
+            return _typeService.CreateFlowTypeAsync(model);
         }
     }
 }

@@ -1,10 +1,11 @@
 using Magenta.Workflow.Core.Tasks;
 using Magenta.Workflow.Services.Base;
-using Magenta.Workflow.Services.FlowInstances.Models;
 using System.Threading.Tasks;
 using Magenta.Workflow.Context.Base;
 using Magenta.Workflow.Context.Flows;
 using Magenta.Workflow.Managers.States;
+using Magenta.Workflow.UseCases.InitFlow;
+using Magenta.Workflow.Utilities;
 
 namespace Magenta.Workflow.Services.FlowInstances
 {
@@ -15,14 +16,15 @@ namespace Magenta.Workflow.Services.FlowInstances
 
         }
 
-        public async Task<FlowResult<FlowInstance>> CreateFlowInstanceAsync(InstanceCreateModel model)
+        public async Task<FlowResult<FlowInstance>> CreateFlowInstanceAsync(InitFlowModel model)
         {
             var set = _stateManager.GetFlowSet<FlowInstance>();
             var typeSet = _stateManager.GetFlowSet<FlowType>();
 
             var type = await typeSet.GetByGuidAsync(model.TypeId);
             if (type == null)
-                return FlowResult<FlowInstance>.Failed(new[] { new FlowError("Flow type not found.") });
+                return FlowResult<FlowInstance>
+                    .Failed(new FlowError(FlowErrors.ITEM_NOTFOUND, nameof(type)));
 
             var entity = FlowEntity.InitializeType(new FlowInstance()
             {
