@@ -1,9 +1,10 @@
 using Magenta.Workflow.Core.Tasks;
-using Magenta.Workflow.Entities.Base;
-using Magenta.Workflow.Entities.Flows;
-using Magenta.Workflow.Managers.States.Abstracts;
 using Magenta.Workflow.Services.Base;
 using System.Threading.Tasks;
+using Magenta.Workflow.Context.Base;
+using Magenta.Workflow.Context.Flows;
+using Magenta.Workflow.Managers.States;
+using Magenta.Workflow.UseCases.InitFlowType;
 
 namespace Magenta.Workflow.Services.FlowTypes
 {
@@ -14,17 +15,17 @@ namespace Magenta.Workflow.Services.FlowTypes
 
         }
 
-        public async Task<FlowTaskResult<FlowType>> CreateFlowTypeAsync<TEntity, TPayloadEntity>(string name)
+        public async Task<FlowResult<FlowType>> CreateFlowTypeAsync(InitFlowTypeModel initModel)
         {
             var set = _stateManager.GetFlowSet<FlowType>();
             var entity = FlowEntity.InitializeType(new FlowType()
             {
-                EntityType = typeof(TEntity).Name,
-                EntityPayloadType = typeof(TPayloadEntity).Name,
-                Name = name,
+                EntityType = initModel.EntityType.Name,
+                EntityPayloadType = initModel.EntityPayloadType.Name,
+                Name = initModel.Name,
             });
             var resultTask = await set.CreateAsync(entity);
-            return FlowTaskResult<FlowType>.Successful(resultTask);
+            return FlowResult<FlowType>.Successful(resultTask);
         }
     }
 }

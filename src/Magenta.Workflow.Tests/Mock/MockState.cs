@@ -1,26 +1,27 @@
-﻿using Magenta.Workflow.Entities.Flows;
-using Magenta.Workflow.Managers.States.Abstracts;
-using Magenta.Workflow.Managers.States.Concrete;
+﻿using Magenta.Workflow.Context.Flows;
+using Magenta.Workflow.Managers.States;
 
 namespace Magenta.Workflow.Tests.Mock
 {
     public class MockState
     {
+        internal static IStateManager StateManager;
         public static IStateManager MockStateManager()
         {
-            var memoryStateManager = new InMemoryStateManager();
-            memoryStateManager = FillTypes(memoryStateManager);
+            if (StateManager == null)
+                StateManager = new InMemoryStateManager();
+            StateManager = FillTypes(StateManager);
 
 
-            return memoryStateManager;
+            return StateManager;
         }
 
-        private static InMemoryStateManager FillTypes(InMemoryStateManager memoryStateManager)
+        private static IStateManager FillTypes(IStateManager stateManager)
         {
-            var set = memoryStateManager.GetFlowSet<FlowType>();
+            var set = stateManager.GetFlowSet<FlowType>();
             var items = MockData.GetFlowTypes();
             set.CreateListAsync(items).GetAwaiter().GetResult();
-            return memoryStateManager;
+            return stateManager;
         }
     }
 }

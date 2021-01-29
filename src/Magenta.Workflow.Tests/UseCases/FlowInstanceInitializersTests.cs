@@ -1,36 +1,58 @@
-﻿using Magenta.Workflow.Entities.Flows;
-using Magenta.Workflow.Services.FlowInstances;
-using Magenta.Workflow.Tests.Mock;
-using System.Linq;
+﻿using Magenta.Workflow.Tests.Mock;
 using System.Threading.Tasks;
+using Magenta.Workflow.Tests.Infrastructures;
+using Magenta.Workflow.UseCases.InitFlow;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Magenta.Workflow.Tests.UseCases
 {
-    public class FlowInstanceInitializersTests
+    public class FlowInstanceInitializersTests : TestBase
     {
+        public FlowInstanceInitializersTests(ITestOutputHelper testOutput) : base(testOutput)
+        {
+        }
+
         [Fact]
         public async Task IntiFlowInstance_WithCorrectType_MustInitialize()
         {
             //Arrange
-            var state = MockState.MockStateManager();
-            var set = state.GetFlowSet<FlowInstance>();
-            var useCase = new Workflow.UseCases.Initializers.InitFlow(new FlowInstanceService(state));
-            //Act
-            var result = await useCase.DoAsync(new Workflow.UseCases.Initializers.Models.InitFlowModel()
+            var flowManager = ManagerFactory.GetFlowManager();
+            var initModel = new InitFlowModel()
             {
                 TypeId = MockData.GetFlowTypes()[0].GuidRow,
                 AccessPhrase = "secure",
                 InitializerId = "1",
-                Name = "Hire Me",
                 Payload = "null",
                 Title = "Hire devlnull"
-            });
-            bool hasInserted = set.GetAll().Any(x => x.GuidRow.Equals((result.Result as FlowInstance).GuidRow));
+            };
+            //Act
+            var act = await flowManager.InitFlowAsync(initModel);
             //Assert
-            Assert.True(result.Succeeded);
-            Assert.True(hasInserted);
-            
+            Assert.True(act.Succeeded);
+            Assert.NotNull(act.Result);
+            LogTestInfo(initModel, act);
+        }
+
+        [Fact]
+        public async Task IntiFlowInstance_EmptyPayload_MustWarn()
+        {
+            //Arrange
+            var flowManager = ManagerFactory.GetFlowManager();
+            var initModel = new InitFlowModel()
+            {
+                TypeId = MockData.GetFlowTypes()[0].GuidRow,
+                AccessPhrase = "secure",
+                InitializerId = "1",
+                Payload = null,
+                Title = "Hire devlnull"
+            };
+            //Act
+            var act = await flowManager.InitFlowAsync(initModel);
+            //Assert
+            Assert.True(act.Warned);
+            Assert.NotEmpty(act.Warns);
+            LogTestInfo(initModel, act);
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using Magenta.Workflow.Entities.Flows;
-using System;
+﻿using System;
+using Magenta.Workflow.Context.Flows;
 
 namespace Magenta.Workflow.Tests.Mock
 {
