@@ -1,0 +1,40 @@
+﻿using System;
+using System.Threading.Tasks;
+using Magenta.Workflow.Context.Flows;
+using Magenta.Workflow.Core.Tasks;
+using Magenta.Workflow.Core.Validators;
+using Magenta.Workflow.Managers.States;
+using Magenta.Workflow.Utilities;
+
+namespace Magenta.Workflow.UseCases.InitFlowState
+{
+    public class InitFlowStateValidator : IFlowValidator<InitFlowStateModel>
+    {
+        public async Task<FlowResult> ValidateAsync(IStateManager stateManager, InitFlowStateModel model)
+        {
+            FlowResult result = new FlowResult();
+
+            if (string.IsNullOrEmpty(model.Name))
+                result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, args: nameof(model.Name)));
+
+            if (string.IsNullOrEmpty(model.Title))
+                result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, args: nameof(model.Title)));
+            
+            if (model.TypeGuidRow == default)
+                result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, args: nameof(model.TypeGuidRow)));
+
+            if (await TypeNotExistAsync(stateManager, model.TypeGuidRow))
+                result.Errors.Add(new FlowError(FlowErrors.ITEM_NOTFOUND, args: "FlowType"));
+
+
+            return result;
+        }
+
+        private async Task<bool> TypeNotExistAsync(IStateManager stateManager, Guid typeGuidRow)
+        {
+            var typeSet = stateManager.GetFlowSet<FlowType>();
+            var item = await typeSet.GetByGuidAsync(typeGuidRow);
+            return item == null;
+        }
+    }
+}
