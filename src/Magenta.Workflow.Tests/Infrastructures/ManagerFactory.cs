@@ -1,4 +1,5 @@
 ﻿using Magenta.Workflow.Managers.Flows;
+using Magenta.Workflow.Tests.Mock;
 
 namespace Magenta.Workflow.Tests.Infrastructures
 {
@@ -6,8 +7,7 @@ namespace Magenta.Workflow.Tests.Infrastructures
     {
         public static IFlowManager GetFlowManager()
         {
-            var stateManager = Mock.MockState.MockStateManager();
-            return new FlowManager(stateManager);
+            return new FlowManager(MockState.MockStateManager());
         }
     }
 }

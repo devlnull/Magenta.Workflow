@@ -3,11 +3,17 @@ using Magenta.Workflow.Tests.Infrastructures;
 using Magenta.Workflow.Tests.Mock;
 using Magenta.Workflow.UseCases.InitFlowType;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Magenta.Workflow.Tests.UseCases
 {
-    public class FlowTypeInitializersTests
+    public class FlowTypeInitializersTests : TestBase
     {
+        public FlowTypeInitializersTests(ITestOutputHelper testOutput) : base(testOutput)
+        {
+        }
+
+
         [Fact]
         public async Task IntiFlowType_WithFillName_InitializeNewType()
         {
@@ -21,9 +27,10 @@ namespace Magenta.Workflow.Tests.UseCases
             };
             //Act
 
-            var result = await flowManager.InitFlowTypeAsync(initModel);
+            var act = await flowManager.InitFlowTypeAsync(initModel);
             //Assert
-            Assert.True(result.Succeeded);
+            Assert.True(act.Succeeded);
+            LogTestInfo( initModel, act);
         }
 
         [Fact]
@@ -40,9 +47,10 @@ namespace Magenta.Workflow.Tests.UseCases
             };
             //Act
 
-            var result = await flowManager.InitFlowTypeAsync(initModel);
+            var act = await flowManager.InitFlowTypeAsync(initModel);
             //Assert
-            Assert.False(result.Succeeded);
+            Assert.False(act.Succeeded);
+            LogTestInfo(initModel, act);
         }
 
         [Fact]
@@ -58,9 +66,10 @@ namespace Magenta.Workflow.Tests.UseCases
             };
             //Act
 
-            var result = await flowManager.InitFlowTypeAsync(initModel);
+            var act = await flowManager.InitFlowTypeAsync(initModel);
             //Assert
-            Assert.False(result.Succeeded);
+            Assert.False(act.Succeeded);
+            LogTestInfo(initModel, act);
         }
     }
 }

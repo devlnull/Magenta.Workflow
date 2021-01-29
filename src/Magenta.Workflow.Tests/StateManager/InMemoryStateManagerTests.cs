@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Magenta.Workflow.Context.Flows;
 using Magenta.Workflow.Managers.States;
+using Magenta.Workflow.Tests.Mock;
 using Xunit;
 
 namespace Magenta.Workflow.Tests.StateManager
@@ -11,7 +12,7 @@ namespace Magenta.Workflow.Tests.StateManager
         public async Task InMemoryStateManager_Initializer_CanGetFlowSet()
         {
             //Arrange
-            IStateManager stateManager = new InMemoryStateManager();
+            var stateManager = MockState.MockStateManager();
             //Act
             var flowSet = stateManager.GetFlowSet<FlowInstance>();
             //Assert

@@ -3,11 +3,16 @@ using System.Threading.Tasks;
 using Magenta.Workflow.Tests.Infrastructures;
 using Magenta.Workflow.UseCases.InitFlow;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Magenta.Workflow.Tests.UseCases
 {
-    public class FlowInstanceInitializersTests
+    public class FlowInstanceInitializersTests : TestBase
     {
+        public FlowInstanceInitializersTests(ITestOutputHelper testOutput) : base(testOutput)
+        {
+        }
+
         [Fact]
         public async Task IntiFlowInstance_WithCorrectType_MustInitialize()
         {
@@ -26,7 +31,7 @@ namespace Magenta.Workflow.Tests.UseCases
             //Assert
             Assert.True(act.Succeeded);
             Assert.NotNull(act.Result);
-            
+            LogTestInfo(initModel, act);
         }
 
         [Fact]
@@ -47,6 +52,7 @@ namespace Magenta.Workflow.Tests.UseCases
             //Assert
             Assert.True(act.Warned);
             Assert.NotEmpty(act.Warns);
+            LogTestInfo(initModel, act);
         }
     }
 }

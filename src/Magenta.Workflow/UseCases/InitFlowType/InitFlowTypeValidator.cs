@@ -31,8 +31,8 @@ namespace Magenta.Workflow.UseCases.InitFlowType
         private async Task<bool> DuplicateNameExistAsync(IStateManager stateManager, InitFlowTypeModel model)
         {
             var types = stateManager.GetFlowSet<FlowType>();
-            var exist = await types.AnyAsync(x => x.Name.Equals(model.Name));
-            return exist;
+            var item = await types.FirstOrDefaultAsync(x => x.Name.Equals(model.Name));
+            return item != null;
         }
     }
 }

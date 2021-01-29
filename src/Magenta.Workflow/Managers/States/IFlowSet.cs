@@ -15,7 +15,6 @@ namespace Magenta.Workflow.Managers.States
         #region Utility
         Task<long> CountAsync();
         Task<bool> AnyAsync();
-        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate = null);
         #endregion
 
         #region Delete

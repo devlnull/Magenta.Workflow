@@ -28,12 +28,6 @@ namespace Magenta.Workflow.Managers.States
             return Task.FromResult(_repo.Any());
         }
 
-        public Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate = null)
-        {
-            var listPredicate = predicate.Compile();
-            return Task.FromResult(_repo.Any(listPredicate));
-        }
-
         public Task<long> CountAsync()
         {
             return Task.FromResult(_repo.LongCount());
