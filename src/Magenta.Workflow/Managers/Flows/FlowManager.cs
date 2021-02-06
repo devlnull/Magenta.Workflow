@@ -6,10 +6,12 @@ using Magenta.Workflow.Core.Tasks;
 using Magenta.Workflow.Managers.States;
 using Magenta.Workflow.Services.FlowInstances;
 using Magenta.Workflow.Services.FlowStates;
+using Magenta.Workflow.Services.FlowTransitions;
 using Magenta.Workflow.Services.FlowTypes;
 using Magenta.Workflow.UseCases;
 using Magenta.Workflow.UseCases.InitFlow;
 using Magenta.Workflow.UseCases.InitFlowState;
+using Magenta.Workflow.UseCases.InitFlowTransition;
 using Magenta.Workflow.UseCases.InitFlowType;
 using Magenta.Workflow.Utilities;
 
@@ -24,12 +26,14 @@ namespace Magenta.Workflow.Managers.Flows
             InstanceService = new FlowInstanceService(StateManager);
             TypeService = new FlowTypeService(StateManager);
             StateService = new FlowStateService(StateManager);
+            TransitionService = new FlowTransitionService(StateManager);
         }
 
         public IStateManager StateManager { get; set; }
         public FlowInstanceService InstanceService { get; }
         public FlowTypeService TypeService { get; }
         public FlowStateService StateService { get; }
+        public FlowTransitionService TransitionService { get; }
 
         #region Helpers
 
@@ -85,6 +89,12 @@ namespace Magenta.Workflow.Managers.Flows
         public async Task<FlowResult<FlowState>> InitFlowStateAsync(InitFlowStateModel initModel)
         {
             var result = await HandleRequestAsync(new InitFlowStateRequest(StateService), initModel);
+            return result;
+        }
+
+        public async Task<FlowResult<FlowTransition>> InitFlowTransitionAsync(InitFlowTransitionModel initModel)
+        {
+            var result = await HandleRequestAsync(new InitFlowTransitionRequest(TransitionService), initModel);
             return result;
         }
 

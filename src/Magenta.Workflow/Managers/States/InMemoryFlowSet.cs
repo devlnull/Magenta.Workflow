@@ -11,14 +11,25 @@ namespace Magenta.Workflow.Managers.States
     public class InMemoryFlowSet<TEntity> : IFlowSet<TEntity>
         where TEntity : FlowEntity
     {
-        private static readonly List<TEntity> _repo = new List<TEntity>();
-        public IEnumerable<TEntity> DataSet { get; set; }
-        public string EntityName { get { return typeof(TEntity).GetType().Name; } }
+        private List<TEntity> _repo;
 
+        public IEnumerable<TEntity> DataSet
+        {
+            get
+            {
+                if (_repo == null)
+                    _repo = new List<TEntity>();
+                return _repo.AsEnumerable();
+            }
+            set => _repo = value.ToList();
+        }
+
+        public string EntityName => typeof(TEntity).Name;
 
         public InMemoryFlowSet()
         {
-            DataSet = _repo;
+            if(_repo == null)
+                _repo = new List<TEntity>();
         }
 
         #region Utilities
@@ -45,7 +56,13 @@ namespace Magenta.Workflow.Managers.States
 
         public Task<IEnumerable<TEntity>> CreateListAsync(IEnumerable<TEntity> input)
         {
-            _repo.AddRange(input);
+            if (input == null)
+                return null;
+            if (!input.Any())
+                return null;
+
+            foreach (var item in input)
+                _repo.Add(item);
             return Task.FromResult(input);
         }
 

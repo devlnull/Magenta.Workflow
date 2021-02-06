@@ -6,18 +6,16 @@ namespace Magenta.Workflow.Managers.States
 {
     public class InMemoryStateManager : IStateManager
     {
-        private static object locker = new object();
-        public static Dictionary<Type, object> RepoDict
-            = new Dictionary<Type, object>();
+        private static readonly object locker = new object();
+        public static Dictionary<Type, object> RepoDict  = new Dictionary<Type, object>();
 
         public IFlowSet<TEntity> GetFlowSet<TEntity>()
             where TEntity : FlowEntity
         {
-            if (RepoDict == null) RepoDict = new Dictionary<Type, object>();
-
-            var setType = typeof(IFlowSet<TEntity>);
             lock (locker)
             {
+                if (RepoDict == null) RepoDict = new Dictionary<Type, object>();
+                var setType = typeof(IFlowSet<TEntity>);
                 if (RepoDict.TryGetValue(setType, out var repo))
                     return repo as InMemoryFlowSet<TEntity>;
 

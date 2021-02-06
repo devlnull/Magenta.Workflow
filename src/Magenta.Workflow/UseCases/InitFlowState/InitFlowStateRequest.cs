@@ -8,7 +8,7 @@ namespace Magenta.Workflow.UseCases.InitFlowState
 {
     public class InitFlowStateRequest : IFlowRequest<InitFlowStateModel, FlowState>
     {
-        public FlowStateService StateService { get; set; }
+        public FlowStateService StateService { get; }
 
         public InitFlowStateRequest(FlowStateService stateService)
         {
