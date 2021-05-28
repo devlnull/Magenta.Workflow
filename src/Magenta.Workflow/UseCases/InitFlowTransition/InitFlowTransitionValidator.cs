@@ -15,10 +15,10 @@ namespace Magenta.Workflow.UseCases.InitFlowTransition
         {
             FlowResult result = new FlowResult();
 
-            if (string.IsNullOrWhiteSpace(model.Name))
+            if (model.Name.StringIsEmpty())
                 result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, nameof(model.Name)));
 
-            if (string.IsNullOrWhiteSpace(model.Title))
+            if (model.Title.StringIsEmpty())
                 result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, nameof(model.Title)));
 
             if (await StateNotExistAsync(stateManager, model.SourceId))

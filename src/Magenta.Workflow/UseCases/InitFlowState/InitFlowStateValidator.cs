@@ -14,13 +14,13 @@ namespace Magenta.Workflow.UseCases.InitFlowState
         {
             FlowResult result = new FlowResult();
 
-            if (string.IsNullOrEmpty(model.Name))
+            if (model.Name.StringIsEmpty())
                 result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, args: nameof(model.Name)));
 
-            if (string.IsNullOrEmpty(model.Title))
+            if (model.Title.StringIsEmpty())
                 result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, args: nameof(model.Title)));
             
-            if (model.TypeId == default)
+            if (model.TypeId.GuidIsEmpty())
                 result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, args: nameof(model.TypeId)));
 
             if (await TypeNotExistAsync(stateManager, model.TypeId))
