@@ -9,30 +9,30 @@ using Magenta.Workflow.Utilities;
 
 namespace Magenta.Workflow.Services.FlowInstances
 {
-    public class FlowInstanceService : BaseService
+    public class FlowInstanceService : BaseService<InitFlowModel, FlowResult<FlowInstance>>
     {
         public FlowInstanceService(IStateManager stateManager) : base(stateManager)
         {
 
         }
-
-        public async Task<FlowResult<FlowInstance>> CreateFlowInstanceAsync(InitFlowModel model)
+        
+        public override async Task<FlowResult<FlowInstance>> HandleRequestAsync(InitFlowModel request)
         {
             var set = _stateManager.GetFlowSet<FlowInstance>();
             var typeSet = _stateManager.GetFlowSet<FlowType>();
 
-            var type = await typeSet.GetByGuidAsync(model.TypeId);
+            var type = await typeSet.GetByGuidAsync(request.TypeId);
             if (type == null)
                 return FlowResult<FlowInstance>
                     .Failed(new FlowError(FlowErrors.ITEM_NOTFOUND, nameof(type)));
 
             var entity = FlowEntity.InitializeType(new FlowInstance()
             {
-                Title = model.Title,
-                Payload = model.Payload,
+                Title = request.Title,
+                Payload = request.Payload,
                 TypeId = type.Id,
-                InitializerId = model.InitializerId,
-                AccessPhrase = model.AccessPhrase,
+                InitializerId = request.InitializerId,
+                AccessPhrase = request.AccessPhrase,
             });
 
             var result = await set.CreateAsync(entity);

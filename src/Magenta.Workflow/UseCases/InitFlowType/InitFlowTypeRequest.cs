@@ -17,7 +17,7 @@ namespace Magenta.Workflow.UseCases.InitFlowType
 
         public Task<FlowResult<FlowType>> DoAsync(InitFlowTypeModel model)
         {
-            return TypeService.CreateFlowTypeAsync(model);
+            return TypeService.HandleRequestAsync(model);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Magenta.Workflow.UseCases.InitFlowState
 
         public Task<FlowResult<FlowState>> DoAsync(InitFlowStateModel model)
         {
-            return StateService.CreateFlowStateAsync(model);
+            return StateService.HandleRequestAsync(model);
         }
     }
 }
