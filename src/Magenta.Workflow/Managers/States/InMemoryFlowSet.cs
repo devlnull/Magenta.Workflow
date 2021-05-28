@@ -12,26 +12,34 @@ namespace Magenta.Workflow.Managers.States
         where TEntity : FlowEntity
     {
         private List<TEntity> _repo;
+        private object locker = new object();
 
         public IEnumerable<TEntity> DataSet
         {
             get
             {
-                if (_repo == null)
-                    _repo = new List<TEntity>();
-                return _repo.AsEnumerable();
+                lock (locker)
+                {
+                    if (_repo == null)
+                        _repo = new List<TEntity>();
+                    return _repo.AsEnumerable();
+                }
             }
-            set => _repo = value.ToList();
+            set
+            {
+                lock (locker)
+                    _repo = value.ToList();
+            }
         }
 
         public string EntityName => typeof(TEntity).Name;
 
         public InMemoryFlowSet()
         {
-            if(_repo == null)
+            if (_repo == null)
                 _repo = new List<TEntity>();
         }
-        
+
         #region Utilities
 
         public Task<bool> AnyAsync()
