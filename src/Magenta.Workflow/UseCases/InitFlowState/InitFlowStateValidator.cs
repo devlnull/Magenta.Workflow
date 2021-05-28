@@ -20,10 +20,10 @@ namespace Magenta.Workflow.UseCases.InitFlowState
             if (string.IsNullOrEmpty(model.Title))
                 result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, args: nameof(model.Title)));
             
-            if (model.TypeGuidRow == default)
-                result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, args: nameof(model.TypeGuidRow)));
+            if (model.TypeId == default)
+                result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, args: nameof(model.TypeId)));
 
-            if (await TypeNotExistAsync(stateManager, model.TypeGuidRow))
+            if (await TypeNotExistAsync(stateManager, model.TypeId))
                 result.Errors.Add(new FlowError(FlowErrors.ITEM_NOTFOUND, args: "FlowType"));
 
 
@@ -33,7 +33,7 @@ namespace Magenta.Workflow.UseCases.InitFlowState
         private async Task<bool> TypeNotExistAsync(IStateManager stateManager, Guid typeGuidRow)
         {
             var typeSet = stateManager.GetFlowSet<FlowType>();
-            var item = await typeSet.GetByGuidAsync(typeGuidRow);
+            var item = await typeSet.GetByIdAsync(typeGuidRow);
             return item == null;
         }
     }

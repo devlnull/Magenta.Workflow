@@ -5,8 +5,8 @@ namespace Magenta.Workflow.UseCases.InitFlowTransition
 {
     public class InitFlowTransitionModel
     {
-        public Guid SourceGuidRow { get; set; }
-        public Guid DestinationGuidRow { get; set; }
+        public Guid SourceId { get; set; }
+        public Guid DestinationId { get; set; }
         public string Title { get; set; }
         public string Name { get; set; }
         public FlowTransitionTypes TransitionType { get; set; }

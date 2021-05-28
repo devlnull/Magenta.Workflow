@@ -21,13 +21,13 @@ namespace Magenta.Workflow.UseCases.InitFlowTransition
             if (string.IsNullOrWhiteSpace(model.Title))
                 result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, nameof(model.Title)));
 
-            if (await StateNotExistAsync(stateManager, model.SourceGuidRow))
+            if (await StateNotExistAsync(stateManager, model.SourceId))
                 result.Errors.Add(new FlowError(FlowErrors.ITEM_NOTFOUND, "Source"));
 
-            if (await StateNotExistAsync(stateManager, model.DestinationGuidRow))
+            if (await StateNotExistAsync(stateManager, model.DestinationId))
                 result.Errors.Add(new FlowError(FlowErrors.ITEM_NOTFOUND, "Destination"));
 
-            if (await TransitionInPathAlreadyExistAsync(stateManager, model.SourceGuidRow, model.DestinationGuidRow))
+            if (await TransitionInPathAlreadyExistAsync(stateManager, model.SourceId, model.DestinationId))
                 result.Warns.Add(new FlowWarn(FlowMessages.TRANSITION_INPATHEXIST));
 
             return result;
@@ -36,7 +36,7 @@ namespace Magenta.Workflow.UseCases.InitFlowTransition
         private async Task<bool> StateNotExistAsync(IStateManager stateManager, Guid stateGuidRow)
         {
             var transitionSet = stateManager.GetFlowSet<FlowState>();
-            var item = await transitionSet.GetByGuidAsync(stateGuidRow);
+            var item = await transitionSet.GetByIdAsync(stateGuidRow);
             return item == null;
         }
 
@@ -46,8 +46,8 @@ namespace Magenta.Workflow.UseCases.InitFlowTransition
             var stateSet = stateManager.GetFlowSet<FlowState>();
             var transitionSet = stateManager.GetFlowSet<FlowTransition>();
 
-            var source = await stateSet.GetByGuidAsync(sourceGuid);
-            var destination = await stateSet.GetByGuidAsync(destinationGuid);
+            var source = await stateSet.GetByIdAsync(sourceGuid);
+            var destination = await stateSet.GetByIdAsync(destinationGuid);
 
             if (source == null || destination == null)
                 return false;

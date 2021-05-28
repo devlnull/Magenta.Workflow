@@ -30,8 +30,8 @@ namespace Magenta.Workflow.Tests.UseCases
             {
                 Name = "FinalApprove",
                 Title = "FinalApprove",
-                SourceGuidRow = approve1State.GuidRow,
-                DestinationGuidRow = activeState.GuidRow,
+                SourceId = approve1State.Id,
+                DestinationId = activeState.Id,
                 TransitionType = FlowTransitionTypes.Reject,
             };
             //Act
@@ -56,8 +56,8 @@ namespace Magenta.Workflow.Tests.UseCases
             {
                 Name = "RejectTest",
                 Title = "RejectTest",
-                SourceGuidRow = reviewState.GuidRow,
-                DestinationGuidRow = closeState.GuidRow,
+                SourceId = reviewState.Id,
+                DestinationId = closeState.Id,
                 TransitionType = FlowTransitionTypes.Reject,
             };
             //Act

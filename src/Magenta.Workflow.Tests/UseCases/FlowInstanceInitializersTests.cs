@@ -20,7 +20,7 @@ namespace Magenta.Workflow.Tests.UseCases
             var flowManager = ManagerFactory.GetFlowManager();
             var initModel = new InitFlowModel()
             {
-                TypeId = MockData.GetFlowTypes()[0].GuidRow,
+                TypeId = MockData.GetFlowTypes()[0].Id,
                 AccessPhrase = "secure",
                 InitializerId = "1",
                 Payload = "null",
@@ -41,7 +41,7 @@ namespace Magenta.Workflow.Tests.UseCases
             var flowManager = ManagerFactory.GetFlowManager();
             var initModel = new InitFlowModel()
             {
-                TypeId = MockData.GetFlowTypes()[0].GuidRow,
+                TypeId = MockData.GetFlowTypes()[0].Id,
                 AccessPhrase = "secure",
                 InitializerId = "1",
                 Payload = null,

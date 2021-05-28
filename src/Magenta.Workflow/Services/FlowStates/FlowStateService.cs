@@ -20,7 +20,7 @@ namespace Magenta.Workflow.Services.FlowStates
             var set = _stateManager.GetFlowSet<FlowState>();
             var typeSet = _stateManager.GetFlowSet<FlowType>();
 
-            var type = await typeSet.GetByGuidAsync(model.TypeGuidRow);
+            var type = await typeSet.GetByIdAsync(model.TypeId);
             if (type == null)
                 return FlowResult<FlowState>
                     .Failed(new FlowError(FlowErrors.ITEM_NOTFOUND, nameof(type)));
