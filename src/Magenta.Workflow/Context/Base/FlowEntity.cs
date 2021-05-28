@@ -4,8 +4,7 @@ namespace Magenta.Workflow.Context.Base
 {
     public class FlowEntity
     {
-        public long Id { get; set; }
-        public Guid GuidRow { get; set; }
+        public Guid Id { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
         public bool Deleted { get; set; }
@@ -15,7 +14,7 @@ namespace Magenta.Workflow.Context.Base
         {
             entity.CreatedAt = DateTime.UtcNow;
             entity.ModifiedAt = DateTime.UtcNow;
-            entity.GuidRow = Guid.NewGuid();
+            entity.Id = Guid.NewGuid();
             entity.Deleted = false;
             return entity;
         }
