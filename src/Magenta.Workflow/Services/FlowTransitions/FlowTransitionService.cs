@@ -9,35 +9,34 @@ using Magenta.Workflow.Utilities;
 
 namespace Magenta.Workflow.Services.FlowTransitions
 {
-    public class FlowTransitionService : BaseService<InitFlowTransitionModel, FlowResult<FlowTransition>>
+    public class FlowTransitionService : BaseService
     {
         public FlowTransitionService(IStateManager stateManager) : base(stateManager)
         {
         }
 
-        public override async Task<FlowResult<FlowTransition>> HandleRequestAsync(
-            InitFlowTransitionModel request)
+        public async Task<FlowResult<FlowTransition>> CreateFlowTransitionAsync(InitFlowTransitionModel model)
         {
             var set = _stateManager.GetFlowSet<FlowTransition>();
             var stateSet = _stateManager.GetFlowSet<FlowState>();
 
-            var source = await stateSet.GetByGuidAsync(request.SourceGuidRow);
+            var source = await stateSet.GetByGuidAsync(model.SourceGuidRow);
             if (source == null)
                 return FlowResult<FlowTransition>
                     .Failed(new FlowError(FlowErrors.ITEM_NOTFOUND, nameof(source)));
 
-            var destination = await stateSet.GetByGuidAsync(request.DestinationGuidRow);
+            var destination = await stateSet.GetByGuidAsync(model.DestinationGuidRow);
             if (destination == null)
                 return FlowResult<FlowTransition>
                     .Failed(new FlowError(FlowErrors.ITEM_NOTFOUND, nameof(destination)));
 
             var entity = FlowEntity.InitializeType(new FlowTransition()
             {
-                Name = request.Name,
-                Title = request.Title,
+                Name = model.Name,
+                Title = model.Title,
                 SourceId = source.Id,
                 DestinationId = destination.Id,
-                TransitionType = request.TransitionType,
+                TransitionType = model.TransitionType,
             });
 
             var result = await set.CreateAsync(entity);

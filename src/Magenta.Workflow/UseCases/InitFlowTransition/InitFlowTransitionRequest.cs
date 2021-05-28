@@ -17,7 +17,7 @@ namespace Magenta.Workflow.UseCases.InitFlowTransition
 
         public Task<FlowResult<FlowTransition>> DoAsync(InitFlowTransitionModel model)
         {
-            return TransitionService.HandleRequestAsync(model);
+            return TransitionService.CreateFlowTransitionAsync(model);
         }
     }
 }

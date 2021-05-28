@@ -20,7 +20,7 @@ namespace Magenta.Workflow.UseCases.InitFlow
             
             //TODO: take first step of instance.
 
-            var taskResult = await InstanceService.HandleRequestAsync(model);
+            var taskResult = await InstanceService.CreateFlowInstanceAsync(model);
             return taskResult;
         }
     }
