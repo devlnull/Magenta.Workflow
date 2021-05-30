@@ -38,6 +38,7 @@ namespace Magenta.Workflow.UseCases.InitFlow
 
             if (startTranistion == null)
                 return FlowResult<FlowInstance>.Failed(new FlowError(""));
+            //TODO: use an error message
 
             var stepResult = await StepService.CreateFlowStepAsync(new MoveModel()
             {
