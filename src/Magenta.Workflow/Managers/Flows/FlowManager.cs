@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Magenta.Workflow.Context.Flows;
 using Magenta.Workflow.Core.Exceptions;
+using Magenta.Workflow.Core.Logger;
 using Magenta.Workflow.Core.Tasks;
 using Magenta.Workflow.Managers.States;
 using Magenta.Workflow.Services.FlowInstances;
@@ -21,9 +22,10 @@ namespace Magenta.Workflow.Managers.Flows
 {
     public class FlowManager : IFlowManager
     {
-        public FlowManager(IStateManager stateManager)
+        public FlowManager(IStateManager stateManager, IFlowLogger logger)
         {
             StateManager = stateManager ?? throw new ArgumentNullException(nameof(stateManager));
+            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             InstanceService = new FlowInstanceService(StateManager);
             TypeService = new FlowTypeService(StateManager);
@@ -32,6 +34,7 @@ namespace Magenta.Workflow.Managers.Flows
             StepService = new FlowStepService(StateManager);
         }
 
+        public IFlowLogger Logger { get; set; }
         public IStateManager StateManager { get; set; }
         public FlowInstanceService InstanceService { get; }
         public FlowTypeService TypeService { get; }
@@ -47,29 +50,35 @@ namespace Magenta.Workflow.Managers.Flows
         {
             try
             {
+                Logger.LogInfo(FlowLogs.REQUEST_STARTED, args: model.GetType().Name);
                 if (request == null)
                     throw new FlowException(FlowErrors.SERVICE_ISNULL, nameof(request));
 
                 var validator = ObjectActivator.GetValidator<TModel>();
 
-                //TODO: log the validate
                 var validateResult = await validator.ValidateAsync(StateManager, model);
+
+                Logger.LogInfo(FlowLogs.REQUEST_HAS_WARN, args: validateResult.Warns.Count.ToString());
+                Logger.LogInfo(FlowLogs.REQUEST_HAS_ERROR, args: validateResult.Errors.Count.ToString());
+
                 if (!validateResult.Succeeded)
                     return FlowResult<TResultModel>.Failed(validateResult.Errors.ToArray());
 
-                //TODO: log the request 
-                var requestResult = await request.DoAsync(model);
 
-                //TODO: log the result
+                Logger.LogInfo(FlowLogs.REQUEST_OPERATION_STARTED, args: model.GetType().Name);
+                var requestResult = await request.DoAsync(model);
+                Logger.LogInfo(FlowLogs.REQUEST_OPERATION_FINISHED, args: model.GetType().Name);
+
                 if (validateResult.Warned)
                     requestResult.Warns.AddRange(validateResult.Warns);
 
+                Logger.LogInfo(FlowLogs.REQUEST_FINISHED, args: model.GetType().Name);
                 return requestResult;
             }
             catch (Exception ex)
             {
-                //TODO: log the error
-                return FlowResult<TResultModel>.Failed(new FlowError(ex.Message));
+                Logger.LogError(FlowLogs.EXCEPTION_OCCURED, ex.Message);
+                return FlowResult<TResultModel>.Failed(new FlowError(FlowErrors.ERROR_OCCURED));
             }
         }
 
