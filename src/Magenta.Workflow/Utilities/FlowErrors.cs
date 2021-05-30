@@ -11,5 +11,11 @@
         public const string SERVICE_NOTRESOLVED = "service with name {0} could not be resolved.";
 
         #endregion General
+
+        #region Reports
+
+        public const string INSTANCE_HASNOSTEP = "this instance has no steps, it might be broken or not completely created.";
+        
+        #endregion Reports
     }
 }
