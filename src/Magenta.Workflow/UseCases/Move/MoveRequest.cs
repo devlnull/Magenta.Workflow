@@ -10,14 +10,20 @@ namespace Magenta.Workflow.UseCases.Move
     {
         private FlowStepService StepService { get; }
 
-        public MoveRequest(FlowStepService transitionService)
+        public MoveRequest(FlowStepService stepService)
         {
-            StepService = transitionService ?? throw new ArgumentNullException(nameof(transitionService));
+            StepService = stepService ?? throw new ArgumentNullException(nameof(stepService));
         }
 
-        public Task<FlowResult<FlowStep>> DoAsync(MoveModel model)
+        public async Task<FlowResult<FlowStep>> DoAsync(MoveModel model)
         {
-            return StepService.CreateFlowStepAsync(model);
+            //disable current flag of previous state
+            var disableCurrentStepResult = await StepService.DisableCurrentStepAsync(model.InstanceId);
+            //create new step with current flag true
+            var stepResult = await StepService.CreateFlowStepAsync(model);
+
+            return disableCurrentStepResult.Merge(stepResult);
+            //return FlowResult<FlowStep>.Success;
         }
     }
 }
