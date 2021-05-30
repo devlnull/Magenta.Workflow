@@ -9,6 +9,8 @@
             Result = result;
         }
 
+        public new TResult Result { get; set; }
+
         public void SetResult(TResult result) => Result = result;
 
         public static new FlowResult<TResult> Failed(params FlowError[] errors)
@@ -51,6 +53,19 @@
 
             return result;
         }
+
+        public new FlowResult<TResult> Merge(FlowResult secondResult)
+        {
+            var result = this;
+            result.Errors.AddRange(secondResult.Errors);
+            result.Warns.AddRange(secondResult.Warns);
+
+            result.Succeeded = result.Succeeded && secondResult.Succeeded;
+            result.Warned = result.Warned && secondResult.Warned;
+
+            return result;
+        }
+
         public static new FlowResult<TResult> Success { get => new FlowResult<TResult>(); }
     }
 }
