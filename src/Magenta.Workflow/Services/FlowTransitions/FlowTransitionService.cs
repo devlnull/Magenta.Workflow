@@ -37,6 +37,7 @@ namespace Magenta.Workflow.Services.FlowTransitions
                 SourceId = source.Id,
                 DestinationId = destination.Id,
                 TransitionType = model.TransitionType,
+                TypeId = source.TypeId,
             });
 
             var result = await set.CreateAsync(entity);
