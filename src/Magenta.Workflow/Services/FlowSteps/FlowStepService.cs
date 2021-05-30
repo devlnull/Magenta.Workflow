@@ -5,6 +5,7 @@ using Magenta.Workflow.Managers.States;
 using Magenta.Workflow.Services.Base;
 using Magenta.Workflow.UseCases.Move;
 using Magenta.Workflow.Utilities;
+using System;
 using System.Threading.Tasks;
 
 namespace Magenta.Workflow.Services.FlowSteps
@@ -43,6 +44,23 @@ namespace Magenta.Workflow.Services.FlowSteps
             var result = await set.CreateAsync(entity);
 
             return FlowResult<FlowStep>.Successful(result);
+        }
+
+        public async Task<FlowResult<FlowStep>> DisableCurrentStepAsync(Guid instanceId)
+        {
+            var set = _stateManager.GetFlowSet<FlowStep>();
+            var instanceSet = _stateManager.GetFlowSet<FlowInstance>();
+
+            var instance = await instanceSet.GetByIdAsync(instanceId);
+            if (instance == null)
+                return FlowResult<FlowStep>
+                    .Failed(new FlowError(FlowErrors.ITEM_NOTFOUND, nameof(instance)));
+
+            var currentStep = await set.FirstOrDefaultAsync(x => x.InstanceId.Equals(instanceId) && x.IsCurrent);
+            currentStep.IsCurrent = false;
+            var updateResult = await set.UpdateAsync(currentStep);
+
+            return FlowResult<FlowStep>.Successful(updateResult);
         }
     }
 }
