@@ -13,11 +13,16 @@ namespace Magenta.Workflow.Tests.Mock
             {
                 if (StateManager == null)
                     StateManager = new InMemoryStateManager();
-                StateManager = FillTypes(StateManager);
-                StateManager = FillStates(StateManager);
-                StateManager = FillTransitions(StateManager);
-                StateManager = FillInstances(StateManager);
-                StateManager = FillSteps(StateManager);
+                if (StateManager.GetFlowSet<FlowType>().AnyAsync().GetAwaiter().GetResult() == false)
+                    StateManager = FillTypes(StateManager);
+                if (StateManager.GetFlowSet<FlowState>().AnyAsync().GetAwaiter().GetResult() == false)
+                    StateManager = FillStates(StateManager);
+                if (StateManager.GetFlowSet<FlowTransition>().AnyAsync().GetAwaiter().GetResult() == false)
+                    StateManager = FillTransitions(StateManager);
+                if (StateManager.GetFlowSet<FlowInstance>().AnyAsync().GetAwaiter().GetResult() == false)
+                    StateManager = FillInstances(StateManager);
+                if (StateManager.GetFlowSet<FlowStep>().AnyAsync().GetAwaiter().GetResult() == false)
+                    StateManager = FillSteps(StateManager);
 
                 return StateManager;
             }
