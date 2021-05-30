@@ -5,6 +5,7 @@ using Magenta.Workflow.UseCases.InitFlow;
 using Magenta.Workflow.UseCases.InitFlowState;
 using Magenta.Workflow.UseCases.InitFlowTransition;
 using Magenta.Workflow.UseCases.InitFlowType;
+using Magenta.Workflow.UseCases.Move;
 
 namespace Magenta.Workflow
 {
@@ -33,5 +34,13 @@ namespace Magenta.Workflow
         Task<FlowResult<FlowTransition>> InitFlowTransitionAsync(InitFlowTransitionModel initModel);
 
         #endregion Init
+
+        #region Move
+        /// <summary>
+        /// Move instance to next state
+        /// </summary>
+        Task<FlowResult<FlowStep>> MoveAsync(MoveModel moveModel);
+
+        #endregion Move
     }
 }

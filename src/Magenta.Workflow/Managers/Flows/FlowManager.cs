@@ -6,6 +6,7 @@ using Magenta.Workflow.Core.Tasks;
 using Magenta.Workflow.Managers.States;
 using Magenta.Workflow.Services.FlowInstances;
 using Magenta.Workflow.Services.FlowStates;
+using Magenta.Workflow.Services.FlowSteps;
 using Magenta.Workflow.Services.FlowTransitions;
 using Magenta.Workflow.Services.FlowTypes;
 using Magenta.Workflow.UseCases;
@@ -13,6 +14,7 @@ using Magenta.Workflow.UseCases.InitFlow;
 using Magenta.Workflow.UseCases.InitFlowState;
 using Magenta.Workflow.UseCases.InitFlowTransition;
 using Magenta.Workflow.UseCases.InitFlowType;
+using Magenta.Workflow.UseCases.Move;
 using Magenta.Workflow.Utilities;
 
 namespace Magenta.Workflow.Managers.Flows
@@ -27,6 +29,7 @@ namespace Magenta.Workflow.Managers.Flows
             TypeService = new FlowTypeService(StateManager);
             StateService = new FlowStateService(StateManager);
             TransitionService = new FlowTransitionService(StateManager);
+            StepService = new FlowStepService(StateManager);
         }
 
         public IStateManager StateManager { get; set; }
@@ -34,11 +37,12 @@ namespace Magenta.Workflow.Managers.Flows
         public FlowTypeService TypeService { get; }
         public FlowStateService StateService { get; }
         public FlowTransitionService TransitionService { get; }
+        public FlowStepService StepService { get; set; }
 
         #region Helpers
 
         private async Task<FlowResult<TResultModel>> HandleRequestAsync<TModel, TResultModel>(
-            IFlowRequest<TModel, TResultModel> request, TModel model) 
+            IFlowRequest<TModel, TResultModel> request, TModel model)
             where TModel : class where TResultModel : class
         {
             try
@@ -76,7 +80,8 @@ namespace Magenta.Workflow.Managers.Flows
 
         public async Task<FlowResult<FlowInstance>> InitFlowAsync(InitFlowModel initModel)
         {
-            var result = await HandleRequestAsync(new InitFlowRequest(InstanceService), initModel);
+            var result = await HandleRequestAsync(new InitFlowRequest(StateManager, InstanceService, StepService),
+                initModel);
             return result;
         }
 
@@ -99,6 +104,16 @@ namespace Magenta.Workflow.Managers.Flows
         }
 
         #endregion Init
+
+        #region Move
+
+        public async Task<FlowResult<FlowStep>> MoveAsync(MoveModel moveModel)
+        {
+            var result = await HandleRequestAsync(new MoveRequest(StepService), moveModel);
+            return result;
+        }
+
+        #endregion Move
 
     }
 }
