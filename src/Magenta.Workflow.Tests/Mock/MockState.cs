@@ -16,7 +16,8 @@ namespace Magenta.Workflow.Tests.Mock
                 StateManager = FillTypes(StateManager);
                 StateManager = FillStates(StateManager);
                 StateManager = FillTransitions(StateManager);
-
+                StateManager = FillInstances(StateManager);
+                StateManager = FillSteps(StateManager);
 
                 return StateManager;
             }
@@ -42,6 +43,22 @@ namespace Magenta.Workflow.Tests.Mock
         {
             var set = stateManager.GetFlowSet<FlowTransition>();
             var items = MockData.GetFlowTransitions();
+            set.CreateListAsync(items).GetAwaiter().GetResult();
+            return stateManager;
+        }
+
+        private static IStateManager FillInstances(IStateManager stateManager)
+        {
+            var set = stateManager.GetFlowSet<FlowInstance>();
+            var items = MockData.GetFlowInstances();
+            set.CreateListAsync(items).GetAwaiter().GetResult();
+            return stateManager;
+        }
+
+        private static IStateManager FillSteps(IStateManager stateManager)
+        {
+            var set = stateManager.GetFlowSet<FlowStep>();
+            var items = MockData.GetFlowSteps();
             set.CreateListAsync(items).GetAwaiter().GetResult();
             return stateManager;
         }

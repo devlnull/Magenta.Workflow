@@ -100,8 +100,7 @@ namespace Magenta.Workflow.Tests.Mock
         {
             return new FlowTransition[]
             {
-                //Guid.Parse("1b016ce2-9625-17ca-9f3a-e2b239d8e1d5")-JobSeekerRequest
-
+                //States
                 //1b016ce2-9625-17ca-9f3a-e2b239d8e1d5-JobSeekerRequest
                 //2b016ce1-9625-17ca-9f2a-e2b239d8e1d1-Close
                 //3b016ce1-5225-35ca-9f2a-e2b239d8e1d2-Review
@@ -109,10 +108,26 @@ namespace Magenta.Workflow.Tests.Mock
                 //5b021ce1-5225-42ca-9f2a-e2b215d8e1d2-Approve2
                 //6b021ce1-6665-42ca-9f2a-e2b215d8e1d2-Active
 
+                #region Start
+                new FlowTransition()
+                {
+                    Id = Guid.Parse("0b011ce1-9625-47ca-9f3a-e3b239d8e1d5"),
+                    TypeId = Guid.Parse("1b016ce9-9625-47ca-9f3a-e3b239d8e1d5"),
+                    CreatedAt = DateTime.UtcNow.AddMinutes(-59),
+                    ModifiedAt = DateTime.UtcNow.AddMinutes(-59),
+                    Deleted = false,
+                    Name = "Start",
+                    Title = "Start",
+                    TransitionType = FlowTransitionTypes.Start,
+                    SourceId = null,
+                    DestinationId = Guid.Parse("1b016ce2-9625-17ca-9f3a-e2b239d8e1d5"),
+                },
+                #endregion Start
                 #region JobSeekerRequest 
                 new FlowTransition()
                 {
                     Id = Guid.Parse("1b016ce9-9625-47ca-9f3a-e3b239d8e1d5"),
+                    TypeId = Guid.Parse("1b016ce9-9625-47ca-9f3a-e3b239d8e1d5"),
                     CreatedAt = DateTime.UtcNow.AddMinutes(-59),
                     ModifiedAt = DateTime.UtcNow.AddMinutes(-59),
                     Deleted = false,
@@ -125,6 +140,7 @@ namespace Magenta.Workflow.Tests.Mock
                 new FlowTransition()
                 {
                     Id = Guid.Parse("2b016ce2-9625-47ca-9f3a-e2b239d8e1d1"),
+                    TypeId = Guid.Parse("1b016ce9-9625-47ca-9f3a-e3b239d8e1d5"),
                     CreatedAt = DateTime.UtcNow.AddMinutes(-59),
                     ModifiedAt = DateTime.UtcNow.AddMinutes(-59),
                     Deleted = false,
@@ -139,6 +155,7 @@ namespace Magenta.Workflow.Tests.Mock
                 new FlowTransition()
                 {
                     Id = Guid.Parse("3b067ce9-9625-47ca-9f3a-e3b239d8e1d5"),
+                    TypeId = Guid.Parse("1b016ce9-9625-47ca-9f3a-e3b239d8e1d5"),
                     CreatedAt = DateTime.UtcNow.AddMinutes(-59),
                     ModifiedAt = DateTime.UtcNow.AddMinutes(-59),
                     Deleted = false,
@@ -151,6 +168,7 @@ namespace Magenta.Workflow.Tests.Mock
                 new FlowTransition()
                 {
                     Id = Guid.Parse("4b015ce2-9625-47ca-9f3a-e2b449d8e1d1"),
+                    TypeId = Guid.Parse("1b016ce9-9625-47ca-9f3a-e3b239d8e1d5"),
                     CreatedAt = DateTime.UtcNow.AddMinutes(-59),
                     ModifiedAt = DateTime.UtcNow.AddMinutes(-59),
                     Deleted = false,
@@ -165,6 +183,7 @@ namespace Magenta.Workflow.Tests.Mock
                 new FlowTransition()
                 {
                     Id = Guid.Parse("5b068ce2-9625-47ca-9f2a-e3b239d8e1d5"),
+                    TypeId = Guid.Parse("1b016ce9-9625-47ca-9f3a-e3b239d8e1d5"),
                     CreatedAt = DateTime.UtcNow.AddMinutes(-59),
                     ModifiedAt = DateTime.UtcNow.AddMinutes(-59),
                     Deleted = false,
@@ -177,6 +196,7 @@ namespace Magenta.Workflow.Tests.Mock
                 new FlowTransition()
                 {
                     Id = Guid.Parse("6b015ce1-9625-47ca-9f3a-e2b666d8e1d1"),
+                    TypeId = Guid.Parse("1b016ce9-9625-47ca-9f3a-e3b239d8e1d5"),
                     CreatedAt = DateTime.UtcNow.AddMinutes(-59),
                     ModifiedAt = DateTime.UtcNow.AddMinutes(-59),
                     Deleted = false,
@@ -191,6 +211,7 @@ namespace Magenta.Workflow.Tests.Mock
                 new FlowTransition()
                 {
                     Id = Guid.Parse("7b068ce2-6547-47ca-9f2a-e3b239d8e1d5"),
+                    TypeId = Guid.Parse("1b016ce9-9625-47ca-9f3a-e3b239d8e1d5"),
                     CreatedAt = DateTime.UtcNow.AddMinutes(-59),
                     ModifiedAt = DateTime.UtcNow.AddMinutes(-59),
                     Deleted = false,
@@ -203,6 +224,7 @@ namespace Magenta.Workflow.Tests.Mock
                 new FlowTransition()
                 {
                     Id = Guid.Parse("8b015ce1-9157-47ca-9f3a-e2b666d8e1d1"),
+                    TypeId = Guid.Parse("1b016ce9-9625-47ca-9f3a-e3b239d8e1d5"),
                     CreatedAt = DateTime.UtcNow.AddMinutes(-59),
                     ModifiedAt = DateTime.UtcNow.AddMinutes(-59),
                     Deleted = false,
@@ -217,6 +239,7 @@ namespace Magenta.Workflow.Tests.Mock
                 new FlowTransition()
                 {
                     Id = Guid.Parse("9b650ce1-9117-47ca-1f3a-e2b666d8e1d2"),
+                    TypeId = Guid.Parse("1b016ce9-9625-47ca-9f3a-e3b239d8e1d5"),
                     CreatedAt = DateTime.UtcNow.AddMinutes(-59),
                     ModifiedAt = DateTime.UtcNow.AddMinutes(-59),
                     Deleted = false,
@@ -227,6 +250,46 @@ namespace Magenta.Workflow.Tests.Mock
                     DestinationId = Guid.Parse("2b016ce1-9625-17ca-9f2a-e2b239d8e1d1"),
                 },
                 #endregion Active
+            };
+        }
+
+        public static FlowInstance[] GetFlowInstances()
+        {
+            return new FlowInstance[]
+            {
+                new FlowInstance()
+                {
+                    Id = Guid.Parse("2b020ce2-9625-47ca-9f3a-e3b239d8e1d5"),
+                    AccessPhrase = "secure",
+                    Active = true,
+                    CreatedAt = DateTime.UtcNow.AddMinutes(10),
+                    ModifiedAt = DateTime.UtcNow.AddMinutes(10),
+                    Deleted = false,
+                    InitializerId = "1",
+                    Payload = string.Empty,
+                    Title = "Hire devlnull request",
+                    TypeId = Guid.Parse("1b016ce9-9625-47ca-9f3a-e3b239d8e1d5")
+                }
+            };
+        }
+
+        public static FlowStep[] GetFlowSteps()
+        {
+            return new FlowStep[]
+            {
+                new FlowStep()
+                {
+                    Id = Guid.Parse("3b030ce3-9625-47ca-9f3a-e3b239d8e1d5"),
+                    InstanceId = Guid.Parse("2b020ce2-9625-47ca-9f3a-e3b239d8e1d5"),
+                    Comment = "Initialization request",
+                    CreatedAt = DateTime.UtcNow.AddMinutes(1),
+                    ModifiedAt = DateTime.UtcNow.AddMinutes(1),
+                    Payload = string.Empty,
+                    Deleted = false,
+                    IdentityId = "1",
+                    IsCurrent = true,
+                    TransitionId = Guid.Parse("0b011ce1-9625-47ca-9f3a-e3b239d8e1d5")
+                }
             };
         }
     }
