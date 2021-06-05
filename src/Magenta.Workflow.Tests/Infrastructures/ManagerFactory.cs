@@ -13,7 +13,7 @@ namespace Magenta.Workflow.Tests.Infrastructures
 
         public static IFlowReportManager GetFlowReportManager()
         {
-            return new FlowReportManager(MockState.MockStateManager());
+            return new FlowReportManager(MockState.MockStateManager(), new FlowConsoleLogger());
         }
     }
 }
