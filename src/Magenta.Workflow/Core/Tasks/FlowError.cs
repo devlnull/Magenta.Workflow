@@ -9,16 +9,16 @@
 
         public FlowError(string message, params string[] args) : this(string.Format(message, args)) { }
 
-        public FlowError(string message, string description) : this(message)
+        public void SetDescription(string description)
         {
             Description = description;
         }
 
-        public FlowError(string message, string description, string code)
-            : this(message, description)
+        public void SetCode(string code)
         {
             Code = code;
         }
+
 
         public string Message { get; set; }
         public string Description { get; set; }

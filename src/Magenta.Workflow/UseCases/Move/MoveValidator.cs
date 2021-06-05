@@ -62,9 +62,6 @@ namespace Magenta.Workflow.UseCases.Move
             if (instanceCurrentStep == null)
                 return FlowResult.Failed(new FlowError(FlowErrors.ITEM_NOTFOUND, args: nameof(FlowTransition)));
 
-            if (instanceLastTransition.SourceId.HasValue == false)
-                return FlowResult.Success;
-
             var stateSet = stateManager.GetFlowSet<FlowState>();
             var state = await stateSet.GetByIdAsync(instanceLastTransition.DestinationId);
             if (state == null)
@@ -72,8 +69,14 @@ namespace Magenta.Workflow.UseCases.Move
 
             var possibleTransitions = await transitionSet.GetAllAsync(x => x.SourceId == state.Id);
             if (possibleTransitions.Select(x => x.Id).Contains(model.TransitionId) == false)
+            {
+                string sourceParam = transition.SourceId.HasValue ?
+                    transition.SourceId.Value.ToString() : FlowErrors.STATE_NULL;
+                string destinationParam = transition.DestinationId.ToString();
+
                 return FlowResult.Failed(new FlowError(FlowErrors.MOVE_IMPOSSIBLE_TRANSITION,
-                    transition.SourceId.Value.ToString(), transition.DestinationId.ToString()));
+                    sourceParam, destinationParam));
+            }
 
             return FlowResult.Success;
         }

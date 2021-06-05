@@ -16,7 +16,7 @@
         #region Validations
 
         public const string INSTANCE_IS_INACTIVE = "inactive instance cannot move.";
-        public const string MOVE_IMPOSSIBLE_TRANSITION = "move from this source '{0}' to target destination ''{} is impossible, transition might not be defined.";
+        public const string MOVE_IMPOSSIBLE_TRANSITION = "move from this source '{0}' to target destination ''{1} is impossible, transition might not be defined.";
 
         #endregion Validations
 
@@ -25,5 +25,11 @@
         public const string INSTANCE_HASNOSTEP = "instance has no steps, it might be broken or not completely created.";
 
         #endregion Reports
+
+        #region Internal Phrases
+
+        public const string STATE_NULL = "start:null";
+
+        #endregion Internal Phrases
     }
 }

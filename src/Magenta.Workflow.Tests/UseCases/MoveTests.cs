@@ -41,7 +41,7 @@ namespace Magenta.Workflow.Tests.UseCases
         }
 
         [Fact]
-        public async Task MoveStep_WithCorrectModel_MustHaveMoveAsAStep()
+        public async Task MoveStep_WithCorrectModel_MustHaveMoveAStep()
         {
             //Arrange
             var instance = MockData.GetFlowInstances().FirstOrDefault();
@@ -65,6 +65,68 @@ namespace Magenta.Workflow.Tests.UseCases
             //Assert
             Assert.True(act.Succeeded);
             Assert.NotNull(act.Result);
+            Assert.Equal(moveModel.TransitionId, currentStep.TransitionId);
+            LogTestInfo(moveModel, act);
+        }
+
+        [Fact]
+        public async Task MoveStep_WithIncorrectTarget_MustNotMove()
+        {
+            //Arrange
+            var instance = MockData.GetFlowInstances().FirstOrDefault();
+            var flowManager = ManagerFactory.GetFlowManager();
+            var flowReportManager = ManagerFactory.GetFlowReportManager();
+            var existTransitions = await flowReportManager.GetInstanceTransitionsAsync(instance.Id);
+            var transitions = existTransitions.Result.Select(x => x.Id).ToList();
+            var targetTransition = MockData.GetFlowTransitions()
+                .FirstOrDefault(x => transitions.Contains(x.Id) == false);
+
+            var moveModel = new MoveModel()
+            {
+                IdentityId = "1",
+                InstanceId = instance.Id,
+                Payload = string.Empty,
+                TransitionId = targetTransition.Id,
+                Comment = "Sure, It's ok.",
+            };
+            //Act
+            var act = await flowManager.MoveAsync(moveModel);
+            //Assert
+            Assert.False(act.Succeeded);
+            Assert.NotEmpty(act.Errors);
+            LogTestInfo(moveModel, act);
+        }
+
+        [Fact]
+        public async Task MoveStep_WithCorrectModel_MustChangeCurrentFlag()
+        {
+            //Arrange
+            var instance = MockData.GetFlowInstances().FirstOrDefault();
+            var flowManager = ManagerFactory.GetFlowManager();
+            var flowReportManager = ManagerFactory.GetFlowReportManager();
+            var existTransitions = await flowReportManager.GetInstanceTransitionsAsync(instance.Id);
+            var targetTransition = existTransitions.Result.FirstOrDefault();
+            var preSteps = await flowReportManager.GetInstanceStepsAsync(instance.Id);
+            var preStep = preSteps.Result.FirstOrDefault(x => x.IsCurrent);
+
+            var moveModel = new MoveModel()
+            {
+                IdentityId = "1",
+                InstanceId = instance.Id,
+                Payload = string.Empty,
+                TransitionId = targetTransition.Id,
+                Comment = "Sure, It's ok.",
+            };
+            //Act
+            var act = await flowManager.MoveAsync(moveModel);
+            var steps = await flowReportManager.GetInstanceStepsAsync(instance.Id);
+            var currentStep = steps.Result.FirstOrDefault(x => x.IsCurrent);
+            var updatedPreStep = steps.Result.FirstOrDefault(x => x.Id.Equals(preStep.Id));
+            //Assert
+            Assert.True(act.Succeeded);
+            Assert.NotNull(act.Result);
+            Assert.True(currentStep.IsCurrent);
+            Assert.False(updatedPreStep.IsCurrent);
             Assert.Equal(moveModel.TransitionId, currentStep.TransitionId);
             LogTestInfo(moveModel, act);
         }
