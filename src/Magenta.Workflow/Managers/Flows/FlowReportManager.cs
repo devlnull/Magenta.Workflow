@@ -20,6 +20,8 @@ namespace Magenta.Workflow.Managers.Flows
         public IStateManager StateManager { get; set; }
 
 
+        #region Transition Reports
+
         public async Task<FlowResult<IEnumerable<FlowTransition>>> GetInstanceTransitionsAsync(Guid instanceId)
         {
             //Get current instance
@@ -60,6 +62,9 @@ namespace Magenta.Workflow.Managers.Flows
             return FlowResult<IEnumerable<FlowTransition>>.Successful(transitions);
         }
 
+        #endregion Transition Reports
+
+        #region Steps Reports
 
         public async Task<FlowResult<IEnumerable<FlowStep>>> GetInstanceStepsAsync(Guid instanceId)
         {
@@ -80,5 +85,32 @@ namespace Magenta.Workflow.Managers.Flows
 
             return FlowResult<IEnumerable<FlowStep>>.Successful(steps);
         }
+
+        #endregion Steps Reports
+
+        #region Instance Reports
+
+        #endregion Instance Reports
+
+        #region Identity Reports
+
+        #endregion Identity Reports
+
+        #region Type Reports
+
+        #endregion Type Reports
+
+        #region Overview Reports
+
+        // Number of instances, types, users, roles(groups)
+        //Current status of flow
+
+        #endregion Overview Reports
+
+        #region Complex Reports
+
+        // Flow history
+
+        #endregion Complex Reports
     }
 }
