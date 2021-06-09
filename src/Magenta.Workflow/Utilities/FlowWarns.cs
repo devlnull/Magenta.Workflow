@@ -2,6 +2,6 @@
 {
     public class FlowWarns
     {
-        public const string INSTANCE_INACTIVE = "this flow instance is inactive, cannot operate on it";
+        public const string InstanceInactive = "this flow instance is inactive, cannot operate on it";
     }
 }

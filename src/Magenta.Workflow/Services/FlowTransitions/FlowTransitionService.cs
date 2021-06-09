@@ -17,18 +17,18 @@ namespace Magenta.Workflow.Services.FlowTransitions
 
         public async Task<FlowResult<FlowTransition>> CreateFlowTransitionAsync(InitFlowTransitionModel model)
         {
-            var set = _stateManager.GetFlowSet<FlowTransition>();
-            var stateSet = _stateManager.GetFlowSet<FlowState>();
+            var set = StateManager.GetFlowSet<FlowTransition>();
+            var stateSet = StateManager.GetFlowSet<FlowState>();
 
             var source = await stateSet.GetByIdAsync(model.SourceId);
             if (source == null)
                 return FlowResult<FlowTransition>
-                    .Failed(new FlowError(FlowErrors.ITEM_NOTFOUND, nameof(source)));
+                    .Failed(new FlowError(FlowErrors.ItemNotfound, nameof(source)));
 
             var destination = await stateSet.GetByIdAsync(model.DestinationId);
             if (destination == null)
                 return FlowResult<FlowTransition>
-                    .Failed(new FlowError(FlowErrors.ITEM_NOTFOUND, nameof(destination)));
+                    .Failed(new FlowError(FlowErrors.ItemNotfound, nameof(destination)));
 
             var entity = FlowEntity.InitializeType(new FlowTransition()
             {

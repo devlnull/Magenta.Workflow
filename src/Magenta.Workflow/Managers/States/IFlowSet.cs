@@ -18,7 +18,7 @@ namespace Magenta.Workflow.Managers.States
         #endregion
 
         #region Delete
-        Task<TEntity> DeleteAsync(Guid Id);
+        Task<TEntity> DeleteAsync(Guid id);
         Task<IEnumerable<TEntity>> DeleteListAsync(IEnumerable<Guid> guids);
         Task<IEnumerable<TEntity>> PhysicalDeleteListAsync(IEnumerable<Guid> guids);
         #endregion
@@ -34,7 +34,7 @@ namespace Magenta.Workflow.Managers.States
         #endregion
 
         #region Get
-        Task<TEntity> GetByIdAsync(Guid Id);
+        Task<TEntity> GetByIdAsync(Guid id);
         IQueryable<TEntity> GetAll();
         Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null);
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);

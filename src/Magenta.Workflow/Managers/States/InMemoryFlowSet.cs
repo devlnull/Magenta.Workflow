@@ -12,13 +12,13 @@ namespace Magenta.Workflow.Managers.States
         where TEntity : FlowEntity
     {
         private List<TEntity> _repo;
-        private object locker = new object();
+        private object _locker = new object();
 
         public IEnumerable<TEntity> DataSet
         {
             get
             {
-                lock (locker)
+                lock (_locker)
                 {
                     if (_repo == null)
                         _repo = new List<TEntity>();
@@ -27,7 +27,7 @@ namespace Magenta.Workflow.Managers.States
             }
             set
             {
-                lock (locker)
+                lock (_locker)
                     _repo = value.ToList();
             }
         }
@@ -78,9 +78,9 @@ namespace Magenta.Workflow.Managers.States
 
         #region Delete
 
-        public Task<TEntity> DeleteAsync(Guid Id)
+        public Task<TEntity> DeleteAsync(Guid id)
         {
-            var item = _repo.FirstOrDefault(x => x.Id.Equals(Id));
+            var item = _repo.FirstOrDefault(x => x.Id.Equals(id));
             if (item == null)
                 throw new FlowException($"Could not find item with this identifier.");
             item.Deleted = true;
@@ -88,9 +88,9 @@ namespace Magenta.Workflow.Managers.States
             return Task.FromResult(item);
         }
 
-        public Task<IEnumerable<TEntity>> DeleteListAsync(IEnumerable<Guid> Ids)
+        public Task<IEnumerable<TEntity>> DeleteListAsync(IEnumerable<Guid> ids)
         {
-            var items = _repo.Where(x => Ids.Contains(x.Id));
+            var items = _repo.Where(x => ids.Contains(x.Id));
             if (items == null)
                 throw new FlowException($"Could not find any item with this identifiers.");
 
@@ -103,12 +103,12 @@ namespace Magenta.Workflow.Managers.States
             return Task.FromResult(items);
         }
 
-        public Task<IEnumerable<TEntity>> PhysicalDeleteListAsync(IEnumerable<Guid> Ids)
+        public Task<IEnumerable<TEntity>> PhysicalDeleteListAsync(IEnumerable<Guid> ids)
         {
-            var items = _repo.Where(x => Ids.Contains(x.Id));
+            var items = _repo.Where(x => ids.Contains(x.Id));
             if (items == null)
                 throw new FlowException($"Could not find any item with this identifiers.");
-            _repo.RemoveAll(x => Ids.Contains(x.Id));
+            _repo.RemoveAll(x => ids.Contains(x.Id));
             return Task.FromResult(items);
         }
 
@@ -138,9 +138,9 @@ namespace Magenta.Workflow.Managers.States
             return Task.FromResult(items);
         }
 
-        public Task<TEntity> GetByIdAsync(Guid Id)
+        public Task<TEntity> GetByIdAsync(Guid id)
         {
-            var item = _repo.FirstOrDefault(x => x.Id.Equals(Id));
+            var item = _repo.FirstOrDefault(x => x.Id.Equals(id));
             return Task.FromResult(item);
         }
 

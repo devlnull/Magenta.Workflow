@@ -15,16 +15,16 @@ namespace Magenta.Workflow.UseCases.InitFlowState
             FlowResult result = new FlowResult();
 
             if (model.Name.StringIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, args: nameof(model.Name)));
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, args: nameof(model.Name)));
 
             if (model.Title.StringIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, args: nameof(model.Title)));
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, args: nameof(model.Title)));
             
             if (model.TypeId.GuidIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, args: nameof(model.TypeId)));
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, args: nameof(model.TypeId)));
 
             if (await TypeNotExistAsync(stateManager, model.TypeId))
-                result.Errors.Add(new FlowError(FlowErrors.ITEM_NOTFOUND, args: "FlowType"));
+                result.Errors.Add(new FlowError(FlowErrors.ItemNotfound, args: "FlowType"));
 
 
             return result;

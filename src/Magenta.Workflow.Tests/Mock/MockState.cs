@@ -6,10 +6,10 @@ namespace Magenta.Workflow.Tests.Mock
     public class MockState
     {
         internal static IStateManager StateManager;
-        private static readonly object locker = new object();
+        private static readonly object Locker = new object();
         public static IStateManager MockStateManager()
         {
-            lock (locker)
+            lock (Locker)
             {
                 if (StateManager == null)
                     StateManager = new InMemoryStateManager();

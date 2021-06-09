@@ -18,19 +18,19 @@ namespace Magenta.Workflow.Services.FlowSteps
 
         public async Task<FlowResult<FlowStep>> CreateFlowStepAsync(MoveModel model)
         {
-            var set = _stateManager.GetFlowSet<FlowStep>();
-            var instanceSet = _stateManager.GetFlowSet<FlowInstance>();
-            var transitionSet = _stateManager.GetFlowSet<FlowTransition>();
+            var set = StateManager.GetFlowSet<FlowStep>();
+            var instanceSet = StateManager.GetFlowSet<FlowInstance>();
+            var transitionSet = StateManager.GetFlowSet<FlowTransition>();
 
             var instance = await instanceSet.GetByIdAsync(model.InstanceId);
             if (instance == null)
                 return FlowResult<FlowStep>
-                    .Failed(new FlowError(FlowErrors.ITEM_NOTFOUND, nameof(instance)));
+                    .Failed(new FlowError(FlowErrors.ItemNotfound, nameof(instance)));
 
             var transition = await transitionSet.GetByIdAsync(model.TransitionId);
             if (transition == null)
                 return FlowResult<FlowStep>
-                    .Failed(new FlowError(FlowErrors.ITEM_NOTFOUND, nameof(transition)));
+                    .Failed(new FlowError(FlowErrors.ItemNotfound, nameof(transition)));
 
             var entity = FlowEntity.InitializeType(new FlowStep()
             {
@@ -48,13 +48,13 @@ namespace Magenta.Workflow.Services.FlowSteps
 
         public async Task<FlowResult<FlowStep>> DisableCurrentStepAsync(Guid instanceId)
         {
-            var set = _stateManager.GetFlowSet<FlowStep>();
-            var instanceSet = _stateManager.GetFlowSet<FlowInstance>();
+            var set = StateManager.GetFlowSet<FlowStep>();
+            var instanceSet = StateManager.GetFlowSet<FlowInstance>();
 
             var instance = await instanceSet.GetByIdAsync(instanceId);
             if (instance == null)
                 return FlowResult<FlowStep>
-                    .Failed(new FlowError(FlowErrors.ITEM_NOTFOUND, nameof(instance)));
+                    .Failed(new FlowError(FlowErrors.ItemNotfound, nameof(instance)));
 
             var currentStep = await set.FirstOrDefaultAsync(x => x.InstanceId.Equals(instanceId) && x.IsCurrent);
             currentStep.IsCurrent = false;

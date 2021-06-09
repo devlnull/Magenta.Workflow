@@ -5,10 +5,10 @@ namespace Magenta.Workflow.Services.Base
 {
     public class BaseService
     {
-        internal readonly IStateManager _stateManager;
+        internal readonly IStateManager StateManager;
         public BaseService(IStateManager stateManager)
         {
-            _stateManager = stateManager ?? throw new FlowException(nameof(IStateManager));
+            StateManager = stateManager ?? throw new FlowException(nameof(IStateManager));
         }
 
     }

@@ -50,35 +50,35 @@ namespace Magenta.Workflow.Managers.Flows
         {
             try
             {
-                Logger.LogInfo(FlowLogs.REQUEST_STARTED, args: model.GetType().Name);
+                Logger.LogInfo(FlowLogs.RequestStarted, args: model.GetType().Name);
                 if (request == null)
-                    throw new FlowException(FlowErrors.SERVICE_ISNULL, nameof(request));
+                    throw new FlowException(FlowErrors.ServiceIsnull, nameof(request));
 
                 var validator = ObjectActivator.GetValidator<TModel>();
 
                 var validateResult = await validator.ValidateAsync(StateManager, model);
 
-                Logger.LogInfo(FlowLogs.REQUEST_HAS_WARN, args: validateResult.Warns.Count.ToString());
-                Logger.LogInfo(FlowLogs.REQUEST_HAS_ERROR, args: validateResult.Errors.Count.ToString());
+                Logger.LogInfo(FlowLogs.RequestHasWarn, args: validateResult.Warns.Count.ToString());
+                Logger.LogInfo(FlowLogs.RequestHasError, args: validateResult.Errors.Count.ToString());
 
                 if (!validateResult.Succeeded)
                     return FlowResult<TResultModel>.Failed(validateResult.Errors.ToArray());
 
 
-                Logger.LogInfo(FlowLogs.REQUEST_OPERATION_STARTED, args: model.GetType().Name);
+                Logger.LogInfo(FlowLogs.RequestOperationStarted, args: model.GetType().Name);
                 var requestResult = await request.DoAsync(model);
-                Logger.LogInfo(FlowLogs.REQUEST_OPERATION_FINISHED, args: model.GetType().Name);
+                Logger.LogInfo(FlowLogs.RequestOperationFinished, args: model.GetType().Name);
 
                 if (validateResult.Warned)
                     requestResult.Warns.AddRange(validateResult.Warns);
 
-                Logger.LogInfo(FlowLogs.REQUEST_FINISHED, args: model.GetType().Name);
+                Logger.LogInfo(FlowLogs.RequestFinished, args: model.GetType().Name);
                 return requestResult;
             }
             catch (Exception ex)
             {
-                Logger.LogError(FlowLogs.EXCEPTION_OCCURED, ex.Message);
-                return FlowResult<TResultModel>.Failed(new FlowError(FlowErrors.ERROR_OCCURED));
+                Logger.LogError(FlowLogs.ExceptionOccured, ex.Message);
+                return FlowResult<TResultModel>.Failed(new FlowError(FlowErrors.ErrorOccured));
             }
         }
 

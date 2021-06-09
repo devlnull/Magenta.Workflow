@@ -32,7 +32,7 @@ namespace Magenta.Workflow
         /// Get an instance by instance id
         /// </summary>
         /// <returns>a flow instance</returns>
-        Task<FlowResult<FlowInstance>> GetInstanceByIdAsync(Guid Id);
+        Task<FlowResult<FlowInstance>> GetInstanceByIdAsync(Guid id);
 
         /// <summary>
         /// Get an instance by expression
@@ -43,6 +43,22 @@ namespace Magenta.Workflow
 
         #endregion Instance Reports
 
+        #region State Reports
+
+        /// <summary>
+        /// Get state of flow by state id
+        /// </summary>
+        /// <returns>a flow state</returns>
+        Task<FlowResult<FlowState>> GetStateByIdAsync(Guid id);
+
+        /// <summary>
+        /// Get state of flow by expression
+        /// </summary>
+        /// <returns>a flow state</returns>
+        Task<FlowResult<FlowState>> GetStateAsync(
+            Expression<Func<FlowState, bool>> expression);
+
+        #endregion State Reports
 
         #region Identity Reports
         #endregion Identity Reports
@@ -53,7 +69,7 @@ namespace Magenta.Workflow
         /// Get type of flow by type id
         /// </summary>
         /// <returns>a flow type</returns>
-        Task<FlowResult<FlowType>> GetTypeByIdAsync(Guid Id);
+        Task<FlowResult<FlowType>> GetTypeByIdAsync(Guid id);
 
         /// <summary>
         /// Get type of flow by expression

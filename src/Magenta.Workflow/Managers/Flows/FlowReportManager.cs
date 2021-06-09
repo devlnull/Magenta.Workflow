@@ -35,7 +35,7 @@ namespace Magenta.Workflow.Managers.Flows
             var targetInstance = await instanceSet.FirstOrDefaultAsync(x => x.Id.Equals(instanceId));
             if (targetInstance == null)
                 return FlowResult<IEnumerable<FlowTransition>>
-                    .Failed(new FlowError(FlowErrors.ITEM_NOTFOUND, args: nameof(FlowInstance)));
+                    .Failed(new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowInstance)));
 
             //Get current instance state
             var stepSet = StateManager.GetFlowSet<FlowStep>();
@@ -45,7 +45,7 @@ namespace Magenta.Workflow.Managers.Flows
 
             if (currentStep == null)
                 return FlowResult<IEnumerable<FlowTransition>>
-                    .Failed(new FlowError(FlowErrors.INSTANCE_HASNOSTEP));
+                    .Failed(new FlowError(FlowErrors.InstanceHasnostep));
 
             //Get current step transition
             var transitionSet = StateManager.GetFlowSet<FlowTransition>();
@@ -79,7 +79,7 @@ namespace Magenta.Workflow.Managers.Flows
             var targetInstance = await instanceSet.FirstOrDefaultAsync(x => x.Id.Equals(instanceId));
             if (targetInstance == null)
                 return FlowResult<IEnumerable<FlowStep>>
-                    .Failed(new FlowError(FlowErrors.ITEM_NOTFOUND, args: nameof(FlowInstance)));
+                    .Failed(new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowInstance)));
 
             //Get all steps
             var stepSet = StateManager.GetFlowSet<FlowStep>();
@@ -92,24 +92,24 @@ namespace Magenta.Workflow.Managers.Flows
 
         #region Instance Reports
 
-        public async Task<FlowResult<FlowInstance>> GetInstanceByIdAsync(Guid Id)
+        public async Task<FlowResult<FlowInstance>> GetInstanceByIdAsync(Guid id)
         {
             try
             {
                 Logger.LogInfo("try to get an instance of flow by id.");
                 var instanceSet = StateManager.GetFlowSet<FlowInstance>();
-                var instance = await instanceSet.FirstOrDefaultAsync(x => x.Id.Equals(Id));
+                var instance = await instanceSet.FirstOrDefaultAsync(x => x.Id.Equals(id));
                 if (instance == null)
                 {
                     Logger.LogWarning("instance not exist.");
                     return FlowResult<FlowInstance>.Failed(
-                        new FlowError(FlowErrors.ITEM_NOTFOUND, args: nameof(FlowInstance)));
+                        new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowInstance)));
                 }
                 var result = new FlowResult<FlowInstance>();
                 if (instance.Active == false)
                 {
                     Logger.LogWarning("instance is inactive");
-                    result.Warns.Add(new FlowWarn(FlowWarns.INSTANCE_INACTIVE));
+                    result.Warns.Add(new FlowWarn(FlowWarns.InstanceInactive));
                 }
                 result.SetResult(instance);
                 Logger.LogInfo($"instance with id '{instance.Id}' fetched.");
@@ -134,13 +134,13 @@ namespace Magenta.Workflow.Managers.Flows
                 {
                     Logger.LogWarning("instance not exist.");
                     return FlowResult<FlowInstance>.Failed(
-                        new FlowError(FlowErrors.ITEM_NOTFOUND, args: nameof(FlowInstance)));
+                        new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowInstance)));
                 }
                 var result = new FlowResult<FlowInstance>();
                 if (instance.Active == false)
                 {
                     Logger.LogWarning("instance is inactive");
-                    result.Warns.Add(new FlowWarn(FlowWarns.INSTANCE_INACTIVE));
+                    result.Warns.Add(new FlowWarn(FlowWarns.InstanceInactive));
                 }
                 result.SetResult(instance);
                 Logger.LogInfo($"instance with id '{instance.Id}' fetched.");
@@ -155,24 +155,79 @@ namespace Magenta.Workflow.Managers.Flows
 
         #endregion Instance Reports
 
+        #region State Reports
+
+        public async Task<FlowResult<FlowState>> GetStateByIdAsync(Guid id)
+        {
+            try
+            {
+                Logger.LogInfo("try to get a state of flow by id.");
+                var stateSet = StateManager.GetFlowSet<FlowState>();
+                var state = await stateSet.FirstOrDefaultAsync(x => x.Id.Equals(id));
+                if (state == null)
+                {
+                    Logger.LogWarning("state not exist.");
+                    return FlowResult<FlowState>.Failed(
+                        new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowState)));
+                }
+                var result = new FlowResult<FlowState>();
+                result.SetResult(state);
+                Logger.LogInfo($"state with id '{state.Id}' fetched.");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                return FlowResult<FlowState>.Failed(new FlowError(ex.Message));
+            }
+        }
+
+        public async Task<FlowResult<FlowState>> GetStateAsync(
+            Expression<Func<FlowState, bool>> expression)
+        {
+            try
+            {
+                Logger.LogInfo("try to get a state of flow by expression.");
+                var stateSet = StateManager.GetFlowSet<FlowState>();
+                var state = await stateSet.FirstOrDefaultAsync(expression);
+                if (state == null)
+                {
+                    Logger.LogWarning("state not exist.");
+                    return FlowResult<FlowState>.Failed(
+                        new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowState)));
+                }
+                var result = new FlowResult<FlowState>();
+                result.SetResult(state);
+                Logger.LogInfo($"state with id '{state.Id}' fetched.");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                return FlowResult<FlowState>.Failed(new FlowError(ex.Message));
+            }
+        }
+
+        #endregion State Reports
+
         #region Identity Reports
 
         #endregion Identity Reports
 
         #region Type Reports
 
-        public async Task<FlowResult<FlowType>> GetTypeByIdAsync(Guid Id)
+        public async Task<FlowResult<FlowType>> GetTypeByIdAsync(Guid id)
         {
             try
             {
                 Logger.LogInfo("try to get a type of flow by id.");
                 var typeSet = StateManager.GetFlowSet<FlowType>();
-                var type = await typeSet.FirstOrDefaultAsync(x => x.Id.Equals(Id));
+                var type = await typeSet.FirstOrDefaultAsync(x => x.Id.Equals(id));
                 if (type == null)
                 {
                     Logger.LogWarning("type not exist.");
                     return FlowResult<FlowType>.Failed(
-                        new FlowError(FlowErrors.ITEM_NOTFOUND, args: nameof(FlowType)));
+                        new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowType)));
                 }
                 var result = new FlowResult<FlowType>();
                 result.SetResult(type);
@@ -198,7 +253,7 @@ namespace Magenta.Workflow.Managers.Flows
                 {
                     Logger.LogWarning("type not exist.");
                     return FlowResult<FlowType>.Failed(
-                        new FlowError(FlowErrors.ITEM_NOTFOUND, args: nameof(FlowType)));
+                        new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowType)));
                 }
                 var result = new FlowResult<FlowType>();
                 result.SetResult(type);
