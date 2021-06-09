@@ -1,6 +1,8 @@
 ﻿using Magenta.Workflow.Core.Logger;
 using Magenta.Workflow.Managers.Flows;
+using Magenta.Workflow.Managers.Reports;
 using Magenta.Workflow.Tests.Mock;
+using Magenta.Workflow.Tests.Reports;
 
 namespace Magenta.Workflow.Tests.Infrastructures
 {

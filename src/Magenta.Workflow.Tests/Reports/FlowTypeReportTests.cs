@@ -1,17 +1,15 @@
 ﻿using Magenta.Workflow.Tests.Infrastructures;
 using Magenta.Workflow.Tests.Mock;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Magenta.Workflow.Tests.Reports
 {
-    public class FlowTypeReportManagerTests : TestBase
+    public class FlowTypeReportTests : TestBase
     {
-        public FlowTypeReportManagerTests(ITestOutputHelper testOutput) : base(testOutput)
+        public FlowTypeReportTests(ITestOutputHelper testOutput) : base(testOutput)
         {
         }
 
