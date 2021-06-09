@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Magenta.Workflow.Context.Flows;
 using Magenta.Workflow.Core.Exceptions;
 using Magenta.Workflow.Core.Logger;
 using Magenta.Workflow.Core.Tasks;
@@ -11,16 +10,11 @@ using Magenta.Workflow.Services.FlowSteps;
 using Magenta.Workflow.Services.FlowTransitions;
 using Magenta.Workflow.Services.FlowTypes;
 using Magenta.Workflow.UseCases;
-using Magenta.Workflow.UseCases.InitFlow;
-using Magenta.Workflow.UseCases.InitFlowState;
-using Magenta.Workflow.UseCases.InitFlowTransition;
-using Magenta.Workflow.UseCases.InitFlowType;
-using Magenta.Workflow.UseCases.Move;
 using Magenta.Workflow.Utilities;
 
 namespace Magenta.Workflow.Managers.Flows
 {
-    public class FlowManager : IFlowManager
+    public partial class FlowManager : IFlowManager
     {
         public FlowManager(IStateManager stateManager, IFlowLogger logger)
         {
@@ -83,46 +77,5 @@ namespace Magenta.Workflow.Managers.Flows
         }
 
         #endregion Helpers
-
-
-        #region Init
-
-        public async Task<FlowResult<FlowInstance>> InitFlowAsync(InitFlowModel initModel)
-        {
-            var result = await HandleRequestAsync(new InitFlowRequest(StateManager, InstanceService, StepService),
-                initModel);
-            return result;
-        }
-
-        public async Task<FlowResult<FlowType>> InitFlowTypeAsync(InitFlowTypeModel initModel)
-        {
-            var result = await HandleRequestAsync(new InitFlowTypeRequest(TypeService), initModel);
-            return result;
-        }
-
-        public async Task<FlowResult<FlowState>> InitFlowStateAsync(InitFlowStateModel initModel)
-        {
-            var result = await HandleRequestAsync(new InitFlowStateRequest(StateService), initModel);
-            return result;
-        }
-
-        public async Task<FlowResult<FlowTransition>> InitFlowTransitionAsync(InitFlowTransitionModel initModel)
-        {
-            var result = await HandleRequestAsync(new InitFlowTransitionRequest(TransitionService), initModel);
-            return result;
-        }
-
-        #endregion Init
-
-        #region Move
-
-        public async Task<FlowResult<FlowStep>> MoveAsync(MoveModel moveModel)
-        {
-            var result = await HandleRequestAsync(new MoveRequest(StepService), moveModel);
-            return result;
-        }
-
-        #endregion Move
-
     }
 }

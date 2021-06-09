@@ -1,9 +1,9 @@
 ﻿using System;
 using Magenta.Workflow.Context.Flows;
 
-namespace Magenta.Workflow.Managers.Flows
+namespace Magenta.Workflow.Managers.Reports
 {
-    public class FlowCartableModel
+    public class FlowInboxModel
     {
         public Guid GuidRow { get; set; }
         public string Title { get; set; }
