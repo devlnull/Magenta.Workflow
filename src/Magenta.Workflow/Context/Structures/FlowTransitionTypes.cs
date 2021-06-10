@@ -2,6 +2,7 @@
 {
     public enum FlowTransitionTypes
     {
+        Start = 0,
         Reject = 1,
         Accept = 2,
         Refer = 3,

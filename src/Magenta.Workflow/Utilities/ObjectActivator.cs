@@ -19,11 +19,11 @@ namespace Magenta.Workflow.Utilities
                 .FirstOrDefault(x => x.GetTypeInfo().ImplementedInterfaces.Contains((validatorModelType)));
 
             if (validatorType == null)
-                throw new FlowException(FlowErrors.SERVICE_ISNULL, nameof(validatorType));
+                throw new FlowException(FlowErrors.ServiceIsnull, nameof(validatorType));
 
             var obj = Activator.CreateInstance(validatorType) as IFlowValidator<TModel>;
             if (obj == null)
-                throw new FlowException(FlowErrors.SERVICE_ISNULL, validatorType.Name);
+                throw new FlowException(FlowErrors.ServiceIsnull, validatorType.Name);
 
             return obj;
         }

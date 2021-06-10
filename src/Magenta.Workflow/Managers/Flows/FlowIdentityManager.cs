@@ -1,6 +1,9 @@
 ﻿namespace Magenta.Workflow.Managers.Flows
 {
-    public class FlowReportManager
+    public partial class FlowManager
     {
+
+
+
     }
 }

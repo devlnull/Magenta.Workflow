@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Magenta.Workflow.Context.Base;
+using Magenta.Workflow.Managers.Reports;
 
 namespace Magenta.Workflow.Managers.States
 {
@@ -18,10 +19,8 @@ namespace Magenta.Workflow.Managers.States
         #endregion
 
         #region Delete
-        Task<TEntity> DeleteAsync(long Id);
-        Task<IEnumerable<TEntity>> DeleteListAsync(IEnumerable<long> Ids);
+        Task<TEntity> DeleteAsync(Guid id);
         Task<IEnumerable<TEntity>> DeleteListAsync(IEnumerable<Guid> guids);
-        Task<IEnumerable<TEntity>> PhysicalDeleteListAsync(IEnumerable<long> Ids);
         Task<IEnumerable<TEntity>> PhysicalDeleteListAsync(IEnumerable<Guid> guids);
         #endregion
 
@@ -36,11 +35,11 @@ namespace Magenta.Workflow.Managers.States
         #endregion
 
         #region Get
-        Task<long> GetIdByGuidAsync(Guid Id);
-        Task<TEntity> GetByIdAsync(long Id);
-        Task<TEntity> GetByGuidAsync(Guid Id);
+        Task<TEntity> GetByIdAsync(Guid id);
         IQueryable<TEntity> GetAll();
         Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null);
+        Task<PagedList<TEntity>> GetPagedAllAsync(PageOptions pageOptions,
+            Expression<Func<TEntity, bool>> predicate = null);
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
         #endregion
     }

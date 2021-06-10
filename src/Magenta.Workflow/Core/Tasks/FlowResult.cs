@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Magenta.Workflow.Core.Tasks
 {
     public class FlowResult
     {
-        private static readonly FlowResult _success = new FlowResult
-        {
-            _errors = new List<FlowError>(),
-            _warns = new List<FlowWarn>()
-        };
+        public static FlowResult Success =>
+            new FlowResult()
+            {
+                _errors = new List<FlowError>(),
+                _warns = new List<FlowWarn>(),
+            };
+
         private List<FlowError> _errors = new List<FlowError>();
         private List<FlowWarn> _warns = new List<FlowWarn>();
 
@@ -34,8 +37,12 @@ namespace Magenta.Workflow.Core.Tasks
             }
             set => _warned = value;
         }
+
+        [JsonPropertyName("FlowResult")]
         public virtual object Result { get; protected set; }
+
         private FlowResultTypes _type = FlowResultTypes.None;
+
         public FlowResultTypes Type
         {
             get
@@ -47,7 +54,9 @@ namespace Magenta.Workflow.Core.Tasks
                 return _type;
             }
         }
+
         public List<FlowError> Errors => _errors;
+        
         public List<FlowWarn> Warns => _warns;
 
         public static FlowResult Failed(params FlowError[] errors)
@@ -80,7 +89,6 @@ namespace Magenta.Workflow.Core.Tasks
             };
         }
 
-        public static FlowResult Success => _success;
 
         public override string ToString()
         {
@@ -89,9 +97,9 @@ namespace Magenta.Workflow.Core.Tasks
                 case FlowResultTypes.None:
                     return "Succeeded";
                 case FlowResultTypes.Warn:
-                    return $"{"Warned"} : {string.Join(",", Warns.Select(x => x.Message).ToList())}";
+                    return $"Warned : {string.Join(",", Warns.Select(x => x.Message).ToList())}";
                 case FlowResultTypes.Error:
-                    return $"{"Failed"} : {string.Join(",", Errors.Select(x => x.Code).ToList())}";
+                    return $"Failed : {string.Join(",", Errors.Select(x => x.Code).ToList())}";
                 default:
                     return string.Empty;
             }

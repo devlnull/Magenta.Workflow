@@ -12,17 +12,17 @@ namespace Magenta.Workflow.UseCases.InitFlow
         {
             FlowResult result = new FlowResult();
 
-            if (string.IsNullOrWhiteSpace(model.Title))
-                result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, args: nameof(model.Title)));
+            if (model.Title.StringIsEmpty())
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, args: nameof(model.Title)));
 
-            if (string.IsNullOrWhiteSpace(model.InitializerId))
-                result.Errors.Add(new FlowError(FlowErrors.SERVICE_ISREQUIRED, args: nameof(model.InitializerId)));
+            if (model.InitializerId.StringIsEmpty())
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, args: nameof(model.InitializerId)));
 
-            if (string.IsNullOrWhiteSpace(model.AccessPhrase))
-                result.Warns.Add(new FlowWarn(FlowErrors.SERVICE_ISEMPTY, args: nameof(model.AccessPhrase)));
+            if (model.AccessPhrase.StringIsEmpty())
+                result.Warns.Add(new FlowWarn(FlowErrors.ServiceIsempty, args: nameof(model.AccessPhrase)));
 
-            if (string.IsNullOrWhiteSpace(model.Payload))
-                result.Warns.Add(new FlowWarn(FlowMessages.ITEM_ALREADYEXIST, args: nameof(model.Payload)));
+            if (model.Payload.StringIsEmpty())
+                result.Warns.Add(new FlowWarn(FlowMessages.ItemAlreadyexist, args: nameof(model.Payload)));
 
             return Task.FromResult(result);
         }

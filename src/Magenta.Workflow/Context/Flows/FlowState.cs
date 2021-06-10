@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Magenta.Workflow.Context.Base;
 
@@ -17,7 +18,7 @@ namespace Magenta.Workflow.Context.Flows
         public string Tag { get; set; }
         public byte StateType { get; set; }
         public FlowType Type { get; set; }
-        public long TypeId { get; set; }
+        public Guid TypeId { get; set; }
         public ICollection<FlowIdentity> Identities { get; set; }
         public ICollection<FlowTransition> Sources { get; set; }
         public ICollection<FlowTransition> Destinations { get; set; }

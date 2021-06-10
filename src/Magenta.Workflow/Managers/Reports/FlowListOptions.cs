@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Magenta.Workflow.Managers.Flows
+namespace Magenta.Workflow.Managers.Reports
 {
     public class FlowListOptions
     {

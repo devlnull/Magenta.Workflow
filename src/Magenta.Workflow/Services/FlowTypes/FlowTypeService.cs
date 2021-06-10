@@ -17,7 +17,7 @@ namespace Magenta.Workflow.Services.FlowTypes
 
         public async Task<FlowResult<FlowType>> CreateFlowTypeAsync(InitFlowTypeModel initModel)
         {
-            var set = _stateManager.GetFlowSet<FlowType>();
+            var set = StateManager.GetFlowSet<FlowType>();
             var entity = FlowEntity.InitializeType(new FlowType()
             {
                 EntityType = initModel.EntityType.Name,
