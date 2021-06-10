@@ -9,7 +9,6 @@ namespace Magenta.Workflow.Managers.Reports
 {
     public partial class FlowReportManager
     {
-
         public async Task<FlowResult<IEnumerable<FlowStep>>> GetInstanceStepsAsync(Guid instanceId)
         {
             //Get current instance
@@ -29,6 +28,5 @@ namespace Magenta.Workflow.Managers.Reports
 
             return FlowResult<IEnumerable<FlowStep>>.Successful(steps);
         }
-
     }
 }

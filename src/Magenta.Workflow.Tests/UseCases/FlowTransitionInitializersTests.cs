@@ -20,7 +20,8 @@ namespace Magenta.Workflow.Tests.UseCases
         public async Task IntiFlowTransition_WithCorrectModel_MustInitialize()
         {
             //Arrange
-            var flowManager = ManagerFactory.GetFlowManager();
+            var stateManager = new MockState().MockStateManager();
+            var flowManager = new ManagerFactory().GetFlowManager(stateManager);
             var approve1State = MockData.GetFlowStates()
                 .ToList().FirstOrDefault(x => x.Name == "Approve1");
             var activeState = MockData.GetFlowStates()
@@ -37,16 +38,17 @@ namespace Magenta.Workflow.Tests.UseCases
             //Act
             var act = await flowManager.InitFlowTransitionAsync(initModel);
             //Assert
+            LogTestInfo(initModel, act);
             Assert.True(act.Succeeded);
             Assert.NotNull(act.Result);
-            LogTestInfo(initModel, act);
         }
 
         [Fact]
         public async Task IntiFlowTransition_WithExistingTransition_MustInitializeAndWarn()
         {
             //Arrange
-            var flowManager = ManagerFactory.GetFlowManager();
+            var stateManager = new MockState().MockStateManager();
+            var flowManager = new ManagerFactory().GetFlowManager(stateManager);
             var reviewState = MockData.GetFlowStates()
                 .ToList().FirstOrDefault(x => x.Name == "Review");
             var closeState = MockData.GetFlowStates()
@@ -63,9 +65,9 @@ namespace Magenta.Workflow.Tests.UseCases
             //Act
             var act = await flowManager.InitFlowTransitionAsync(initModel);
             //Assert
+            LogTestInfo(initModel, act);
             Assert.True(act.Succeeded);
             Assert.NotEmpty(act.Warns);
-            LogTestInfo(initModel, act);
         }
     }
 }

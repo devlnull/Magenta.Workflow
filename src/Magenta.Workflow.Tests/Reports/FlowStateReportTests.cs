@@ -17,7 +17,8 @@ namespace Magenta.Workflow.Tests.Reports
         public async Task GetFlowStateById_WithCorrectId_MustReturnState()
         {
             //Arrange
-            var reportManager = ManagerFactory.GetFlowReportManager();
+            var stateManager = new MockState().MockStateManager();
+            var reportManager = new ManagerFactory().GetFlowReportManager(stateManager);
             var targetState = MockData.GetFlowStates()[0];
             //Act
 
@@ -32,7 +33,8 @@ namespace Magenta.Workflow.Tests.Reports
         public async Task GetFlowStateById_WithWrongId_MustNotReturnState()
         {
             //Arrange
-            var reportManager = ManagerFactory.GetFlowReportManager();
+            var stateManager = new MockState().MockStateManager();
+            var reportManager = new ManagerFactory().GetFlowReportManager(stateManager);
             var id = Guid.NewGuid();
             //Act
             var act = await reportManager.GetStateByIdAsync(id);
@@ -46,7 +48,8 @@ namespace Magenta.Workflow.Tests.Reports
         public async Task GetFlowState_WithCorrectExp_MustReturnState()
         {
             //Arrange
-            var reportManager = ManagerFactory.GetFlowReportManager();
+            var stateManager = new MockState().MockStateManager();
+            var reportManager = new ManagerFactory().GetFlowReportManager(stateManager);
             var targetState = MockData.GetFlowStates()[0];
             //Act
 
@@ -61,7 +64,8 @@ namespace Magenta.Workflow.Tests.Reports
         public async Task GetFlowState_WithWrongExp_MustNotReturnState()
         {
             //Arrange
-            var reportManager = ManagerFactory.GetFlowReportManager();
+            var stateManager = new MockState().MockStateManager();
+            var reportManager = new ManagerFactory().GetFlowReportManager(stateManager);
             var targetState = MockData.GetFlowStates()[0];
             //Act
             var act = await reportManager

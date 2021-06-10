@@ -18,7 +18,8 @@ namespace Magenta.Workflow.Tests.UseCases
         public async Task IntiFlowType_WithFillName_InitializeNewType()
         {
             //Arrange
-            var flowManager = ManagerFactory.GetFlowManager();
+            var stateManager = new MockState().MockStateManager();
+            var flowManager = new ManagerFactory().GetFlowManager(stateManager);
             var initModel = new InitFlowTypeModel()
             {
                 Name = "Test",
@@ -29,15 +30,16 @@ namespace Magenta.Workflow.Tests.UseCases
 
             var act = await flowManager.InitFlowTypeAsync(initModel);
             //Assert
-            Assert.True(act.Succeeded);
             LogTestInfo( initModel, act);
+            Assert.True(act.Succeeded);
         }
 
         [Fact]
         public async Task IntiFlowType_DuplicateName_MustError()
         {
             //Arrange
-            var flowManager = ManagerFactory.GetFlowManager();
+            var stateManager = new MockState().MockStateManager();
+            var flowManager = new ManagerFactory().GetFlowManager(stateManager);
             var existType = MockData.GetFlowTypes()[0];
             var initModel = new InitFlowTypeModel()
             {
@@ -49,15 +51,16 @@ namespace Magenta.Workflow.Tests.UseCases
 
             var act = await flowManager.InitFlowTypeAsync(initModel);
             //Assert
-            Assert.False(act.Succeeded);
             LogTestInfo(initModel, act);
+            Assert.False(act.Succeeded);
         }
 
         [Fact]
         public async Task IntiFlowType_EmptyModel_MustError()
         {
             //Arrange
-            var flowManager = ManagerFactory.GetFlowManager();
+            var stateManager = new MockState().MockStateManager();
+            var flowManager = new ManagerFactory().GetFlowManager(stateManager);
             var initModel = new InitFlowTypeModel()
             {
                 Name = null,
@@ -68,8 +71,8 @@ namespace Magenta.Workflow.Tests.UseCases
 
             var act = await flowManager.InitFlowTypeAsync(initModel);
             //Assert
-            Assert.False(act.Succeeded);
             LogTestInfo(initModel, act);
+            Assert.False(act.Succeeded);
         }
     }
 }

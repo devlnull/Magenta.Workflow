@@ -20,7 +20,8 @@ namespace Magenta.Workflow.Tests.UseCases
         public async Task IntiFlowState_WithCorrectModel_InitializeNewState()
         {
             //Arrange
-            var flowManager = ManagerFactory.GetFlowManager();
+            var stateManager = new MockState().MockStateManager();
+            var flowManager = new ManagerFactory().GetFlowManager(stateManager);
             var flowType = MockData.GetFlowTypes()[0];
             var initModel = new InitFlowStateModel()
             {
@@ -33,15 +34,16 @@ namespace Magenta.Workflow.Tests.UseCases
 
             var act = await flowManager.InitFlowStateAsync(initModel);
             //Assert
-            Assert.True(act.Succeeded);
             LogTestInfo(initModel, act);
+            Assert.True(act.Succeeded);
         }
 
         [Fact]
         public async Task IntiFlowState_WithWrongType_MustError()
         {
             //Arrange
-            var flowManager = ManagerFactory.GetFlowManager();
+            var stateManager = new MockState().MockStateManager();
+            var flowManager = new ManagerFactory().GetFlowManager(stateManager);
             var initModel = new InitFlowStateModel()
             {
                 Name = "Test",
@@ -53,16 +55,17 @@ namespace Magenta.Workflow.Tests.UseCases
 
             var act = await flowManager.InitFlowStateAsync(initModel);
             //Assert
+            LogTestInfo(initModel, act);
             Assert.False(act.Succeeded);
             Assert.NotEmpty(act.Errors);
-            LogTestInfo(initModel, act);
         }
 
         [Fact]
         public async Task IntiFlowState_WithEmptyName_MustError()
         {
             //Arrange
-            var flowManager = ManagerFactory.GetFlowManager();
+            var stateManager = new MockState().MockStateManager();
+            var flowManager = new ManagerFactory().GetFlowManager(stateManager);
             var initModel = new InitFlowStateModel()
             {
                 Name = string.Empty,
@@ -74,9 +77,9 @@ namespace Magenta.Workflow.Tests.UseCases
 
             var act = await flowManager.InitFlowStateAsync(initModel);
             //Assert
+            LogTestInfo(initModel, act);
             Assert.False(act.Succeeded);
             Assert.NotEmpty(act.Errors);
-            LogTestInfo(initModel, act);
         }
     }
 }

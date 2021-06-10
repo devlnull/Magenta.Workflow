@@ -5,24 +5,28 @@ namespace Magenta.Workflow.Tests.Mock
 {
     public class MockState
     {
-        internal static IStateManager StateManager;
-        private static readonly object Locker = new object();
-        public static IStateManager MockStateManager()
+        internal IStateManager StateManager;
+        private readonly object _locker = new object();
+
+        public IStateManager MockStateManager()
         {
-            lock (Locker)
+            lock (_locker)
             {
                 if (StateManager == null)
+                {
                     StateManager = new InMemoryStateManager();
-                if (StateManager.GetFlowSet<FlowType>().AnyAsync().GetAwaiter().GetResult() == false)
-                    StateManager = FillTypes(StateManager);
-                if (StateManager.GetFlowSet<FlowState>().AnyAsync().GetAwaiter().GetResult() == false)
-                    StateManager = FillStates(StateManager);
-                if (StateManager.GetFlowSet<FlowTransition>().AnyAsync().GetAwaiter().GetResult() == false)
-                    StateManager = FillTransitions(StateManager);
-                if (StateManager.GetFlowSet<FlowInstance>().AnyAsync().GetAwaiter().GetResult() == false)
-                    StateManager = FillInstances(StateManager);
-                if (StateManager.GetFlowSet<FlowStep>().AnyAsync().GetAwaiter().GetResult() == false)
-                    StateManager = FillSteps(StateManager);
+                    if (StateManager.GetFlowSet<FlowType>().AnyAsync().GetAwaiter().GetResult() == false)
+                        StateManager = FillTypes(StateManager);
+                    if (StateManager.GetFlowSet<FlowState>().AnyAsync().GetAwaiter().GetResult() == false)
+                        StateManager = FillStates(StateManager);
+                    if (StateManager.GetFlowSet<FlowTransition>().AnyAsync().GetAwaiter().GetResult() == false)
+                        StateManager = FillTransitions(StateManager);
+                    if (StateManager.GetFlowSet<FlowInstance>().AnyAsync().GetAwaiter().GetResult() == false)
+                        StateManager = FillInstances(StateManager);
+                    if (StateManager.GetFlowSet<FlowStep>().AnyAsync().GetAwaiter().GetResult() == false)
+                        StateManager = FillSteps(StateManager);
+
+                }
 
                 return StateManager;
             }

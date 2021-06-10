@@ -1,21 +1,21 @@
 ﻿using Magenta.Workflow.Core.Logger;
 using Magenta.Workflow.Managers.Flows;
 using Magenta.Workflow.Managers.Reports;
+using Magenta.Workflow.Managers.States;
 using Magenta.Workflow.Tests.Mock;
-using Magenta.Workflow.Tests.Reports;
 
 namespace Magenta.Workflow.Tests.Infrastructures
 {
-    public static class ManagerFactory
+    public class ManagerFactory
     {
-        public static IFlowManager GetFlowManager()
+        public IFlowManager GetFlowManager(IStateManager stateManager)
         {
-            return new FlowManager(MockState.MockStateManager(), new FlowConsoleLogger());
+            return new FlowManager(stateManager, new FlowConsoleLogger());
         }
 
-        public static IFlowReportManager GetFlowReportManager()
+        public IFlowReportManager GetFlowReportManager(IStateManager stateManager)
         {
-            return new FlowReportManager(MockState.MockStateManager(), new FlowConsoleLogger());
+            return new FlowReportManager(stateManager, new FlowConsoleLogger());
         }
     }
 }

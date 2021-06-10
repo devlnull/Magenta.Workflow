@@ -7,6 +7,7 @@ using Magenta.Workflow.Managers.States;
 using Magenta.Workflow.Services.FlowInstances;
 using Magenta.Workflow.Services.FlowSteps;
 using Magenta.Workflow.UseCases.Move;
+using Magenta.Workflow.Utilities;
 
 namespace Magenta.Workflow.UseCases.InitFlow
 {
@@ -31,14 +32,14 @@ namespace Magenta.Workflow.UseCases.InitFlow
         {
             var taskResult = await InstanceService.CreateFlowInstanceAsync(model);
 
-            var tranistionSet = _stateManager.GetFlowSet<FlowTransition>();
-            var startTranistion = await tranistionSet
+            var transitionSet = _stateManager.GetFlowSet<FlowTransition>();
+            var startTransition = await transitionSet
                 .FirstOrDefaultAsync(x => x.TypeId.Equals(taskResult.Result.TypeId)
                                         && x.TransitionType == FlowTransitionTypes.Start);
 
-            if (startTranistion == null)
-                return FlowResult<FlowInstance>.Failed(new FlowError(""));
-            //TODO: use an error message
+            if (startTransition == null)
+                return FlowResult<FlowInstance>
+                    .Failed(new FlowError(FlowErrors.ItemNotfound, "Start transition"));
 
             var stepResult = await StepService.CreateFlowStepAsync(new MoveModel()
             {
@@ -46,7 +47,7 @@ namespace Magenta.Workflow.UseCases.InitFlow
                 IdentityId = model.InitializerId,
                 InstanceId = taskResult.Result.Id,
                 Payload = null,
-                TransitionId = startTranistion.Id
+                TransitionId = startTransition.Id
             });
 
             return taskResult.Merge(stepResult);

@@ -17,7 +17,8 @@ namespace Magenta.Workflow.Tests.UseCases
         public async Task IntiFlowInstance_WithCorrectType_MustInitialize()
         {
             //Arrange
-            var flowManager = ManagerFactory.GetFlowManager();
+            var stateManager = new MockState().MockStateManager();
+            var flowManager = new ManagerFactory().GetFlowManager(stateManager);
             var initModel = new InitFlowModel()
             {
                 TypeId = MockData.GetFlowTypes()[0].Id,
@@ -29,16 +30,17 @@ namespace Magenta.Workflow.Tests.UseCases
             //Act
             var act = await flowManager.InitFlowAsync(initModel);
             //Assert
+            LogTestInfo(initModel, act);
             Assert.True(act.Succeeded);
             Assert.NotNull(act.Result);
-            LogTestInfo(initModel, act);
         }
 
         [Fact]
         public async Task IntiFlowInstance_EmptyPayload_MustWarn()
         {
             //Arrange
-            var flowManager = ManagerFactory.GetFlowManager();
+            var stateManager = new MockState().MockStateManager();
+            var flowManager = new ManagerFactory().GetFlowManager(stateManager);
             var initModel = new InitFlowModel()
             {
                 TypeId = MockData.GetFlowTypes()[0].Id,
@@ -50,17 +52,17 @@ namespace Magenta.Workflow.Tests.UseCases
             //Act
             var act = await flowManager.InitFlowAsync(initModel);
             //Assert
+            LogTestInfo(initModel, act);
             Assert.True(act.Warned);
             Assert.NotEmpty(act.Warns);
-            LogTestInfo(initModel, act);
         }
 
         [Fact]
         public async Task FlowInstance_CorrectCreation_MustHaveInitializingStep()
         {
             //Arrange
-            var flowManager = ManagerFactory.GetFlowManager();
-            var flowReportManager = ManagerFactory.GetFlowReportManager();
+            var stateManager = new MockState().MockStateManager();
+            var flowManager = new ManagerFactory().GetFlowManager(stateManager);
             var initModel = new InitFlowModel()
             {
                 TypeId = MockData.GetFlowTypes()[0].Id,
@@ -71,12 +73,13 @@ namespace Magenta.Workflow.Tests.UseCases
             };
             //Act
             var act = await flowManager.InitFlowAsync(initModel);
+            var flowReportManager = new ManagerFactory().GetFlowReportManager(stateManager);
             var steps = await flowReportManager.GetInstanceStepsAsync(act.Result.Id);
             //Assert
+            LogTestInfo(initModel, act);
             Assert.True(act.Succeeded);
             Assert.NotNull(act.Result);
             Assert.NotEmpty(steps.Result);
-            LogTestInfo(initModel, act);
         }
     }
 }

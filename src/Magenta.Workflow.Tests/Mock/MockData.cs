@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Magenta.Workflow.Context.Flows;
 using Magenta.Workflow.Context.Structures;
 
@@ -16,9 +17,19 @@ namespace Magenta.Workflow.Tests.Mock
                     CreatedAt = DateTime.UtcNow.AddDays(-1),
                     ModifiedAt = DateTime.UtcNow.AddDays(-1),
                     Deleted = false,
-                    EntityPayloadType = nameof(MockState),
-                    EntityType = nameof(MockState),
+                    EntityPayloadType = typeof(MockState).FullName,
+                    EntityType = typeof(MockState).FullName,
                     Name = "Hire",
+                },
+                new FlowType()
+                {
+                    Id = Guid.Parse("2b013ce9-9625-47ca-9f3a-e3b239d8e1d5"),
+                    CreatedAt = DateTime.UtcNow.AddDays(-1),
+                    ModifiedAt = DateTime.UtcNow.AddDays(-1),
+                    Deleted = false,
+                    EntityPayloadType = typeof(MockState).FullName,
+                    EntityType = typeof(MockState).FullName,
+                    Name = "Hire1",
                 },
             };
         }

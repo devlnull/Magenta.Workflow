@@ -18,9 +18,10 @@ namespace Magenta.Workflow.Tests.UseCases
         public async Task MoveStep_WithCorrectModel_MustMove()
         {
             //Arrange
+            var stateManager = new MockState().MockStateManager();
             var instance = MockData.GetFlowInstances().FirstOrDefault();
-            var flowManager = ManagerFactory.GetFlowManager();
-            var flowReportManager = ManagerFactory.GetFlowReportManager();
+            var flowManager = new ManagerFactory().GetFlowManager(stateManager);
+            var flowReportManager = new ManagerFactory().GetFlowReportManager(stateManager);
             var existTransitions = await flowReportManager.GetInstanceTransitionsAsync(instance.Id);
             var targetTransition = existTransitions.Result.FirstOrDefault();
 
@@ -35,18 +36,19 @@ namespace Magenta.Workflow.Tests.UseCases
             //Act
             var act = await flowManager.MoveAsync(moveModel);
             //Assert
+            LogTestInfo(moveModel, act);
             Assert.True(act.Succeeded);
             Assert.NotNull(act.Result);
-            LogTestInfo(moveModel, act);
         }
 
         [Fact]
         public async Task MoveStep_WithCorrectModel_MustHaveMoveAStep()
         {
             //Arrange
+            var stateManager = new MockState().MockStateManager();
             var instance = MockData.GetFlowInstances().FirstOrDefault();
-            var flowManager = ManagerFactory.GetFlowManager();
-            var flowReportManager = ManagerFactory.GetFlowReportManager();
+            var flowManager = new ManagerFactory().GetFlowManager(stateManager);
+            var flowReportManager = new ManagerFactory().GetFlowReportManager(stateManager);
             var existTransitions = await flowReportManager.GetInstanceTransitionsAsync(instance.Id);
             var targetTransition = existTransitions.Result.FirstOrDefault();
 
@@ -63,19 +65,20 @@ namespace Magenta.Workflow.Tests.UseCases
             var steps = await flowReportManager.GetInstanceStepsAsync(instance.Id);
             var currentStep = steps.Result.FirstOrDefault(x => x.IsCurrent);
             //Assert
+            LogTestInfo(moveModel, act);
             Assert.True(act.Succeeded);
             Assert.NotNull(act.Result);
             Assert.Equal(moveModel.TransitionId, currentStep.TransitionId);
-            LogTestInfo(moveModel, act);
         }
 
         [Fact]
         public async Task MoveStep_WithIncorrectTarget_MustNotMove()
         {
             //Arrange
+            var stateManager = new MockState().MockStateManager();
             var instance = MockData.GetFlowInstances().FirstOrDefault();
-            var flowManager = ManagerFactory.GetFlowManager();
-            var flowReportManager = ManagerFactory.GetFlowReportManager();
+            var flowManager = new ManagerFactory().GetFlowManager(stateManager);
+            var flowReportManager = new ManagerFactory().GetFlowReportManager(stateManager);
             var existTransitions = await flowReportManager.GetInstanceTransitionsAsync(instance.Id);
             var transitions = existTransitions.Result.Select(x => x.Id).ToList();
             var targetTransition = MockData.GetFlowTransitions()
@@ -92,18 +95,19 @@ namespace Magenta.Workflow.Tests.UseCases
             //Act
             var act = await flowManager.MoveAsync(moveModel);
             //Assert
+            LogTestInfo(moveModel, act);
             Assert.False(act.Succeeded);
             Assert.NotEmpty(act.Errors);
-            LogTestInfo(moveModel, act);
         }
 
         [Fact]
         public async Task MoveStep_WithCorrectModel_MustChangeCurrentFlag()
         {
             //Arrange
+            var stateManager = new MockState().MockStateManager();
             var instance = MockData.GetFlowInstances().FirstOrDefault();
-            var flowManager = ManagerFactory.GetFlowManager();
-            var flowReportManager = ManagerFactory.GetFlowReportManager();
+            var flowManager = new ManagerFactory().GetFlowManager(stateManager);
+            var flowReportManager = new ManagerFactory().GetFlowReportManager(stateManager);
             var existTransitions = await flowReportManager.GetInstanceTransitionsAsync(instance.Id);
             var targetTransition = existTransitions.Result.FirstOrDefault();
             var preSteps = await flowReportManager.GetInstanceStepsAsync(instance.Id);
@@ -123,12 +127,12 @@ namespace Magenta.Workflow.Tests.UseCases
             var currentStep = steps.Result.FirstOrDefault(x => x.IsCurrent);
             var updatedPreStep = steps.Result.FirstOrDefault(x => x.Id.Equals(preStep.Id));
             //Assert
+            LogTestInfo(moveModel, act);
             Assert.True(act.Succeeded);
             Assert.NotNull(act.Result);
             Assert.True(currentStep.IsCurrent);
             Assert.False(updatedPreStep.IsCurrent);
             Assert.Equal(moveModel.TransitionId, currentStep.TransitionId);
-            LogTestInfo(moveModel, act);
         }
     }
 }

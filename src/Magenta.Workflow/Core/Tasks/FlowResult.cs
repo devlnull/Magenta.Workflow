@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Magenta.Workflow.Core.Tasks
 {
@@ -37,6 +38,7 @@ namespace Magenta.Workflow.Core.Tasks
             set => _warned = value;
         }
 
+        [JsonPropertyName("FlowResult")]
         public virtual object Result { get; protected set; }
 
         private FlowResultTypes _type = FlowResultTypes.None;
