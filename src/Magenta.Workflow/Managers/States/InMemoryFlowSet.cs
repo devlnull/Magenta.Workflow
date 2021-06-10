@@ -122,7 +122,25 @@ namespace Magenta.Workflow.Managers.States
         public Task<IEnumerable<TEntity>> ToListAsync(IQueryable<TEntity> query)
         {
             var result = query.ToList();
-            return Task.FromResult<IEnumerable<TEntity>>(query);
+            return Task.FromResult<IEnumerable<TEntity>>(result);
+        }
+
+        public Task<PagedList<TEntity>> ToPagedListAsync(IQueryable<TEntity> query, 
+            PageOptions pageOptions)
+        {
+            pageOptions = ResolvePageOptions(pageOptions);
+
+            var items = query
+                .Skip(pageOptions.GetOffset().Value)
+                .Take(pageOptions.GetLimit().Value)
+                .ToList();
+
+            var pagedList = new PagedList<TEntity>()
+            {
+                Items = items,
+                Count = query.Count()
+            };
+            return Task.FromResult(pagedList);
         }
 
         public Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)

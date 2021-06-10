@@ -37,6 +37,7 @@ namespace Magenta.Workflow.Managers.States
         #region Get
 
         Task<IEnumerable<TEntity>> ToListAsync(IQueryable<TEntity> query);
+        Task<PagedList<TEntity>> ToPagedListAsync(IQueryable<TEntity> query, PageOptions pageOptions);
         Task<TEntity> GetByIdAsync(Guid id);
         IQueryable<TEntity> GetAll();
         Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null);
