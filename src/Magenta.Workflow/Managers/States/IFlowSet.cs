@@ -35,6 +35,8 @@ namespace Magenta.Workflow.Managers.States
         #endregion
 
         #region Get
+
+        Task<IEnumerable<TEntity>> ToListAsync(IQueryable<TEntity> query);
         Task<TEntity> GetByIdAsync(Guid id);
         IQueryable<TEntity> GetAll();
         Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null);

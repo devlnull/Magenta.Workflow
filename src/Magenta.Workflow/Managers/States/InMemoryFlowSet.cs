@@ -119,6 +119,12 @@ namespace Magenta.Workflow.Managers.States
 
         #region Get
 
+        public Task<IEnumerable<TEntity>> ToListAsync(IQueryable<TEntity> query)
+        {
+            var result = query.ToList();
+            return Task.FromResult<IEnumerable<TEntity>>(query);
+        }
+
         public Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
             var item = _set.FirstOrDefault(predicate.Compile());
