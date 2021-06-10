@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using Magenta.Workflow.Context.Base;
 
 namespace Magenta.Workflow.Context.Flows
@@ -15,6 +16,7 @@ namespace Magenta.Workflow.Context.Flows
         public string EntityType { get; set; }
         public string EntityPayloadType { get; set; }
         public ICollection<FlowState> States { get; set; }
+        [JsonIgnore]
         public ICollection<FlowInstance> Instances { get; set; }
     }
 }
