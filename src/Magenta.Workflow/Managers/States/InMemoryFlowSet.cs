@@ -5,51 +5,54 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Magenta.Workflow.Context.Base;
 using Magenta.Workflow.Core.Exceptions;
+using Magenta.Workflow.Managers.Reports;
 
 namespace Magenta.Workflow.Managers.States
 {
     public class InMemoryFlowSet<TEntity> : IFlowSet<TEntity>
         where TEntity : FlowEntity
     {
-        private List<TEntity> _repo;
-        private object _locker = new object();
-
+        private List<TEntity> _set;
         public IEnumerable<TEntity> DataSet
         {
             get
             {
-                lock (_locker)
-                {
-                    if (_repo == null)
-                        _repo = new List<TEntity>();
-                    return _repo.AsEnumerable();
-                }
+                _set ??= new List<TEntity>();
+                return _set.AsEnumerable();
             }
-            set
-            {
-                lock (_locker)
-                    _repo = value.ToList();
-            }
+            set => _set = value.ToList();
         }
 
         public string EntityName => typeof(TEntity).Name;
 
+        #region Helpers
+
+        private PageOptions ResolvePageOptions(PageOptions pageOptions)
+        {
+            if (pageOptions.Limit.HasValue == false)
+                pageOptions.Limit = 10;
+            if (pageOptions.Offset.HasValue == false)
+                pageOptions.Offset = 0;
+            return pageOptions;
+        }
+
+        #endregion Helpers
+
         public InMemoryFlowSet()
         {
-            if (_repo == null)
-                _repo = new List<TEntity>();
+            _set ??= new List<TEntity>();
         }
 
         #region Utilities
 
         public Task<bool> AnyAsync()
         {
-            return Task.FromResult(_repo.Any());
+            return Task.FromResult(_set.Any());
         }
 
         public Task<long> CountAsync()
         {
-            return Task.FromResult(_repo.LongCount());
+            return Task.FromResult(_set.LongCount());
         }
 
         #endregion Utilities
@@ -58,7 +61,7 @@ namespace Magenta.Workflow.Managers.States
 
         public Task<TEntity> CreateAsync(TEntity input)
         {
-            _repo.Add(input);
+            _set.Add(input);
             return Task.FromResult(input);
         }
 
@@ -70,7 +73,7 @@ namespace Magenta.Workflow.Managers.States
                 return null;
 
             foreach (var item in input)
-                _repo.Add(item);
+                _set.Add(item);
             return Task.FromResult(input);
         }
 
@@ -80,7 +83,7 @@ namespace Magenta.Workflow.Managers.States
 
         public Task<TEntity> DeleteAsync(Guid id)
         {
-            var item = _repo.FirstOrDefault(x => x.Id.Equals(id));
+            var item = _set.FirstOrDefault(x => x.Id.Equals(id));
             if (item == null)
                 throw new FlowException($"Could not find item with this identifier.");
             item.Deleted = true;
@@ -90,7 +93,7 @@ namespace Magenta.Workflow.Managers.States
 
         public Task<IEnumerable<TEntity>> DeleteListAsync(IEnumerable<Guid> ids)
         {
-            var items = _repo.Where(x => ids.Contains(x.Id));
+            var items = _set.Where(x => ids.Contains(x.Id));
             if (items == null)
                 throw new FlowException($"Could not find any item with this identifiers.");
 
@@ -105,10 +108,10 @@ namespace Magenta.Workflow.Managers.States
 
         public Task<IEnumerable<TEntity>> PhysicalDeleteListAsync(IEnumerable<Guid> ids)
         {
-            var items = _repo.Where(x => ids.Contains(x.Id));
+            var items = _set.Where(x => ids.Contains(x.Id));
             if (items == null)
                 throw new FlowException($"Could not find any item with this identifiers.");
-            _repo.RemoveAll(x => ids.Contains(x.Id));
+            _set.RemoveAll(x => ids.Contains(x.Id));
             return Task.FromResult(items);
         }
 
@@ -118,29 +121,54 @@ namespace Magenta.Workflow.Managers.States
 
         public Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            var item = _repo.FirstOrDefault(predicate.Compile());
+            var item = _set.FirstOrDefault(predicate.Compile());
             return Task.FromResult(item);
         }
 
         public IQueryable<TEntity> GetAll()
         {
-            return _repo.AsQueryable();
+            return _set.AsQueryable();
         }
 
         public Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null)
         {
             IEnumerable<TEntity> items = null;
             if (predicate == null)
-                items = _repo;
+                items = _set;
             else
-                items = _repo.Where(predicate.Compile());
+                items = _set.Where(predicate.Compile());
 
             return Task.FromResult(items);
         }
 
+        public Task<PagedList<TEntity>> GetPagedAllAsync(PageOptions pageOptions,
+            Expression<Func<TEntity, bool>> predicate = null)
+        {
+            IEnumerable<TEntity> items = null;
+            if (predicate == null)
+                items = _set;
+            else
+                items = _set.Where(predicate.Compile());
+
+            pageOptions = ResolvePageOptions(pageOptions);
+
+            items = _set
+                .Skip(pageOptions.GetOffset().Value)
+                .Take(pageOptions.GetLimit().Value)
+                .ToList();
+
+            var pagedList = new PagedList<TEntity>()
+            {
+                Items = items,
+                Count = _set.Count()
+            };
+
+            return Task.FromResult(pagedList);
+        }
+
         public Task<TEntity> GetByIdAsync(Guid id)
         {
-            var item = _repo.FirstOrDefault(x => x.Id.Equals(id));
+            var item = _set.FirstOrDefault(x => x.Id.Equals(id));
             return Task.FromResult(item);
         }
 
@@ -150,11 +178,11 @@ namespace Magenta.Workflow.Managers.States
 
         public Task<TEntity> UpdateAsync(TEntity input)
         {
-            var item = _repo.FirstOrDefault(x => x.Id.Equals(input.Id));
+            var item = _set.FirstOrDefault(x => x.Id.Equals(input.Id));
 
             item.ModifiedAt = DateTime.Now;
-            _repo.Remove(input);
-            _repo.Add(input);
+            _set.Remove(input);
+            _set.Add(input);
             return Task.FromResult(input);
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Magenta.Workflow.Context.Base;
+using Magenta.Workflow.Managers.Reports;
 
 namespace Magenta.Workflow.Managers.States
 {
@@ -37,6 +38,8 @@ namespace Magenta.Workflow.Managers.States
         Task<TEntity> GetByIdAsync(Guid id);
         IQueryable<TEntity> GetAll();
         Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null);
+        Task<PagedList<TEntity>> GetPagedAllAsync(PageOptions pageOptions,
+            Expression<Func<TEntity, bool>> predicate = null);
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
         #endregion
     }
