@@ -27,8 +27,8 @@ namespace Magenta.Workflow.Tests.Mock
                     CreatedAt = DateTime.UtcNow.AddDays(-1),
                     ModifiedAt = DateTime.UtcNow.AddDays(-1),
                     Deleted = false,
-                    EntityPayloadType = typeof(MockState).FullName,
-                    EntityType = typeof(MockState).FullName,
+                    EntityPayloadType = "Hire1",
+                    EntityType = "Hire1",
                     Name = "Hire1",
                 },
             };

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Magenta.Workflow.Context.Flows;
 using Magenta.Workflow.Core.Tasks;
@@ -18,16 +17,32 @@ namespace Magenta.Workflow.Managers.Reports
             {
                 Logger.LogInfo("try to get a type of flow by id.");
                 var typeSet = StateManager.GetFlowSet<FlowType>();
-                var type = await typeSet.FirstOrDefaultAsync(x => x.Id.Equals(id));
-                if (type == null)
+                var stateSet = StateManager.GetFlowSet<FlowState>();
+                var query = from type in typeSet.GetAll()
+                            join state in stateSet.GetAll() on type.Id equals state.TypeId into states
+                            where type.Id.Equals(id)
+                            select new FlowType()
+                            {
+                                CreatedAt = type.CreatedAt,
+                                Deleted = type.Deleted,
+                                EntityPayloadType = type.EntityPayloadType,
+                                EntityType = type.EntityType,
+                                Id = type.Id,
+                                ModifiedAt = type.ModifiedAt,
+                                Name = type.Name,
+                                States = states.ToList()
+                            };
+                var flowType = await typeSet.FirstOrDefaultAsync(query);
+
+                if (flowType == null)
                 {
                     Logger.LogWarning("type not exist.");
                     return FlowResult<FlowType>.Failed(
                         new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowType)));
                 }
                 var result = new FlowResult<FlowType>();
-                result.SetResult(type);
-                Logger.LogInfo($"type with id '{type.Id}' fetched.");
+                result.SetResult(flowType);
+                Logger.LogInfo($"type with id '{flowType.Id}' fetched.");
                 return result;
             }
             catch (Exception ex)
@@ -44,16 +59,31 @@ namespace Magenta.Workflow.Managers.Reports
             {
                 Logger.LogInfo("try to get a type of flow by expression.");
                 var typeSet = StateManager.GetFlowSet<FlowType>();
-                var type = await typeSet.FirstOrDefaultAsync(expression);
-                if (type == null)
+                var stateSet = StateManager.GetFlowSet<FlowState>();
+                var query = typeSet.GetAll()
+                    .GroupJoin(stateSet.GetAll(), type => type.Id, state => state.TypeId, (type, states) => new FlowType()
+                    {
+                        CreatedAt = type.CreatedAt,
+                        Deleted = type.Deleted,
+                        EntityPayloadType = type.EntityPayloadType,
+                        EntityType = type.EntityType,
+                        Id = type.Id,
+                        ModifiedAt = type.ModifiedAt,
+                        Name = type.Name,
+                        States = states.ToList()
+                    })
+                    .Where(expression);
+                var flowType = await typeSet.FirstOrDefaultAsync(query);
+
+                if (flowType == null)
                 {
                     Logger.LogWarning("type not exist.");
                     return FlowResult<FlowType>.Failed(
                         new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowType)));
                 }
                 var result = new FlowResult<FlowType>();
-                result.SetResult(type);
-                Logger.LogInfo($"type with id '{type.Id}' fetched.");
+                result.SetResult(flowType);
+                Logger.LogInfo($"type with id '{flowType.Id}' fetched.");
                 return result;
             }
             catch (Exception ex)
@@ -69,7 +99,23 @@ namespace Magenta.Workflow.Managers.Reports
             {
                 Logger.LogInfo("try to get list of types.");
                 var typeSet = StateManager.GetFlowSet<FlowType>();
-                var types = await typeSet.GetAllAsync();
+                var stateSet = StateManager.GetFlowSet<FlowState>();
+
+                var query = from type in typeSet.GetAll()
+                            join state in stateSet.GetAll() on type.Id equals state.TypeId into states
+                            select new FlowType()
+                            {
+                                CreatedAt = type.CreatedAt,
+                                Deleted = type.Deleted,
+                                EntityPayloadType = type.EntityPayloadType,
+                                EntityType = type.EntityType,
+                                Id = type.Id,
+                                ModifiedAt = type.ModifiedAt,
+                                Name = type.Name,
+                                States = states.ToList()
+                            };
+                var types = await typeSet.ToListAsync(query);
+
                 var result = new FlowResult<IEnumerable<FlowType>>();
                 result.SetResult(types);
                 Logger.LogInfo($"list of types with count '{types.Count()}' fetched.");
@@ -88,7 +134,21 @@ namespace Magenta.Workflow.Managers.Reports
             {
                 Logger.LogInfo("try to get paged list of types.");
                 var typeSet = StateManager.GetFlowSet<FlowType>();
-                var pagedList = await typeSet.GetPagedAllAsync(pageOptions: pageOptions);
+                var stateSet = StateManager.GetFlowSet<FlowState>();
+                var query = from type in typeSet.GetAll()
+                            join state in stateSet.GetAll() on type.Id equals state.TypeId into states
+                            select new FlowType()
+                            {
+                                CreatedAt = type.CreatedAt,
+                                Deleted = type.Deleted,
+                                EntityPayloadType = type.EntityPayloadType,
+                                EntityType = type.EntityType,
+                                Id = type.Id,
+                                ModifiedAt = type.ModifiedAt,
+                                Name = type.Name,
+                                States = states.ToList()
+                            };
+                var pagedList = await typeSet.ToPagedListAsync(query, pageOptions);
                 var result = new FlowResult<PagedList<FlowType>>();
                 result.SetResult(pagedList);
                 Logger.LogInfo($"paged list of types with count '{pagedList.Count}' fetched.");
@@ -107,8 +167,23 @@ namespace Magenta.Workflow.Managers.Reports
             {
                 Logger.LogInfo($"try to get list of types by entity '{entityType.FullName}'.");
                 var typeSet = StateManager.GetFlowSet<FlowType>();
-                var types = await typeSet
-                    .GetAllAsync(x => x.EntityType.Equals(entityType.FullName));
+                var stateSet = StateManager.GetFlowSet<FlowState>();
+                var query = from type in typeSet.GetAll()
+                            join state in stateSet.GetAll() on type.Id equals state.TypeId into states
+                            where type.EntityType.Equals(entityType.FullName)
+                            select new FlowType()
+                            {
+                                CreatedAt = type.CreatedAt,
+                                Deleted = type.Deleted,
+                                EntityPayloadType = type.EntityPayloadType,
+                                EntityType = type.EntityType,
+                                Id = type.Id,
+                                ModifiedAt = type.ModifiedAt,
+                                Name = type.Name,
+                                States = states.ToList()
+                            };
+                var types = await typeSet.ToListAsync(query);
+
                 var result = new FlowResult<IEnumerable<FlowType>>();
                 result.SetResult(types);
                 Logger.LogInfo($"list of types by entity '{entityType.FullName}'" +
@@ -129,9 +204,23 @@ namespace Magenta.Workflow.Managers.Reports
             {
                 Logger.LogInfo("try to get paged list of types.");
                 var typeSet = StateManager.GetFlowSet<FlowType>();
-                var pagedList = await typeSet.GetPagedAllAsync(
-                    predicate: x=>x.EntityType.Equals(entityType.FullName),
-                    pageOptions: pageOptions);
+                var stateSet = StateManager.GetFlowSet<FlowState>();
+                var query = from type in typeSet.GetAll()
+                            join state in stateSet.GetAll() on type.Id equals state.TypeId into states
+                            where type.EntityType.Equals(entityType.FullName)
+                            select new FlowType()
+                            {
+                                CreatedAt = type.CreatedAt,
+                                Deleted = type.Deleted,
+                                EntityPayloadType = type.EntityPayloadType,
+                                EntityType = type.EntityType,
+                                Id = type.Id,
+                                ModifiedAt = type.ModifiedAt,
+                                Name = type.Name,
+                                States = states.ToList()
+                            };
+                var pagedList = await typeSet.ToPagedListAsync(query, pageOptions);
+
                 var result = new FlowResult<PagedList<FlowType>>();
                 result.SetResult(pagedList);
                 Logger.LogInfo($"paged list of types with count '{pagedList.Count}' fetched.");
