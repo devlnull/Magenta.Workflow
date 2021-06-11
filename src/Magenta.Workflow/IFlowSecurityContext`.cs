@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Magenta.Workflow.Managers.Flows;
 using Magenta.Workflow.Managers.Reports;
 
 namespace Magenta.Workflow
@@ -23,7 +22,7 @@ namespace Magenta.Workflow
         #endregion
 
         #region Filter Access Cartable
-        Task<IQueryable<FlowInboxModel>> FilterAccessCartableAsync(IQueryable<FlowInboxModel> query);
+        Task<IQueryable<FlowInboxModel>> FilterInboxAccessAsync(IQueryable<FlowInboxModel> query);
         #endregion
     }
 }
