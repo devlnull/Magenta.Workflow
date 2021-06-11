@@ -47,6 +47,23 @@ namespace Magenta.Workflow.Tests.Reports
         }
 
         [Fact]
+        public async Task GetFlowTypeById_WithCorrectId_MustIncludeStates()
+        {
+            //Arrange
+            var stateManager = new MockState().MockStateManager();
+            var reportManager = new ManagerFactory().GetFlowReportManager(stateManager);
+            var targetType = MockData.GetFlowTypes()[0];
+            //Act
+
+            var act = await reportManager.GetTypeByIdAsync(targetType.Id);
+            //Assert
+            LogTestInfo(new { Request = targetType.Id }, act);
+            Assert.True(act.Succeeded);
+            Assert.NotEmpty(act.Result.States);
+            Assert.NotNull(act.Result);
+        }
+
+        [Fact]
         public async Task GetFlowType_WithCorrectExp_MustReturnType()
         {
             //Arrange

@@ -17,16 +17,32 @@ namespace Magenta.Workflow.Managers.Reports
             {
                 Logger.LogInfo("try to get a type of flow by id.");
                 var typeSet = StateManager.GetFlowSet<FlowType>();
-                var type = await typeSet.FirstOrDefaultAsync(x => x.Id.Equals(id));
-                if (type == null)
+                var stateSet = StateManager.GetFlowSet<FlowState>();
+                var query = from type in typeSet.GetAll()
+                            join state in stateSet.GetAll() on type.Id equals state.TypeId into states
+                            where type.Id.Equals(id)
+                            select new FlowType()
+                            {
+                                CreatedAt = type.CreatedAt,
+                                Deleted = type.Deleted,
+                                EntityPayloadType = type.EntityPayloadType,
+                                EntityType = type.EntityType,
+                                Id = type.Id,
+                                ModifiedAt = type.ModifiedAt,
+                                Name = type.Name,
+                                States = states.ToList()
+                            };
+                var flowType = await typeSet.FirstOrDefaultAsync(query);
+
+                if (flowType == null)
                 {
                     Logger.LogWarning("type not exist.");
                     return FlowResult<FlowType>.Failed(
                         new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowType)));
                 }
                 var result = new FlowResult<FlowType>();
-                result.SetResult(type);
-                Logger.LogInfo($"type with id '{type.Id}' fetched.");
+                result.SetResult(flowType);
+                Logger.LogInfo($"type with id '{flowType.Id}' fetched.");
                 return result;
             }
             catch (Exception ex)
@@ -43,16 +59,31 @@ namespace Magenta.Workflow.Managers.Reports
             {
                 Logger.LogInfo("try to get a type of flow by expression.");
                 var typeSet = StateManager.GetFlowSet<FlowType>();
-                var type = await typeSet.FirstOrDefaultAsync(expression);
-                if (type == null)
+                var stateSet = StateManager.GetFlowSet<FlowState>();
+                var query = typeSet.GetAll()
+                    .GroupJoin(stateSet.GetAll(), type => type.Id, state => state.TypeId, (type, states) => new FlowType()
+                    {
+                        CreatedAt = type.CreatedAt,
+                        Deleted = type.Deleted,
+                        EntityPayloadType = type.EntityPayloadType,
+                        EntityType = type.EntityType,
+                        Id = type.Id,
+                        ModifiedAt = type.ModifiedAt,
+                        Name = type.Name,
+                        States = states.ToList()
+                    })
+                    .Where(expression);
+                var flowType = await typeSet.FirstOrDefaultAsync(query);
+
+                if (flowType == null)
                 {
                     Logger.LogWarning("type not exist.");
                     return FlowResult<FlowType>.Failed(
                         new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowType)));
                 }
                 var result = new FlowResult<FlowType>();
-                result.SetResult(type);
-                Logger.LogInfo($"type with id '{type.Id}' fetched.");
+                result.SetResult(flowType);
+                Logger.LogInfo($"type with id '{flowType.Id}' fetched.");
                 return result;
             }
             catch (Exception ex)
