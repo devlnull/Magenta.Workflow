@@ -44,6 +44,7 @@ namespace Magenta.Workflow.Managers.States
         Task<PagedList<TEntity>> GetPagedAllAsync(PageOptions pageOptions,
             Expression<Func<TEntity, bool>> predicate = null);
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> FirstOrDefaultAsync(IQueryable<TEntity> query);
         #endregion
     }
 }

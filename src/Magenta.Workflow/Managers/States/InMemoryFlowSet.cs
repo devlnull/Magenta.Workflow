@@ -148,6 +148,12 @@ namespace Magenta.Workflow.Managers.States
             var item = _set.FirstOrDefault(predicate.Compile());
             return Task.FromResult(item);
         }
+        
+        public Task<TEntity> FirstOrDefaultAsync(IQueryable<TEntity> query)
+        {
+            var item = query.FirstOrDefault();
+            return Task.FromResult(item);
+        }
 
         public IQueryable<TEntity> GetAll()
         {
