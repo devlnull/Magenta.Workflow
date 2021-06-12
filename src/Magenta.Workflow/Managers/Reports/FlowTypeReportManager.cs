@@ -60,19 +60,23 @@ namespace Magenta.Workflow.Managers.Reports
                 Logger.LogInfo("try to get a type of flow by expression.");
                 var typeSet = StateManager.GetFlowSet<FlowType>();
                 var stateSet = StateManager.GetFlowSet<FlowState>();
-                var query = typeSet.GetAll()
-                    .GroupJoin(stateSet.GetAll(), type => type.Id, state => state.TypeId, (type, states) => new FlowType()
-                    {
-                        CreatedAt = type.CreatedAt,
-                        Deleted = type.Deleted,
-                        EntityPayloadType = type.EntityPayloadType,
-                        EntityType = type.EntityType,
-                        Id = type.Id,
-                        ModifiedAt = type.ModifiedAt,
-                        Name = type.Name,
-                        States = states.ToList()
-                    })
-                    .Where(expression);
+
+                var query = from type in typeSet.GetAll()
+                            let states = stateSet.GetAll().Where(x => x.TypeId == type.Id)
+                            select new FlowType()
+                            {
+                                CreatedAt = type.CreatedAt,
+                                Deleted = type.Deleted,
+                                EntityPayloadType = type.EntityPayloadType,
+                                EntityType = type.EntityType,
+                                Id = type.Id,
+                                ModifiedAt = type.ModifiedAt,
+                                Name = type.Name,
+                                States = states.ToList()
+                            };
+
+                query = query.Where(expression);
+
                 var flowType = await typeSet.FirstOrDefaultAsync(query);
 
                 if (flowType == null)
@@ -102,7 +106,7 @@ namespace Magenta.Workflow.Managers.Reports
                 var stateSet = StateManager.GetFlowSet<FlowState>();
 
                 var query = from type in typeSet.GetAll()
-                            join state in stateSet.GetAll() on type.Id equals state.TypeId into states
+                            let states = stateSet.GetAll().Where(x => x.TypeId == type.Id)
                             select new FlowType()
                             {
                                 CreatedAt = type.CreatedAt,
@@ -114,6 +118,7 @@ namespace Magenta.Workflow.Managers.Reports
                                 Name = type.Name,
                                 States = states.ToList()
                             };
+
                 var types = await typeSet.ToListAsync(query);
 
                 var result = new FlowResult<IEnumerable<FlowType>>();
@@ -136,7 +141,7 @@ namespace Magenta.Workflow.Managers.Reports
                 var typeSet = StateManager.GetFlowSet<FlowType>();
                 var stateSet = StateManager.GetFlowSet<FlowState>();
                 var query = from type in typeSet.GetAll()
-                            join state in stateSet.GetAll() on type.Id equals state.TypeId into states
+                            let states = stateSet.GetAll().Where(x => x.TypeId == type.Id)
                             select new FlowType()
                             {
                                 CreatedAt = type.CreatedAt,
@@ -169,7 +174,7 @@ namespace Magenta.Workflow.Managers.Reports
                 var typeSet = StateManager.GetFlowSet<FlowType>();
                 var stateSet = StateManager.GetFlowSet<FlowState>();
                 var query = from type in typeSet.GetAll()
-                            join state in stateSet.GetAll() on type.Id equals state.TypeId into states
+                            let states = stateSet.GetAll().Where(x => x.TypeId == type.Id)
                             where type.EntityType.Equals(entityType.FullName)
                             select new FlowType()
                             {
@@ -206,7 +211,7 @@ namespace Magenta.Workflow.Managers.Reports
                 var typeSet = StateManager.GetFlowSet<FlowType>();
                 var stateSet = StateManager.GetFlowSet<FlowState>();
                 var query = from type in typeSet.GetAll()
-                            join state in stateSet.GetAll() on type.Id equals state.TypeId into states
+                            let states = stateSet.GetAll().Where(x => x.TypeId == type.Id)
                             where type.EntityType.Equals(entityType.FullName)
                             select new FlowType()
                             {

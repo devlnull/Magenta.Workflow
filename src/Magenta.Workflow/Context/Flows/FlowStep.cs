@@ -13,5 +13,8 @@ namespace Magenta.Workflow.Context.Flows
         public Guid TransitionId { get; set; }
         public string IdentityId { get; set; }
         public bool IsCurrent { get; set; }
+        public string CurrentStateName { get; set; }
+        public string CurrentStateTitle { get; set; }
+        public byte CurrentStateType { get; set; }
     }
 }

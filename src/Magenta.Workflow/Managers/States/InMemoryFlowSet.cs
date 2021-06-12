@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Magenta.Workflow.Context.Base;
 using Magenta.Workflow.Core.Exceptions;
@@ -45,12 +46,12 @@ namespace Magenta.Workflow.Managers.States
 
         #region Utilities
 
-        public Task<bool> AnyAsync()
+        public Task<bool> AnyAsync(CancellationToken cancellationToken = default)
         {
             return Task.FromResult(_set.Any());
         }
 
-        public Task<long> CountAsync()
+        public Task<long> CountAsync(CancellationToken cancellationToken = default)
         {
             return Task.FromResult(_set.LongCount());
         }
@@ -59,13 +60,14 @@ namespace Magenta.Workflow.Managers.States
 
         #region Create
 
-        public Task<TEntity> CreateAsync(TEntity input)
+        public Task<TEntity> CreateAsync(TEntity input, CancellationToken cancellationToken = default)
         {
             _set.Add(input);
             return Task.FromResult(input);
         }
 
-        public Task<IEnumerable<TEntity>> CreateListAsync(IEnumerable<TEntity> input)
+        public Task<IEnumerable<TEntity>> CreateListAsync(IEnumerable<TEntity> input,
+            CancellationToken cancellationToken = default)
         {
             if (input == null)
                 return null;
@@ -81,7 +83,7 @@ namespace Magenta.Workflow.Managers.States
 
         #region Delete
 
-        public Task<TEntity> DeleteAsync(Guid id)
+        public Task<TEntity> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
             var item = _set.FirstOrDefault(x => x.Id.Equals(id));
             if (item == null)
@@ -91,7 +93,8 @@ namespace Magenta.Workflow.Managers.States
             return Task.FromResult(item);
         }
 
-        public Task<IEnumerable<TEntity>> DeleteListAsync(IEnumerable<Guid> ids)
+        public Task<IEnumerable<TEntity>> DeleteListAsync(IEnumerable<Guid> ids,
+            CancellationToken cancellationToken = default)
         {
             var items = _set.Where(x => ids.Contains(x.Id));
             if (items == null)
@@ -106,7 +109,8 @@ namespace Magenta.Workflow.Managers.States
             return Task.FromResult(items);
         }
 
-        public Task<IEnumerable<TEntity>> PhysicalDeleteListAsync(IEnumerable<Guid> ids)
+        public Task<IEnumerable<TEntity>> PhysicalDeleteListAsync(IEnumerable<Guid> ids,
+            CancellationToken cancellationToken = default)
         {
             var items = _set.Where(x => ids.Contains(x.Id));
             if (items == null)
@@ -119,14 +123,15 @@ namespace Magenta.Workflow.Managers.States
 
         #region Get
 
-        public Task<IEnumerable<TEntity>> ToListAsync(IQueryable<TEntity> query)
+        public Task<IEnumerable<TEntity>> ToListAsync(IQueryable<TEntity> query,
+            CancellationToken cancellationToken = default)
         {
             var result = query.ToList();
             return Task.FromResult<IEnumerable<TEntity>>(result);
         }
 
         public Task<PagedList<TEntity>> ToPagedListAsync(IQueryable<TEntity> query, 
-            PageOptions pageOptions)
+            PageOptions pageOptions, CancellationToken cancellationToken = default)
         {
             pageOptions = ResolvePageOptions(pageOptions);
 
@@ -143,13 +148,15 @@ namespace Magenta.Workflow.Managers.States
             return Task.FromResult(pagedList);
         }
 
-        public Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        public Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate,
+            CancellationToken cancellationToken = default)
         {
             var item = _set.FirstOrDefault(predicate.Compile());
             return Task.FromResult(item);
         }
         
-        public Task<TEntity> FirstOrDefaultAsync(IQueryable<TEntity> query)
+        public Task<TEntity> FirstOrDefaultAsync(IQueryable<TEntity> query,
+            CancellationToken cancellationToken = default)
         {
             var item = query.FirstOrDefault();
             return Task.FromResult(item);
@@ -160,7 +167,8 @@ namespace Magenta.Workflow.Managers.States
             return _set.AsQueryable();
         }
 
-        public Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null)
+        public Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null,
+            CancellationToken cancellationToken = default)
         {
             IEnumerable<TEntity> items = null;
             if (predicate == null)
@@ -172,7 +180,7 @@ namespace Magenta.Workflow.Managers.States
         }
 
         public Task<PagedList<TEntity>> GetPagedAllAsync(PageOptions pageOptions,
-            Expression<Func<TEntity, bool>> predicate = null)
+            Expression<Func<TEntity, bool>> predicate = null, CancellationToken cancellationToken = default)
         {
             IEnumerable<TEntity> items = null;
             if (predicate == null)
@@ -196,7 +204,7 @@ namespace Magenta.Workflow.Managers.States
             return Task.FromResult(pagedList);
         }
 
-        public Task<TEntity> GetByIdAsync(Guid id)
+        public Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             var item = _set.FirstOrDefault(x => x.Id.Equals(id));
             return Task.FromResult(item);
@@ -206,7 +214,7 @@ namespace Magenta.Workflow.Managers.States
 
         #region Update
 
-        public Task<TEntity> UpdateAsync(TEntity input)
+        public Task<TEntity> UpdateAsync(TEntity input, CancellationToken cancellationToken = default)
         {
             var item = _set.FirstOrDefault(x => x.Id.Equals(input.Id));
 
@@ -216,7 +224,8 @@ namespace Magenta.Workflow.Managers.States
             return Task.FromResult(input);
         }
 
-        public Task<IEnumerable<TEntity>> UpdateListAsync(IEnumerable<TEntity> input)
+        public Task<IEnumerable<TEntity>> UpdateListAsync(IEnumerable<TEntity> input,
+            CancellationToken cancellationToken = default)
         {
             foreach (var item in input)
                 UpdateAsync(item);

@@ -10,6 +10,7 @@ namespace Magenta.Workflow.Context.Flows
         {
             States = new HashSet<FlowState>();
             Instances = new HashSet<FlowInstance>();
+            Transitions = new HashSet<FlowTransition>();
         }
 
         public string Name { get; set; }
@@ -18,5 +19,7 @@ namespace Magenta.Workflow.Context.Flows
         public ICollection<FlowState> States { get; set; }
         [JsonIgnore]
         public ICollection<FlowInstance> Instances { get; set; }
+        [JsonIgnore]
+        public ICollection<FlowTransition> Transitions { get; set; }
     }
 }

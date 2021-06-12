@@ -7,6 +7,7 @@ using Magenta.Workflow.UseCases.Move;
 using Magenta.Workflow.Utilities;
 using System;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic;
 
 namespace Magenta.Workflow.Services.FlowSteps
 {
@@ -21,6 +22,7 @@ namespace Magenta.Workflow.Services.FlowSteps
             var set = StateManager.GetFlowSet<FlowStep>();
             var instanceSet = StateManager.GetFlowSet<FlowInstance>();
             var transitionSet = StateManager.GetFlowSet<FlowTransition>();
+            var stateSet = StateManager.GetFlowSet<FlowState>();
 
             var instance = await instanceSet.GetByIdAsync(model.InstanceId);
             if (instance == null)
@@ -32,6 +34,11 @@ namespace Magenta.Workflow.Services.FlowSteps
                 return FlowResult<FlowStep>
                     .Failed(new FlowError(FlowErrors.ItemNotfound, nameof(transition)));
 
+            var state = await stateSet.GetByIdAsync(transition.DestinationId);
+            if(state == null)
+                return FlowResult<FlowStep>
+                    .Failed(new FlowError(FlowErrors.ItemNotfound, nameof(state)));
+
             var entity = FlowEntity.InitializeType(new FlowStep()
             {
                 InstanceId = instance.Id,
@@ -39,6 +46,9 @@ namespace Magenta.Workflow.Services.FlowSteps
                 TransitionId = transition.Id,
                 Payload = model.Payload,
                 Comment = model.Comment,
+                CurrentStateName = state.Name,
+                CurrentStateTitle = state.Title,
+                CurrentStateType = state.StateType,
             });
 
             var result = await set.CreateAsync(entity);
