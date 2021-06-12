@@ -7,14 +7,14 @@ namespace Magenta.Workflow.Managers.Reports
         public uint? Offset { get; set; }
         public uint? Limit { get; set; }
 
-        internal int? GetOffset()
+        public int? GetOffset()
         {
             if (Offset.HasValue == false) return null;
             var val = Convert.ToInt32(Offset);
             return val;
         }
 
-        internal int? GetLimit()
+        public int? GetLimit()
         {
             if (Limit.HasValue == false) return null;
             var val = Convert.ToInt32(Limit);

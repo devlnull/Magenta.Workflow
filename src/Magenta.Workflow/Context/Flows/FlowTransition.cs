@@ -21,7 +21,7 @@ namespace Magenta.Workflow.Context.Flows
         public Guid? SourceId { get; set; }
         public FlowState Destination { get; set; }
         public Guid DestinationId { get; set; }
-        public FlowType FlowType { get; set; }
+        public FlowType Type { get; set; }
         public Guid TypeId { get; set; }
         public ICollection<FlowStep> Steps { get; set; }
         public ICollection<FlowTransitionReason> Reasons { get; set; }

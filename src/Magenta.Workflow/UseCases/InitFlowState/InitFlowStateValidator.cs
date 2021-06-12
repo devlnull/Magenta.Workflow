@@ -24,7 +24,7 @@ namespace Magenta.Workflow.UseCases.InitFlowState
                 result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, args: nameof(model.TypeId)));
 
             if (await TypeNotExistAsync(stateManager, model.TypeId))
-                result.Errors.Add(new FlowError(FlowErrors.ItemNotfound, args: "FlowType"));
+                result.Errors.Add(new FlowError(FlowErrors.ItemNotfound, args: "Type"));
 
 
             return result;

@@ -1,7 +1,11 @@
-﻿namespace Magenta.Workflow.SqlServer.Configuration
+﻿using System;
+using Microsoft.Extensions.Logging;
+
+namespace Magenta.Workflow.SqlServer.Configuration
 {
-    public static class SqlServerConfigModel
+    public class SqlServerConfigModel
     {
-        public static string ConnectionString { get; set; }
+        public string ConnectionString { get; set; }
+        public ILoggerFactory LoggerFactory { get; set; }
     }
 }

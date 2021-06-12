@@ -1,0 +1,1 @@
+dotnet ef database update --startup-project ../Samples/WebApp/WebApp.csproj --verbose -c WorkflowDbContext
