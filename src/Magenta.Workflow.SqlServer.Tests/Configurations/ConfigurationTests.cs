@@ -1,31 +1,28 @@
 ﻿using Magenta.Workflow.Configuration;
-using Magenta.Workflow.Redis.Configuration;
+using Magenta.Workflow.SqlServer.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Magenta.Workflow.Redis.Tests.Configurations
+namespace Magenta.Workflow.SqlServer.Tests.Configurations
 {
     public class ConfigurationTests
     {
         [Fact]
-        public void ConfigureRedis_WithCorrectAction_MustSetRedisConfigs()
+        public void ConfigureSqlServer_WithCorrectAction_MustSetSqlServerConfigs()
         {
             //Arrange
             var services = new ServiceCollection();
             string connectionString = "testConnectionString";
-            string instanceName = "testInstanceName";
             //Act
             services.WorkflowConfigure(options =>
             {
-                options.UseRedis(services, redisOptions =>
+                options.UseSqlServer(services, sqlServerOptions =>
                 {
-                    redisOptions.ConnectionString = connectionString;
-                    redisOptions.InstanceName = instanceName;
+                    sqlServerOptions.ConnectionString = connectionString;
                 });
             });
             //Assert
-            Assert.Equal(connectionString, RedisConfig.ConfigModel.ConnectionString);
-            Assert.Equal(instanceName, RedisConfig.ConfigModel.InstanceName);
+            Assert.Equal(connectionString, SqlServerConfig.ConfigModel.ConnectionString);
         }
     }
 }

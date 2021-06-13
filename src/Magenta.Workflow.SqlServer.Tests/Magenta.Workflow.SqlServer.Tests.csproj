@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Magenta.Workflow.Redis\Magenta.Workflow.Redis.csproj" />
+    <ProjectReference Include="..\Magenta.Workflow.SqlServer\Magenta.Workflow.SqlServer.csproj" />
     <ProjectReference Include="..\Magenta.Workflow\Magenta.Workflow.csproj" />
   </ItemGroup>
 
