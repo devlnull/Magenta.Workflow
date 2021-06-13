@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{B393
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp", "Samples\WebApp\WebApp.csproj", "{912D2DED-300B-46ED-8D35-57443949B3B9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Magenta.Workflow.SqlServer.Tests", "Magenta.Workflow.SqlServer.Tests\Magenta.Workflow.SqlServer.Tests.csproj", "{475879A5-F8B3-454A-B9CC-41B18ADBE387}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{912D2DED-300B-46ED-8D35-57443949B3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{912D2DED-300B-46ED-8D35-57443949B3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{912D2DED-300B-46ED-8D35-57443949B3B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{475879A5-F8B3-454A-B9CC-41B18ADBE387}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{475879A5-F8B3-454A-B9CC-41B18ADBE387}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{475879A5-F8B3-454A-B9CC-41B18ADBE387}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{475879A5-F8B3-454A-B9CC-41B18ADBE387}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{B9ED545F-30E1-417E-87D3-E936C5B74AA0} = {3533DBA4-36B8-4525-BDB0-801BE3364407}
 		{5ABD8EBA-483B-44D3-9701-F613EF5578DF} = {3762D9F8-C483-428D-9D90-601E608BFB23}
 		{912D2DED-300B-46ED-8D35-57443949B3B9} = {B393B29C-DD2A-4E5C-9176-93B7FFDF80CD}
+		{475879A5-F8B3-454A-B9CC-41B18ADBE387} = {3762D9F8-C483-428D-9D90-601E608BFB23}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {36DA1011-707B-4E30-AFE6-43AE627D42C3}

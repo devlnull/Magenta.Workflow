@@ -27,17 +27,17 @@ namespace Magenta.Workflow.Services.FlowSteps
             var instance = await instanceSet.GetByIdAsync(model.InstanceId);
             if (instance == null)
                 return FlowResult<FlowStep>
-                    .Failed(new FlowError(FlowErrors.ItemNotfound, nameof(instance)));
+                    .Failed(new FlowError(FlowErrors.ItemNotFound, nameof(instance)));
 
             var transition = await transitionSet.GetByIdAsync(model.TransitionId);
             if (transition == null)
                 return FlowResult<FlowStep>
-                    .Failed(new FlowError(FlowErrors.ItemNotfound, nameof(transition)));
+                    .Failed(new FlowError(FlowErrors.ItemNotFound, nameof(transition)));
 
             var state = await stateSet.GetByIdAsync(transition.DestinationId);
             if(state == null)
                 return FlowResult<FlowStep>
-                    .Failed(new FlowError(FlowErrors.ItemNotfound, nameof(state)));
+                    .Failed(new FlowError(FlowErrors.ItemNotFound, nameof(state)));
 
             var entity = FlowEntity.InitializeType(new FlowStep()
             {
@@ -64,7 +64,7 @@ namespace Magenta.Workflow.Services.FlowSteps
             var instance = await instanceSet.GetByIdAsync(instanceId);
             if (instance == null)
                 return FlowResult<FlowStep>
-                    .Failed(new FlowError(FlowErrors.ItemNotfound, nameof(instance)));
+                    .Failed(new FlowError(FlowErrors.ItemNotFound, nameof(instance)));
 
             var currentStep = await set.FirstOrDefaultAsync(x => x.InstanceId.Equals(instanceId) && x.IsCurrent);
             currentStep.IsCurrent = false;

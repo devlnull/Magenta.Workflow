@@ -27,6 +27,7 @@ namespace Magenta.Workflow.Tests.UseCases
             {
                 Name = "Test",
                 Title = "Test Title",
+                Tag = "Test",
                 StateType = FlowStateTypes.Purposed,
                 TypeId = flowType.Id,
             };
@@ -48,6 +49,7 @@ namespace Magenta.Workflow.Tests.UseCases
             {
                 Name = "Test",
                 Title = "Test Title",
+                Tag = "Test",
                 StateType = FlowStateTypes.Purposed,
                 TypeId = Guid.NewGuid(),
             };
@@ -70,6 +72,7 @@ namespace Magenta.Workflow.Tests.UseCases
             {
                 Name = string.Empty,
                 Title = "Test Title",
+                Tag = "Test",
                 StateType = FlowStateTypes.Purposed,
                 TypeId = Guid.NewGuid(),
             };

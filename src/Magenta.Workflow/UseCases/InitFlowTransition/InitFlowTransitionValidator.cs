@@ -16,16 +16,19 @@ namespace Magenta.Workflow.UseCases.InitFlowTransition
             FlowResult result = new FlowResult();
 
             if (model.Name.StringIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, nameof(model.Name)));
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, nameof(model.Name)));
 
             if (model.Title.StringIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, nameof(model.Title)));
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, nameof(model.Title)));
 
             if (await StateNotExistAsync(stateManager, model.SourceId))
-                result.Errors.Add(new FlowError(FlowErrors.ItemNotfound, "Source"));
+                result.Errors.Add(new FlowError(FlowErrors.ItemNotFound, "Source"));
 
             if (await StateNotExistAsync(stateManager, model.DestinationId))
-                result.Errors.Add(new FlowError(FlowErrors.ItemNotfound, "Destination"));
+                result.Errors.Add(new FlowError(FlowErrors.ItemNotFound, "Destination"));
+
+            if (await TypeNotExistAsync(stateManager, model.TypeId))
+                result.Errors.Add(new FlowError(FlowErrors.ItemNotFound, "Type"));
 
             if (await TransitionInPathAlreadyExistAsync(stateManager, model.SourceId, model.DestinationId))
                 result.Warns.Add(new FlowWarn(FlowMessages.TransitionInpathexist));
@@ -33,10 +36,17 @@ namespace Magenta.Workflow.UseCases.InitFlowTransition
             return result;
         }
 
-        private async Task<bool> StateNotExistAsync(IStateManager stateManager, Guid stateGuidRow)
+        private async Task<bool> StateNotExistAsync(IStateManager stateManager, Guid stateId)
         {
-            var transitionSet = stateManager.GetFlowSet<FlowState>();
-            var item = await transitionSet.GetByIdAsync(stateGuidRow);
+            var stateSet = stateManager.GetFlowSet<FlowState>();
+            var item = await stateSet.GetByIdAsync(stateId);
+            return item == null;
+        }
+
+        private async Task<bool> TypeNotExistAsync(IStateManager stateManager, Guid typeId)
+        {
+            var typeSet = stateManager.GetFlowSet<FlowType>();
+            var item = await typeSet.GetByIdAsync(typeId);
             return item == null;
         }
 

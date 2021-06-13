@@ -23,12 +23,12 @@ namespace Magenta.Workflow.Services.FlowTransitions
             var source = await stateSet.GetByIdAsync(model.SourceId);
             if (source == null)
                 return FlowResult<FlowTransition>
-                    .Failed(new FlowError(FlowErrors.ItemNotfound, nameof(source)));
+                    .Failed(new FlowError(FlowErrors.ItemNotFound, nameof(source)));
 
             var destination = await stateSet.GetByIdAsync(model.DestinationId);
             if (destination == null)
                 return FlowResult<FlowTransition>
-                    .Failed(new FlowError(FlowErrors.ItemNotfound, nameof(destination)));
+                    .Failed(new FlowError(FlowErrors.ItemNotFound, nameof(destination)));
 
             var entity = FlowEntity.InitializeType(new FlowTransition()
             {

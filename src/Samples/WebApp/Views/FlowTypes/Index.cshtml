@@ -1,0 +1,42 @@
+﻿@model IEnumerable<FlowType>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Flow Types</h2>
+        <div class="row">
+            <div class="col-md-12">
+                <a asp-action="Create" class="btn btn-primary">Create a FlowType</a>
+            </div>
+        </div>
+        <br />
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">CreatedAt</th>
+                    <th scope="col">ModifiedAt</th>
+                    <th scope="col">Deleted</th>
+                    <th scope="col">EntityType</th>
+                    <th scope="col">EntityPayloadType</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.CreatedAt</td>
+                        <td>@item.ModifiedAt</td>
+                        <td>@item.Deleted</td>
+                        <td>@item.EntityType</td>
+                        <td>@item.EntityPayloadType</td>
+                        <td><a asp-action="Index" asp-controller="FlowStates" asp-route-flowTypeId="@item.Id" class="btn btn-info">States</a></td>
+                        <td><a asp-action="Index" asp-controller="FlowInstances" asp-route-flowTypeId="@item.Id" class="btn btn-info">Instances</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

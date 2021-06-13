@@ -21,7 +21,7 @@ namespace Magenta.Workflow.Managers.Reports
                 {
                     Logger.LogWarning("instance not exist.");
                     return FlowResult<FlowInstance>.Failed(
-                        new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowInstance)));
+                        new FlowError(FlowErrors.ItemNotFound, args: nameof(FlowInstance)));
                 }
                 var result = new FlowResult<FlowInstance>();
                 if (instance.Active == false)
@@ -52,7 +52,7 @@ namespace Magenta.Workflow.Managers.Reports
                 {
                     Logger.LogWarning("instance not exist.");
                     return FlowResult<FlowInstance>.Failed(
-                        new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowInstance)));
+                        new FlowError(FlowErrors.ItemNotFound, args: nameof(FlowInstance)));
                 }
                 var result = new FlowResult<FlowInstance>();
                 if (instance.Active == false)

@@ -20,8 +20,8 @@ namespace Magenta.Workflow.Services.FlowTypes
             var set = StateManager.GetFlowSet<FlowType>();
             var entity = FlowEntity.InitializeType(new FlowType()
             {
-                EntityType = initModel.EntityType.Name,
-                EntityPayloadType = initModel.EntityPayloadType.Name,
+                EntityType = initModel.EntityType.FullName,
+                EntityPayloadType = initModel.EntityPayloadType.FullName,
                 Name = initModel.Name,
             });
             var resultTask = await set.CreateAsync(entity);

@@ -4,12 +4,12 @@
     {
         #region General
 
-        public const string ItemNotfound = "{0} not found.";
-        public const string ServiceIsnull = "{0} is null.";
-        public const string ServiceIsrequired = "{0} must have a value.";
-        public const string ServiceIsempty = "{0} is empty.";
-        public const string ServiceNotresolved = "service with name {0} could not be resolved.";
-        public const string ErrorOccured = "an error happended, to resolve the problem check the logs.";
+        public const string ItemNotFound = "{0} not found.";
+        public const string ServiceIsNull = "{0} is null.";
+        public const string ServiceIsRequired = "{0} must have a value.";
+        public const string ServiceIsEmpty = "{0} is empty.";
+        public const string ServiceNotResolved = "service with name {0} could not be resolved.";
+        public const string ErrorOccurred = "an error happended, to resolve the problem check the logs.";
 
         #endregion General
 

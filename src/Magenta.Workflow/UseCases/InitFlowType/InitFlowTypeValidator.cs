@@ -14,16 +14,16 @@ namespace Magenta.Workflow.UseCases.InitFlowType
             FlowResult result = new FlowResult();
 
             if (string.IsNullOrWhiteSpace(model.Name))
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, args: nameof(model.Name)));
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(model.Name)));
 
             if (model.EntityPayloadType == null)
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, args: nameof(model.EntityPayloadType)));
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(model.EntityPayloadType)));
 
             if (model.EntityType == null)
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, args: nameof(model.EntityType)));
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(model.EntityType)));
 
             if (await DuplicateNameExistAsync(stateManager, model))
-                result.Errors.Add(new FlowError(FlowMessages.ItemAlreadyexist, args: "Type"));
+                result.Errors.Add(new FlowError(FlowMessages.ItemAlreadyexist, args: "Name"));
 
             return result;
         }

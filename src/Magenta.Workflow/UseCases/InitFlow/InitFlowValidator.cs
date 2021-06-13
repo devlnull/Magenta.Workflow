@@ -13,13 +13,13 @@ namespace Magenta.Workflow.UseCases.InitFlow
             FlowResult result = new FlowResult();
 
             if (model.Title.StringIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, args: nameof(model.Title)));
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(model.Title)));
 
             if (model.InitializerId.StringIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, args: nameof(model.InitializerId)));
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(model.InitializerId)));
 
             if (model.AccessPhrase.StringIsEmpty())
-                result.Warns.Add(new FlowWarn(FlowErrors.ServiceIsempty, args: nameof(model.AccessPhrase)));
+                result.Warns.Add(new FlowWarn(FlowErrors.ServiceIsEmpty, args: nameof(model.AccessPhrase)));
 
             if (model.Payload.StringIsEmpty())
                 result.Warns.Add(new FlowWarn(FlowMessages.ItemAlreadyexist, args: nameof(model.Payload)));
