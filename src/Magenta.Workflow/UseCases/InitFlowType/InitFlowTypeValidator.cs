@@ -23,7 +23,7 @@ namespace Magenta.Workflow.UseCases.InitFlowType
                 result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, args: nameof(model.EntityType)));
 
             if (await DuplicateNameExistAsync(stateManager, model))
-                result.Errors.Add(new FlowError(FlowMessages.ItemAlreadyexist, args: "Type"));
+                result.Errors.Add(new FlowError(FlowMessages.ItemAlreadyexist, args: "Name"));
 
             return result;
         }

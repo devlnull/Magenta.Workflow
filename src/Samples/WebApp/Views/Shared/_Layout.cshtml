@@ -22,7 +22,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="FlowTypes" asp-action="Index">FlowType</a>
                         </li>
                     </ul>
                 </div>
@@ -31,11 +31,33 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @if (@TempData["message"] != null)
+            @if (@TempData["warning"] != null)
             {
-                <div class="alert alert-info">
-                    <p>@TempData["message"]</p>
+                foreach (var item in TempData["warning"] as IEnumerable<FlowWarn>)
+                {
+                    <div class="alert alert-warning">
+                        <p>@item.Message</p>
+                    </div>
+                }
+            }
+            else if (@TempData["error"] != null)
+            {
+                foreach (var item in TempData["error"] as IEnumerable<FlowError>)
+                {
+                    <div class="alert alert-danger">
+                        <p>@item.Message</p>
+                    </div>
+                }
+            }
+            else if(TempData["success"] != null)
+            {
+                bool success = (bool)TempData["success"];
+                if (success)
+                {
+                <div class="alert alert-success">
+                    <p>Operation was successfull.</p>
                 </div>
+                }
             }
 
             @RenderBody()
