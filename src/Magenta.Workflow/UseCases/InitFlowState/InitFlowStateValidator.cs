@@ -33,10 +33,10 @@ namespace Magenta.Workflow.UseCases.InitFlowState
             return result;
         }
 
-        private async Task<bool> TypeNotExistAsync(IStateManager stateManager, Guid typeGuidRow)
+        private async Task<bool> TypeNotExistAsync(IStateManager stateManager, Guid typeId)
         {
             var typeSet = stateManager.GetFlowSet<FlowType>();
-            var item = await typeSet.GetByIdAsync(typeGuidRow);
+            var item = await typeSet.GetByIdAsync(typeId);
             return item == null;
         }
     }

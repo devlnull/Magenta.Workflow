@@ -1,0 +1,33 @@
+﻿@model Magenta.Workflow.UseCases.InitFlowTransition.InitFlowTransitionModel
+@{
+    var states = ViewBag.States as IEnumerable<FlowState>;
+    var selectListItems = states.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
+}
+
+
+<div class="row">
+    <form action="Create" method="post">
+        <div class="form-group">
+            <label class="col-form-label">Name</label>
+            <input name="Name" id="Name" type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Title</label>
+            <input name="Title" id="Title" type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Transition Type</label>
+            <select asp-for="TransitionType" asp-items="Html.GetEnumSelectList<Magenta.Workflow.Context.Structures.FlowTransitionTypes>()">
+                <option selected="selected" value="">Please select</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Destination</label>
+            @Html.DropDownListFor(x => x.DestinationId, selectListItems, "Please select ...")
+        </div>
+        <input type="hidden" name="TypeId" id="TypeId" value="@Model.TypeId" />
+        <input type="hidden" name="SourceId" id="SourceId" value="@Model.SourceId" />
+        <button type="submit" class="form-control btn btn-primary"> Submit </button>
+        <a asp-action="Index" asp-controller="FlowTransitions" asp-route-flowStateId="@Model.SourceId" class="btn btn-link">Cancel</a>
+    </form>
+</div>

@@ -22,6 +22,7 @@ namespace Magenta.Workflow.Tests.UseCases
             //Arrange
             var stateManager = new MockState().MockStateManager();
             var flowManager = new ManagerFactory().GetFlowManager(stateManager);
+            var flowType = MockData.GetFlowTypes()[0];
             var approve1State = MockData.GetFlowStates()
                 .ToList().FirstOrDefault(x => x.Name == "Approve1");
             var activeState = MockData.GetFlowStates()
@@ -34,6 +35,7 @@ namespace Magenta.Workflow.Tests.UseCases
                 SourceId = approve1State.Id,
                 DestinationId = activeState.Id,
                 TransitionType = FlowTransitionTypes.Reject,
+                TypeId = flowType.Id
             };
             //Act
             var act = await flowManager.InitFlowTransitionAsync(initModel);
@@ -49,6 +51,7 @@ namespace Magenta.Workflow.Tests.UseCases
             //Arrange
             var stateManager = new MockState().MockStateManager();
             var flowManager = new ManagerFactory().GetFlowManager(stateManager);
+            var flowType = MockData.GetFlowTypes()[0];
             var reviewState = MockData.GetFlowStates()
                 .ToList().FirstOrDefault(x => x.Name == "Review");
             var closeState = MockData.GetFlowStates()
@@ -61,6 +64,7 @@ namespace Magenta.Workflow.Tests.UseCases
                 SourceId = reviewState.Id,
                 DestinationId = closeState.Id,
                 TransitionType = FlowTransitionTypes.Reject,
+                TypeId = flowType.Id
             };
             //Act
             var act = await flowManager.InitFlowTransitionAsync(initModel);

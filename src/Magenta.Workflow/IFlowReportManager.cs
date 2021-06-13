@@ -14,8 +14,14 @@ namespace Magenta.Workflow
         /// <summary>
         /// Get instance current transitions based on current instance state
         /// </summary>
-        /// <returns>all possible transitions</returns>
+        /// <returns>list of transactions</returns>
         Task<FlowResult<IEnumerable<FlowTransition>>> GetInstanceTransitionsAsync(Guid instanceId);
+
+        /// <summary>
+        /// Get list of source transactions, it return all possible transactions that a source has
+        /// </summary>
+        /// <returns>list of transactions</returns>
+        Task<FlowResult<IEnumerable<FlowTransition>>> GetSourceTransitionsAsync(Guid sourceId);
         #endregion Transitions
 
         #region Steps

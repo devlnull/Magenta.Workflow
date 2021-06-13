@@ -27,16 +27,26 @@ namespace Magenta.Workflow.UseCases.InitFlowTransition
             if (await StateNotExistAsync(stateManager, model.DestinationId))
                 result.Errors.Add(new FlowError(FlowErrors.ItemNotFound, "Destination"));
 
+            if (await TypeNotExistAsync(stateManager, model.TypeId))
+                result.Errors.Add(new FlowError(FlowErrors.ItemNotFound, "Type"));
+
             if (await TransitionInPathAlreadyExistAsync(stateManager, model.SourceId, model.DestinationId))
                 result.Warns.Add(new FlowWarn(FlowMessages.TransitionInpathexist));
 
             return result;
         }
 
-        private async Task<bool> StateNotExistAsync(IStateManager stateManager, Guid stateGuidRow)
+        private async Task<bool> StateNotExistAsync(IStateManager stateManager, Guid stateId)
         {
-            var transitionSet = stateManager.GetFlowSet<FlowState>();
-            var item = await transitionSet.GetByIdAsync(stateGuidRow);
+            var stateSet = stateManager.GetFlowSet<FlowState>();
+            var item = await stateSet.GetByIdAsync(stateId);
+            return item == null;
+        }
+
+        private async Task<bool> TypeNotExistAsync(IStateManager stateManager, Guid typeId)
+        {
+            var typeSet = stateManager.GetFlowSet<FlowType>();
+            var item = await typeSet.GetByIdAsync(typeId);
             return item == null;
         }
 

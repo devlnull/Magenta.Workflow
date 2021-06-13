@@ -4,7 +4,7 @@ namespace Magenta.Workflow.Managers.Reports
 {
     public class FlowListOptions
     {
-        public Guid? InstanceGuidRow { get; set; }
+        public Guid? InstanceId { get; set; }
         public string Payload { get; set; }
         public string StateTag { get; set; }
         public string PreviousStateTag { get; set; }
