@@ -39,7 +39,7 @@ namespace Magenta.Workflow.UseCases.InitFlow
 
             if (startTransition == null)
                 return FlowResult<FlowInstance>
-                    .Failed(new FlowError(FlowErrors.ItemNotfound, "Start transition"));
+                    .Failed(new FlowError(FlowErrors.ItemNotFound, "Start transition"));
 
             var stepResult = await StepService.CreateFlowStepAsync(new MoveModel()
             {

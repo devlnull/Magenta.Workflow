@@ -38,7 +38,7 @@ namespace Magenta.Workflow.Managers.Reports
                 {
                     Logger.LogWarning("type not exist.");
                     return FlowResult<FlowType>.Failed(
-                        new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowType)));
+                        new FlowError(FlowErrors.ItemNotFound, args: nameof(FlowType)));
                 }
                 var result = new FlowResult<FlowType>();
                 result.SetResult(flowType);
@@ -83,7 +83,7 @@ namespace Magenta.Workflow.Managers.Reports
                 {
                     Logger.LogWarning("type not exist.");
                     return FlowResult<FlowType>.Failed(
-                        new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowType)));
+                        new FlowError(FlowErrors.ItemNotFound, args: nameof(FlowType)));
                 }
                 var result = new FlowResult<FlowType>();
                 result.SetResult(flowType);

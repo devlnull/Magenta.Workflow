@@ -1,11 +1,11 @@
-﻿@model IEnumerable<FlowType>
+﻿@model IEnumerable<FlowState>
 
 <div class="row">
     <div class="col-md-12">
-        <h2>Flow Types</h2>
+        <h2>Flow States</h2>
         <div class="row">
             <div class="col-md-12">
-                <a asp-action="Create" class="btn btn-primary">Create a FlowType</a>
+                <a asp-action="Create" asp-route-flowTypeId="@Context.Request.Query["flowTypeId"]" class="btn btn-primary">Create a new state</a>
             </div>
         </div>
         <br />
@@ -14,26 +14,26 @@
             <thead>
                 <tr>
                     <th scope="col">Name</th>
+                    <th scope="col">Title</th>
                     <th scope="col">CreatedAt</th>
                     <th scope="col">ModifiedAt</th>
                     <th scope="col">Deleted</th>
-                    <th scope="col">EntityType</th>
-                    <th scope="col">EntityPayloadType</th>
-                    <th scope="col"></th>
+                    <th scope="col">Tag</th>
+                    <th scope="col">StateType</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
+                    var stateType = (Magenta.Workflow.Context.Structures.FlowStateTypes)item.StateType;
                     <tr>
                         <td>@item.Name</td>
+                        <td>@item.Title</td>
                         <td>@item.CreatedAt</td>
                         <td>@item.ModifiedAt</td>
                         <td>@item.Deleted</td>
-                        <td>@item.EntityType</td>
-                        <td>@item.EntityPayloadType</td>
-                        <td><a asp-action="Index" asp-controller="FlowStates" asp-route-flowTypeId="@item.Id" class="btn btn-info">States</a></td>
-                        <td><a asp-action="Index" asp-controller="FlowInstances" asp-route-flowTypeId="@item.Id" class="btn btn-info">Instances</a></td>
+                        <td>@item.Tag</td>
+                        <td>@stateType.ToString()</td>
                     </tr>
                 }
             </tbody>

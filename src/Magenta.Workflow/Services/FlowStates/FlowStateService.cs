@@ -23,7 +23,7 @@ namespace Magenta.Workflow.Services.FlowStates
             var type = await typeSet.GetByIdAsync(model.TypeId);
             if (type == null)
                 return FlowResult<FlowState>
-                    .Failed(new FlowError(FlowErrors.ItemNotfound, nameof(type)));
+                    .Failed(new FlowError(FlowErrors.ItemNotFound, nameof(type)));
 
             var entity = FlowEntity.InitializeType(new FlowState()
             {
@@ -31,6 +31,7 @@ namespace Magenta.Workflow.Services.FlowStates
                 Title = model.Title,
                 StateType = (byte)model.StateType,
                 TypeId = type.Id,
+                Tag = model.Tag,
             });
 
             var result = await set.CreateAsync(entity);

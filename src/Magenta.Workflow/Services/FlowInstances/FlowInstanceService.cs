@@ -24,7 +24,7 @@ namespace Magenta.Workflow.Services.FlowInstances
             var type = await typeSet.GetByIdAsync(model.TypeId);
             if (type == null)
                 return FlowResult<FlowInstance>
-                    .Failed(new FlowError(FlowErrors.ItemNotfound, nameof(type)));
+                    .Failed(new FlowError(FlowErrors.ItemNotFound, nameof(type)));
 
             var entity = FlowEntity.InitializeType(new FlowInstance()
             {

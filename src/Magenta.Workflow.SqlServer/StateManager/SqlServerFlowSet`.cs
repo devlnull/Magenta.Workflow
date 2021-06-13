@@ -138,7 +138,8 @@ namespace Magenta.Workflow.SqlServer.StateManager
 
         public async Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var item = await _set.FindAsync(id, cancellationToken);
+            var item = await _set
+                .FirstOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
             return item;
         }
 

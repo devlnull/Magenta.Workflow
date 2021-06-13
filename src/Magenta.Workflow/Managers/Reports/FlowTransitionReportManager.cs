@@ -21,7 +21,7 @@ namespace Magenta.Workflow.Managers.Reports
             var targetInstance = await instanceSet.FirstOrDefaultAsync(x => x.Id.Equals(instanceId));
             if (targetInstance == null)
                 return FlowResult<IEnumerable<FlowTransition>>
-                    .Failed(new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowInstance)));
+                    .Failed(new FlowError(FlowErrors.ItemNotFound, args: nameof(FlowInstance)));
 
             //Get current instance state
             var stepSet = StateManager.GetFlowSet<FlowStep>();

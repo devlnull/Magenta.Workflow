@@ -16,16 +16,16 @@ namespace Magenta.Workflow.UseCases.InitFlowTransition
             FlowResult result = new FlowResult();
 
             if (model.Name.StringIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, nameof(model.Name)));
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, nameof(model.Name)));
 
             if (model.Title.StringIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsrequired, nameof(model.Title)));
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, nameof(model.Title)));
 
             if (await StateNotExistAsync(stateManager, model.SourceId))
-                result.Errors.Add(new FlowError(FlowErrors.ItemNotfound, "Source"));
+                result.Errors.Add(new FlowError(FlowErrors.ItemNotFound, "Source"));
 
             if (await StateNotExistAsync(stateManager, model.DestinationId))
-                result.Errors.Add(new FlowError(FlowErrors.ItemNotfound, "Destination"));
+                result.Errors.Add(new FlowError(FlowErrors.ItemNotFound, "Destination"));
 
             if (await TransitionInPathAlreadyExistAsync(stateManager, model.SourceId, model.DestinationId))
                 result.Warns.Add(new FlowWarn(FlowMessages.TransitionInpathexist));

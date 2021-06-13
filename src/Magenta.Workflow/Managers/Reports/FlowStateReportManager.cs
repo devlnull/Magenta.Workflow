@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Magenta.Workflow.Context.Flows;
@@ -21,7 +23,7 @@ namespace Magenta.Workflow.Managers.Reports
                 {
                     Logger.LogWarning("state not exist.");
                     return FlowResult<FlowState>.Failed(
-                        new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowState)));
+                        new FlowError(FlowErrors.ItemNotFound, args: nameof(FlowState)));
                 }
                 var result = new FlowResult<FlowState>();
                 result.SetResult(state);
@@ -47,7 +49,7 @@ namespace Magenta.Workflow.Managers.Reports
                 {
                     Logger.LogWarning("state not exist.");
                     return FlowResult<FlowState>.Failed(
-                        new FlowError(FlowErrors.ItemNotfound, args: nameof(FlowState)));
+                        new FlowError(FlowErrors.ItemNotFound, args: nameof(FlowState)));
                 }
                 var result = new FlowResult<FlowState>();
                 result.SetResult(state);
@@ -58,6 +60,28 @@ namespace Magenta.Workflow.Managers.Reports
             {
                 Logger.LogError(ex.Message);
                 return FlowResult<FlowState>.Failed(new FlowError(ex.Message));
+            }
+        }
+
+        public async Task<FlowResult<IEnumerable<FlowState>>> GetStatesByTypeIdAsync(Guid flowTypeId)
+        {
+            try
+            {
+                Logger.LogInfo($"try to get states of a flow type by id '{flowTypeId}'.");
+                var stateSet = StateManager.GetFlowSet<FlowState>();
+                var query = stateSet.GetAll()
+                    .Where(x => x.TypeId == flowTypeId);
+
+                var states = await stateSet.ToListAsync(query);
+                var result = new FlowResult<IEnumerable<FlowState>>();
+                result.SetResult(states);
+                Logger.LogInfo($"list of flow states of flow type with id '{flowTypeId}' has been fetched.");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                return FlowResult<IEnumerable<FlowState>>.Failed(new FlowError(ex.Message));
             }
         }
 

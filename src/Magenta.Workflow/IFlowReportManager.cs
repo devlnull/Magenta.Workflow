@@ -59,6 +59,12 @@ namespace Magenta.Workflow
         Task<FlowResult<FlowState>> GetStateAsync(
             Expression<Func<FlowState, bool>> expression);
 
+        /// <summary>
+        /// Get list of flow states by flow type id
+        /// </summary>
+        /// <returns>list of flow states</returns>
+        Task<FlowResult<IEnumerable<FlowState>>> GetStatesByTypeIdAsync(Guid flowTypeId);
+
         #endregion State Reports
 
         #region Identity Reports

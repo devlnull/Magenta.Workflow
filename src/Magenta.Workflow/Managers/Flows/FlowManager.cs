@@ -46,7 +46,7 @@ namespace Magenta.Workflow.Managers.Flows
             {
                 Logger.LogInfo(FlowLogs.RequestStarted, args: model.GetType().Name);
                 if (request == null)
-                    throw new FlowException(FlowErrors.ServiceIsnull, nameof(request));
+                    throw new FlowException(FlowErrors.ServiceIsNull, nameof(request));
 
                 var validator = ObjectActivator.GetValidator<TModel>();
 
@@ -72,7 +72,7 @@ namespace Magenta.Workflow.Managers.Flows
             catch (Exception ex)
             {
                 Logger.LogError(FlowLogs.ExceptionOccured, ex.Message);
-                return FlowResult<TResultModel>.Failed(new FlowError(FlowErrors.ErrorOccured));
+                return FlowResult<TResultModel>.Failed(new FlowError(FlowErrors.ErrorOccurred));
             }
         }
 
