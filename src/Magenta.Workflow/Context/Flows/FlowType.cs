@@ -14,8 +14,6 @@ namespace Magenta.Workflow.Context.Flows
         }
 
         public string Name { get; set; }
-        public string EntityType { get; set; }
-        public string EntityPayloadType { get; set; }
         public ICollection<FlowState> States { get; set; }
         [JsonIgnore]
         public ICollection<FlowInstance> Instances { get; set; }

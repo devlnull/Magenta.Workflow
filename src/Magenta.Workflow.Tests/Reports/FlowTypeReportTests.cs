@@ -134,50 +134,5 @@ namespace Magenta.Workflow.Tests.Reports
             Assert.Contains(act.Result.Items, x => x.States.Any());
             Assert.Equal(targetTypes.Length, act.Result.Count);
         }
-
-        [Fact]
-        public async Task GetFlowTypesByEntityType_WithMockEntityType_MustReturnBindType()
-        {
-            //Arrange
-            var stateManager = new MockState().MockStateManager();
-            var reportManager = new ManagerFactory().GetFlowReportManager(stateManager);
-            var targetTypes = MockData.GetFlowTypes()
-                .Where(x => x.EntityType.Equals(typeof(MockState).FullName))
-                .ToArray();
-            //Act
-            var act = await reportManager.GetTypesByEntityAsync(typeof(MockState));
-            //Assert
-            LogTestInfo(result: act);
-            Assert.True(act.Succeeded);
-            Assert.NotNull(act.Result);
-            Assert.Contains(act.Result, x => x.States.Any());
-            Assert.Equal(targetTypes.Length, act.Result.Count());
-        }
-
-        [Fact]
-        public async Task GetPagedFlowTypesByEntityType_WithMockEntityType_MustReturnBindType()
-        {
-            //Arrange
-            var stateManager = new MockState().MockStateManager();
-            var reportManager = new ManagerFactory().GetFlowReportManager(stateManager);
-            var targetTypes = MockData.GetFlowTypes()
-                .Where(x=>x.EntityType.Equals(typeof(MockState).FullName))
-                .ToArray();
-            //Act
-
-            var act = await reportManager.GetPagedTypesByEntityAsync(
-                typeof(MockState),
-                new PageOptions()
-                {
-                    Limit = 10,
-                    Offset = 0
-                });
-            //Assert
-            LogTestInfo(result: act);
-            Assert.True(act.Succeeded);
-            Assert.NotNull(act.Result);
-            Assert.Contains(act.Result.Items, x => x.States.Any());
-            Assert.Equal(targetTypes.Length, act.Result.Count);
-        }
     }
 }

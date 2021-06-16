@@ -23,8 +23,6 @@ namespace Magenta.Workflow.Tests.UseCases
             var initModel = new InitFlowTypeModel()
             {
                 Name = "Test",
-                EntityPayloadType = typeof(FlowTypeInitializersTests),
-                EntityType = typeof(FlowTypeInitializersTests),
             };
             //Act
 
@@ -44,8 +42,6 @@ namespace Magenta.Workflow.Tests.UseCases
             var initModel = new InitFlowTypeModel()
             {
                 Name = existType.Name,
-                EntityPayloadType = typeof(FlowTypeInitializersTests),
-                EntityType = typeof(FlowTypeInitializersTests),
             };
             //Act
 
@@ -64,8 +60,6 @@ namespace Magenta.Workflow.Tests.UseCases
             var initModel = new InitFlowTypeModel()
             {
                 Name = null,
-                EntityPayloadType = null,
-                EntityType = null,
             };
             //Act
 

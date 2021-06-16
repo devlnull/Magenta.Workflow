@@ -32,8 +32,6 @@ namespace WebApp.Controllers
             var flowTypeModel = new InitFlowTypeModel()
             {
                 Name = flowTypeTextModel.Name,
-                EntityPayloadType = Type.GetType(flowTypeTextModel.EntityPayloadType),
-                EntityType = Type.GetType(flowTypeTextModel.EntityType),
             };
             var result = await FlowManager.InitFlowTypeAsync(flowTypeModel);
             

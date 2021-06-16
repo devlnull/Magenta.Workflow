@@ -103,19 +103,6 @@ namespace Magenta.Workflow
         /// <returns>paged list of flow types</returns>
         Task<FlowResult<PagedList<FlowType>>> GetPagedTypesAsync(PageOptions pageOptions);
 
-        /// <summary>
-        /// Get list of all flow types by entity type
-        /// </summary>
-        /// <returns>list of flow types</returns>
-        Task<FlowResult<IEnumerable<FlowType>>> GetTypesByEntityAsync(Type entityType);
-
-        /// <summary>
-        /// Get paged list of all flow types by entity type
-        /// </summary>
-        /// <returns>paged list of flow types</returns>
-        Task<FlowResult<PagedList<FlowType>>> GetPagedTypesByEntityAsync(Type entityType,
-            PageOptions pageOptions);
-
         #endregion Type Reports
 
         #region Overview Reports

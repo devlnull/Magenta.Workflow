@@ -25,8 +25,6 @@ namespace Magenta.Workflow.Managers.Reports
                             {
                                 CreatedAt = type.CreatedAt,
                                 Deleted = type.Deleted,
-                                EntityPayloadType = type.EntityPayloadType,
-                                EntityType = type.EntityType,
                                 Id = type.Id,
                                 ModifiedAt = type.ModifiedAt,
                                 Name = type.Name,
@@ -67,8 +65,6 @@ namespace Magenta.Workflow.Managers.Reports
                             {
                                 CreatedAt = type.CreatedAt,
                                 Deleted = type.Deleted,
-                                EntityPayloadType = type.EntityPayloadType,
-                                EntityType = type.EntityType,
                                 Id = type.Id,
                                 ModifiedAt = type.ModifiedAt,
                                 Name = type.Name,
@@ -111,8 +107,6 @@ namespace Magenta.Workflow.Managers.Reports
                             {
                                 CreatedAt = type.CreatedAt,
                                 Deleted = type.Deleted,
-                                EntityPayloadType = type.EntityPayloadType,
-                                EntityType = type.EntityType,
                                 Id = type.Id,
                                 ModifiedAt = type.ModifiedAt,
                                 Name = type.Name,
@@ -146,86 +140,12 @@ namespace Magenta.Workflow.Managers.Reports
                             {
                                 CreatedAt = type.CreatedAt,
                                 Deleted = type.Deleted,
-                                EntityPayloadType = type.EntityPayloadType,
-                                EntityType = type.EntityType,
                                 Id = type.Id,
                                 ModifiedAt = type.ModifiedAt,
                                 Name = type.Name,
                                 States = states.ToList()
                             };
                 var pagedList = await typeSet.ToPagedListAsync(query, pageOptions);
-                var result = new FlowResult<PagedList<FlowType>>();
-                result.SetResult(pagedList);
-                Logger.LogInfo($"paged list of types with count '{pagedList.Count}' fetched.");
-                return result;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex.Message);
-                return FlowResult<PagedList<FlowType>>.Failed(new FlowError(ex.Message));
-            }
-        }
-
-        public async Task<FlowResult<IEnumerable<FlowType>>> GetTypesByEntityAsync(Type entityType)
-        {
-            try
-            {
-                Logger.LogInfo($"try to get list of types by entity '{entityType.FullName}'.");
-                var typeSet = StateManager.GetFlowSet<FlowType>();
-                var stateSet = StateManager.GetFlowSet<FlowState>();
-                var query = from type in typeSet.GetAll()
-                            let states = stateSet.GetAll().Where(x => x.TypeId == type.Id)
-                            where type.EntityType.Equals(entityType.FullName)
-                            select new FlowType()
-                            {
-                                CreatedAt = type.CreatedAt,
-                                Deleted = type.Deleted,
-                                EntityPayloadType = type.EntityPayloadType,
-                                EntityType = type.EntityType,
-                                Id = type.Id,
-                                ModifiedAt = type.ModifiedAt,
-                                Name = type.Name,
-                                States = states.ToList()
-                            };
-                var types = await typeSet.ToListAsync(query);
-
-                var result = new FlowResult<IEnumerable<FlowType>>();
-                result.SetResult(types);
-                Logger.LogInfo($"list of types by entity '{entityType.FullName}'" +
-                               $" with count '{types.Count()}' fetched.");
-                return result;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex.Message);
-                return FlowResult<IEnumerable<FlowType>>.Failed(new FlowError(ex.Message));
-            }
-        }
-
-        public async Task<FlowResult<PagedList<FlowType>>> GetPagedTypesByEntityAsync(Type entityType,
-            PageOptions pageOptions)
-        {
-            try
-            {
-                Logger.LogInfo("try to get paged list of types.");
-                var typeSet = StateManager.GetFlowSet<FlowType>();
-                var stateSet = StateManager.GetFlowSet<FlowState>();
-                var query = from type in typeSet.GetAll()
-                            let states = stateSet.GetAll().Where(x => x.TypeId == type.Id)
-                            where type.EntityType.Equals(entityType.FullName)
-                            select new FlowType()
-                            {
-                                CreatedAt = type.CreatedAt,
-                                Deleted = type.Deleted,
-                                EntityPayloadType = type.EntityPayloadType,
-                                EntityType = type.EntityType,
-                                Id = type.Id,
-                                ModifiedAt = type.ModifiedAt,
-                                Name = type.Name,
-                                States = states.ToList()
-                            };
-                var pagedList = await typeSet.ToPagedListAsync(query, pageOptions);
-
                 var result = new FlowResult<PagedList<FlowType>>();
                 result.SetResult(pagedList);
                 Logger.LogInfo($"paged list of types with count '{pagedList.Count}' fetched.");
