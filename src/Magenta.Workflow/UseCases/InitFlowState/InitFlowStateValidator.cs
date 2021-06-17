@@ -8,25 +8,25 @@ using Magenta.Workflow.Utilities;
 
 namespace Magenta.Workflow.UseCases.InitFlowState
 {
-    public class InitFlowStateValidator : IFlowValidator<InitFlowStateModel>
+    public class InitFlowStateValidator : IFlowValidator<InitFlowStateRequest>
     {
-        public async Task<FlowResult> ValidateAsync(IStateManager stateManager, InitFlowStateModel model)
+        public async Task<FlowResult> ValidateAsync(IStateManager stateManager, InitFlowStateRequest request)
         {
             FlowResult result = new FlowResult();
 
-            if (model.Name.StringIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(model.Name)));
+            if (request.Name.StringIsEmpty())
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(request.Name)));
 
-            if (model.Title.StringIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(model.Title)));
+            if (request.Title.StringIsEmpty())
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(request.Title)));
 
-            if (model.Tag.StringIsEmpty())
-                result.Warns.Add(new FlowWarn(FlowErrors.ServiceIsEmpty, args: nameof(model.Tag)));
+            if (request.Tag.StringIsEmpty())
+                result.Warns.Add(new FlowWarn(FlowErrors.ServiceIsEmpty, args: nameof(request.Tag)));
 
-            if (model.TypeId.GuidIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(model.TypeId)));
+            if (request.TypeId.GuidIsEmpty())
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(request.TypeId)));
 
-            if (await TypeNotExistAsync(stateManager, model.TypeId))
+            if (await TypeNotExistAsync(stateManager, request.TypeId))
                 result.Errors.Add(new FlowError(FlowErrors.ItemNotFound, args: "Type"));
 
 

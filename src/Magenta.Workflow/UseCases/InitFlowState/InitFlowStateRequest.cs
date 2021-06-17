@@ -1,23 +1,14 @@
 ﻿using System;
-using System.Threading.Tasks;
-using Magenta.Workflow.Context.Flows;
-using Magenta.Workflow.Core.Tasks;
-using Magenta.Workflow.Services.FlowStates;
+using Magenta.Workflow.Context.Structures;
 
 namespace Magenta.Workflow.UseCases.InitFlowState
 {
-    public class InitFlowStateRequest : IFlowRequest<InitFlowStateModel, FlowState>
+    public class InitFlowStateRequest
     {
-        public FlowStateService StateService { get; }
-
-        public InitFlowStateRequest(FlowStateService stateService)
-        {
-            StateService = stateService ?? throw new ArgumentNullException(nameof(stateService));
-        }
-
-        public Task<FlowResult<FlowState>> DoAsync(InitFlowStateModel model)
-        {
-            return StateService.CreateFlowStateAsync(model);
-        }
+        public Guid TypeId { get; set; }
+        public string Name { get; set; }
+        public string Title { get; set; }
+        public string Tag { get; set; }
+        public FlowStateTypes StateType { get; set; }
     }
 }

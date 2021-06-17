@@ -22,20 +22,20 @@ namespace WebApp.Controllers
         [HttpGet]
         public IActionResult Create(Guid flowTypeId)
         {
-            return View("Create", new InitFlowStateModel()
+            return View("Create", new InitFlowStateRequest()
             {
                 TypeId = flowTypeId
             });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(InitFlowStateModel model)
+        public async Task<IActionResult> Create(InitFlowStateRequest request)
         {
-            var result = await FlowManager.InitFlowStateAsync(model);
+            var result = await FlowManager.InitFlowStateAsync(request);
             HandleFlowResult(result);
-            return View("Create", new InitFlowStateModel()
+            return View("Create", new InitFlowStateRequest()
             {
-                TypeId = model.TypeId
+                TypeId = request.TypeId
             });
         }
     }

@@ -1,4 +1,4 @@
-﻿@model Magenta.Workflow.UseCases.InitFlowTransition.InitFlowTransitionModel
+﻿@model Magenta.Workflow.UseCases.InitFlowTransition.InitFlowTransitionRequest
 @{
     var states = ViewBag.States as IEnumerable<FlowState>;
     var selectListItems = states.Select(x => new SelectListItem(x.Name, x.Id.ToString()));

@@ -25,7 +25,7 @@ namespace Magenta.Workflow.Tests.UseCases
             var existTransitions = await flowReportManager.GetInstanceTransitionsAsync(instance.Id);
             var targetTransition = existTransitions.Result.FirstOrDefault();
 
-            var moveModel = new MoveModel()
+            var moveModel = new MoveRequest()
             {
                 IdentityId = "1",
                 InstanceId = instance.Id,
@@ -52,7 +52,7 @@ namespace Magenta.Workflow.Tests.UseCases
             var existTransitions = await flowReportManager.GetInstanceTransitionsAsync(instance.Id);
             var targetTransition = existTransitions.Result.FirstOrDefault();
 
-            var moveModel = new MoveModel()
+            var moveModel = new MoveRequest()
             {
                 IdentityId = "1",
                 InstanceId = instance.Id,
@@ -84,7 +84,7 @@ namespace Magenta.Workflow.Tests.UseCases
             var targetTransition = MockData.GetFlowTransitions()
                 .FirstOrDefault(x => transitions.Contains(x.Id) == false);
 
-            var moveModel = new MoveModel()
+            var moveModel = new MoveRequest()
             {
                 IdentityId = "1",
                 InstanceId = instance.Id,
@@ -113,7 +113,7 @@ namespace Magenta.Workflow.Tests.UseCases
             var preSteps = await flowReportManager.GetInstanceStepsAsync(instance.Id);
             var preStep = preSteps.Result.FirstOrDefault(x => x.IsCurrent);
 
-            var moveModel = new MoveModel()
+            var moveModel = new MoveRequest()
             {
                 IdentityId = "1",
                 InstanceId = instance.Id,

@@ -26,7 +26,7 @@ namespace WebApp.Controllers
             var state = await FlowReportManager.GetStateByIdAsync(flowStateId);
             var states = await FlowReportManager.GetStatesByTypeIdAsync(state.Result.TypeId);
             ViewBag.States = states.Result;
-            return View("Create", new InitFlowTransitionModel()
+            return View("Create", new InitFlowTransitionRequest()
             {
                 SourceId = flowStateId,
                 TypeId = state.Result.TypeId
@@ -34,11 +34,11 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(InitFlowTransitionModel model)
+        public async Task<IActionResult> Create(InitFlowTransitionRequest request)
         {
-            var result = await FlowManager.InitFlowTransitionAsync(model);
+            var result = await FlowManager.InitFlowTransitionAsync(request);
             HandleFlowResult(result);
-            return RedirectToAction(nameof(Create), new {flowStateId = model.SourceId});
+            return RedirectToAction(nameof(Create), new {flowStateId = request.SourceId});
         }
     }
 }

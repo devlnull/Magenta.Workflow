@@ -23,7 +23,7 @@ namespace Magenta.Workflow.Tests.UseCases
             var stateManager = new MockState().MockStateManager();
             var flowManager = new ManagerFactory().GetFlowManager(stateManager);
             var flowType = MockData.GetFlowTypes()[0];
-            var initModel = new InitFlowStateModel()
+            var initModel = new InitFlowStateRequest()
             {
                 Name = "Test",
                 Title = "Test Title",
@@ -45,7 +45,7 @@ namespace Magenta.Workflow.Tests.UseCases
             //Arrange
             var stateManager = new MockState().MockStateManager();
             var flowManager = new ManagerFactory().GetFlowManager(stateManager);
-            var initModel = new InitFlowStateModel()
+            var initModel = new InitFlowStateRequest()
             {
                 Name = "Test",
                 Title = "Test Title",
@@ -68,7 +68,7 @@ namespace Magenta.Workflow.Tests.UseCases
             //Arrange
             var stateManager = new MockState().MockStateManager();
             var flowManager = new ManagerFactory().GetFlowManager(stateManager);
-            var initModel = new InitFlowStateModel()
+            var initModel = new InitFlowStateRequest()
             {
                 Name = string.Empty,
                 Title = "Test Title",

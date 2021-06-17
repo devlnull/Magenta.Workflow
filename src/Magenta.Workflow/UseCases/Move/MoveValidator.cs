@@ -8,42 +8,42 @@ using System.Threading.Tasks;
 
 namespace Magenta.Workflow.UseCases.Move
 {
-    public class MoveValidator : IFlowValidator<MoveModel>
+    public class MoveValidator : IFlowValidator<MoveRequest>
     {
         public async Task<FlowResult> ValidateAsync(IStateManager stateManager,
-            MoveModel model)
+            MoveRequest request)
         {
             FlowResult result = new FlowResult();
 
-            if (model.InstanceId.GuidIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsEmpty, args: nameof(model.Comment)));
+            if (request.InstanceId.GuidIsEmpty())
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsEmpty, args: nameof(request.Comment)));
 
-            if (model.TransitionId.GuidIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(model.TransitionId)));
+            if (request.TransitionId.GuidIsEmpty())
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(request.TransitionId)));
 
-            if (model.IdentityId.StringIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(model.IdentityId)));
+            if (request.IdentityId.StringIsEmpty())
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(request.IdentityId)));
 
-            if (model.Comment.StringIsEmpty())
-                result.Warns.Add(new FlowWarn(FlowErrors.ServiceIsEmpty, args: nameof(model.Comment)));
+            if (request.Comment.StringIsEmpty())
+                result.Warns.Add(new FlowWarn(FlowErrors.ServiceIsEmpty, args: nameof(request.Comment)));
 
-            if (model.Payload.StringIsEmpty())
-                result.Warns.Add(new FlowWarn(FlowErrors.ServiceIsEmpty, args: nameof(model.Payload)));
+            if (request.Payload.StringIsEmpty())
+                result.Warns.Add(new FlowWarn(FlowErrors.ServiceIsEmpty, args: nameof(request.Payload)));
 
-            var validateSourceDestinationResult = await ValidateSourceDestinationAsync(stateManager, model);
-            var validatePossibleMoveResult = await ValidatePossibleMoveAsync(stateManager, model);
-            var validateInstanceResult = await ValidateInstanceAsync(stateManager, model);
+            var validateSourceDestinationResult = await ValidateSourceDestinationAsync(stateManager, request);
+            var validatePossibleMoveResult = await ValidatePossibleMoveAsync(stateManager, request);
+            var validateInstanceResult = await ValidateInstanceAsync(stateManager, request);
 
             return result.Merge(validateInstanceResult)
                 .Merge(validatePossibleMoveResult)
                 .Merge(validateSourceDestinationResult);
         }
 
-        private async Task<FlowResult> ValidatePossibleMoveAsync(IStateManager stateManager, MoveModel model)
+        private async Task<FlowResult> ValidatePossibleMoveAsync(IStateManager stateManager, MoveRequest request)
         {
             var instanceSet = stateManager.GetFlowSet<FlowInstance>();
 
-            var instance = await instanceSet.GetByIdAsync(model.InstanceId);
+            var instance = await instanceSet.GetByIdAsync(request.InstanceId);
             if (instance == null)
                 return FlowResult.Failed(new FlowError(FlowErrors.ItemNotFound, args: nameof(FlowInstance)));
 
@@ -52,7 +52,7 @@ namespace Magenta.Workflow.UseCases.Move
                 .FirstOrDefaultAsync(x => x.InstanceId.Equals(instance.Id) && x.IsCurrent);
 
             var transitionSet = stateManager.GetFlowSet<FlowTransition>();
-            var transition = await transitionSet.GetByIdAsync(model.TransitionId);
+            var transition = await transitionSet.GetByIdAsync(request.TransitionId);
             if (transition == null)
                 return FlowResult.Failed(
                     new FlowError(FlowErrors.ItemNotFound, args: nameof(FlowTransition)));
@@ -67,7 +67,7 @@ namespace Magenta.Workflow.UseCases.Move
                 return FlowResult.Failed(new FlowError(FlowErrors.ItemNotFound, args: nameof(state)));
 
             var possibleTransitions = await transitionSet.GetAllAsync(x => x.SourceId == state.Id);
-            if (possibleTransitions.Select(x => x.Id).Contains(model.TransitionId) == false)
+            if (possibleTransitions.Select(x => x.Id).Contains(request.TransitionId) == false)
             {
                 string sourceParam = transition.SourceId.HasValue ?
                     transition.SourceId.Value.ToString() : FlowErrors.StateNull;
@@ -80,11 +80,11 @@ namespace Magenta.Workflow.UseCases.Move
             return FlowResult.Success;
         }
 
-        private async Task<FlowResult> ValidateInstanceAsync(IStateManager stateManager, MoveModel model)
+        private async Task<FlowResult> ValidateInstanceAsync(IStateManager stateManager, MoveRequest request)
         {
             var instanceSet = stateManager.GetFlowSet<FlowInstance>();
 
-            var instance = await instanceSet.GetByIdAsync(model.InstanceId);
+            var instance = await instanceSet.GetByIdAsync(request.InstanceId);
             if (instance == null)
                 return FlowResult.Failed(
                     new FlowError(FlowErrors.ItemNotFound, args: nameof(FlowInstance)));
@@ -96,10 +96,10 @@ namespace Magenta.Workflow.UseCases.Move
         }
 
         private async Task<FlowResult> ValidateSourceDestinationAsync(IStateManager stateManager,
-            MoveModel model)
+            MoveRequest request)
         {
             var transitionSet = stateManager.GetFlowSet<FlowTransition>();
-            var transition = await transitionSet.GetByIdAsync(model.TransitionId);
+            var transition = await transitionSet.GetByIdAsync(request.TransitionId);
             if (transition == null)
                 return FlowResult.Failed(
                     new FlowError(FlowErrors.ItemNotFound, args: nameof(FlowTransition)));

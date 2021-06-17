@@ -8,9 +8,9 @@ namespace Magenta.Workflow.Managers.Flows
     public partial class FlowManager
     {
 
-        public async Task<FlowResult<FlowTransition>> InitFlowTransitionAsync(InitFlowTransitionModel initModel)
+        public async Task<FlowResult<FlowTransition>> InitFlowTransitionAsync(InitFlowTransitionRequest initRequest)
         {
-            var result = await HandleRequestAsync(new InitFlowTransitionRequest(TransitionService), initModel);
+            var result = await HandleRequestAsync(new InitFlowTransitionRequestHandler(TransitionService), initRequest);
             return result;
         }
 

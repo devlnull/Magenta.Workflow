@@ -9,28 +9,28 @@ using Magenta.Workflow.Utilities;
 
 namespace Magenta.Workflow.UseCases.InitFlowTransition
 {
-    public class InitFlowTransitionValidator: IFlowValidator<InitFlowTransitionModel>
+    public class InitFlowTransitionValidator: IFlowValidator<InitFlowTransitionRequest>
     {
-        public async Task<FlowResult> ValidateAsync(IStateManager stateManager, InitFlowTransitionModel model)
+        public async Task<FlowResult> ValidateAsync(IStateManager stateManager, InitFlowTransitionRequest request)
         {
             FlowResult result = new FlowResult();
 
-            if (model.Name.StringIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, nameof(model.Name)));
+            if (request.Name.StringIsEmpty())
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, nameof(request.Name)));
 
-            if (model.Title.StringIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, nameof(model.Title)));
+            if (request.Title.StringIsEmpty())
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, nameof(request.Title)));
 
-            if (await StateNotExistAsync(stateManager, model.SourceId))
+            if (await StateNotExistAsync(stateManager, request.SourceId))
                 result.Errors.Add(new FlowError(FlowErrors.ItemNotFound, "Source"));
 
-            if (await StateNotExistAsync(stateManager, model.DestinationId))
+            if (await StateNotExistAsync(stateManager, request.DestinationId))
                 result.Errors.Add(new FlowError(FlowErrors.ItemNotFound, "Destination"));
 
-            if (await TypeNotExistAsync(stateManager, model.TypeId))
+            if (await TypeNotExistAsync(stateManager, request.TypeId))
                 result.Errors.Add(new FlowError(FlowErrors.ItemNotFound, "Type"));
 
-            if (await TransitionInPathAlreadyExistAsync(stateManager, model.SourceId, model.DestinationId))
+            if (await TransitionInPathAlreadyExistAsync(stateManager, request.SourceId, request.DestinationId))
                 result.Warns.Add(new FlowWarn(FlowMessages.TransitionInpathexist));
 
             return result;

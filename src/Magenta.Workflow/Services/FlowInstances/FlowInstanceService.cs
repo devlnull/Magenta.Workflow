@@ -16,23 +16,23 @@ namespace Magenta.Workflow.Services.FlowInstances
 
         }
 
-        public async Task<FlowResult<FlowInstance>> CreateFlowInstanceAsync(InitFlowModel model)
+        public async Task<FlowResult<FlowInstance>> CreateFlowInstanceAsync(InitFlowRequest request)
         {
             var set = StateManager.GetFlowSet<FlowInstance>();
             var typeSet = StateManager.GetFlowSet<FlowType>();
 
-            var type = await typeSet.GetByIdAsync(model.TypeId);
+            var type = await typeSet.GetByIdAsync(request.TypeId);
             if (type == null)
                 return FlowResult<FlowInstance>
                     .Failed(new FlowError(FlowErrors.ItemNotFound, nameof(type)));
 
             var entity = FlowEntity.InitializeType(new FlowInstance()
             {
-                Title = model.Title,
-                Payload = model.Payload,
+                Title = request.Title,
+                Payload = request.Payload,
                 TypeId = type.Id,
-                InitializerId = model.InitializerId,
-                AccessPhrase = model.AccessPhrase,
+                InitializerId = request.InitializerId,
+                AccessPhrase = request.AccessPhrase,
             });
 
             var result = await set.CreateAsync(entity);

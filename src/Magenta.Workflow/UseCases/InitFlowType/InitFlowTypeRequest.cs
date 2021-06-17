@@ -1,23 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using Magenta.Workflow.Context.Flows;
-using Magenta.Workflow.Core.Tasks;
-using Magenta.Workflow.Services.FlowTypes;
-
-namespace Magenta.Workflow.UseCases.InitFlowType
+﻿namespace Magenta.Workflow.UseCases.InitFlowType
 {
-    public class InitFlowTypeRequest : IFlowRequest<InitFlowTypeModel, FlowType>
+    public class InitFlowTypeRequest
     {
-        private FlowTypeService TypeService { get; }
+        public InitFlowTypeRequest() { }
 
-        public InitFlowTypeRequest(FlowTypeService typeService)
+        public InitFlowTypeRequest(string name)
         {
-            TypeService = typeService ?? throw new ArgumentNullException(nameof(typeService));
+            Name = name;
         }
 
-        public Task<FlowResult<FlowType>> DoAsync(InitFlowTypeModel model)
-        {
-            return TypeService.CreateFlowTypeAsync(model);
-        }
+        public string Name { get; set; }
     }
 }

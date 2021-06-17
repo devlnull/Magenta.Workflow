@@ -13,9 +13,9 @@ namespace Magenta.Workflow.Builder
 
         public string Name { get; set; }
 
-        public InitFlowTypeModel MapToInit()
+        public InitFlowTypeRequest MapToInit()
         {
-            return new InitFlowTypeModel(Name);
+            return new InitFlowTypeRequest(Name);
         }
     }
 }

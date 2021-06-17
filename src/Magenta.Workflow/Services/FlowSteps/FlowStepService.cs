@@ -17,19 +17,19 @@ namespace Magenta.Workflow.Services.FlowSteps
         {
         }
 
-        public async Task<FlowResult<FlowStep>> CreateFlowStepAsync(MoveModel model)
+        public async Task<FlowResult<FlowStep>> CreateFlowStepAsync(MoveRequest request)
         {
             var set = StateManager.GetFlowSet<FlowStep>();
             var instanceSet = StateManager.GetFlowSet<FlowInstance>();
             var transitionSet = StateManager.GetFlowSet<FlowTransition>();
             var stateSet = StateManager.GetFlowSet<FlowState>();
 
-            var instance = await instanceSet.GetByIdAsync(model.InstanceId);
+            var instance = await instanceSet.GetByIdAsync(request.InstanceId);
             if (instance == null)
                 return FlowResult<FlowStep>
                     .Failed(new FlowError(FlowErrors.ItemNotFound, nameof(instance)));
 
-            var transition = await transitionSet.GetByIdAsync(model.TransitionId);
+            var transition = await transitionSet.GetByIdAsync(request.TransitionId);
             if (transition == null)
                 return FlowResult<FlowStep>
                     .Failed(new FlowError(FlowErrors.ItemNotFound, nameof(transition)));
@@ -44,8 +44,8 @@ namespace Magenta.Workflow.Services.FlowSteps
                 InstanceId = instance.Id,
                 IsCurrent = true,
                 TransitionId = transition.Id,
-                Payload = model.Payload,
-                Comment = model.Comment,
+                Payload = request.Payload,
+                Comment = request.Comment,
                 CurrentStateName = state.Name,
                 CurrentStateTitle = state.Title,
                 CurrentStateType = state.StateType,

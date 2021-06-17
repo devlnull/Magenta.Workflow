@@ -8,10 +8,10 @@ namespace Magenta.Workflow.Managers.Flows
     public partial class FlowManager
     {
 
-        public async Task<FlowResult<FlowInstance>> InitFlowAsync(InitFlowModel initModel)
+        public async Task<FlowResult<FlowInstance>> InitFlowAsync(InitFlowRequest initRequest)
         {
-            var result = await HandleRequestAsync(new InitFlowRequest(StateManager, InstanceService, StepService),
-                initModel);
+            var result = await HandleRequestAsync(new InitFlowRequestHandler(StateManager, InstanceService, StepService),
+                initRequest);
             return result;
         }
 

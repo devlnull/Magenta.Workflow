@@ -6,23 +6,23 @@ using Magenta.Workflow.Utilities;
 
 namespace Magenta.Workflow.UseCases.InitFlow
 {
-    public class InitFlowValidator : IFlowValidator<InitFlowModel>
+    public class InitFlowValidator : IFlowValidator<InitFlowRequest>
     {
-        public Task<FlowResult> ValidateAsync(IStateManager stateManager, InitFlowModel model)
+        public Task<FlowResult> ValidateAsync(IStateManager stateManager, InitFlowRequest request)
         {
             FlowResult result = new FlowResult();
 
-            if (model.Title.StringIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(model.Title)));
+            if (request.Title.StringIsEmpty())
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(request.Title)));
 
-            if (model.InitializerId.StringIsEmpty())
-                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(model.InitializerId)));
+            if (request.InitializerId.StringIsEmpty())
+                result.Errors.Add(new FlowError(FlowErrors.ServiceIsRequired, args: nameof(request.InitializerId)));
 
-            if (model.AccessPhrase.StringIsEmpty())
-                result.Warns.Add(new FlowWarn(FlowErrors.ServiceIsEmpty, args: nameof(model.AccessPhrase)));
+            if (request.AccessPhrase.StringIsEmpty())
+                result.Warns.Add(new FlowWarn(FlowErrors.ServiceIsEmpty, args: nameof(request.AccessPhrase)));
 
-            if (model.Payload.StringIsEmpty())
-                result.Warns.Add(new FlowWarn(FlowMessages.ItemAlreadyexist, args: nameof(model.Payload)));
+            if (request.Payload.StringIsEmpty())
+                result.Warns.Add(new FlowWarn(FlowMessages.ItemAlreadyexist, args: nameof(request.Payload)));
 
             return Task.FromResult(result);
         }

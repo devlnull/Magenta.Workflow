@@ -17,22 +17,22 @@ namespace Magenta.Workflow
         /// <summary>
         /// Initialize new flow
         /// </summary>
-        Task<FlowResult<FlowInstance>> InitFlowAsync(InitFlowModel initModel);
+        Task<FlowResult<FlowInstance>> InitFlowAsync(InitFlowRequest initRequest);
 
         /// <summary>
         /// Initialize new flow type
         /// </summary>
-        Task<FlowResult<FlowType>> InitFlowTypeAsync(InitFlowTypeModel initModel);
+        Task<FlowResult<FlowType>> InitFlowTypeAsync(InitFlowTypeRequest initRequest);
 
         /// <summary>
         /// Initialize new flow state
         /// </summary>
-        Task<FlowResult<FlowState>> InitFlowStateAsync(InitFlowStateModel initModel);
+        Task<FlowResult<FlowState>> InitFlowStateAsync(InitFlowStateRequest initRequest);
 
         /// <summary>
         /// Initialize new transition
         /// </summary>
-        Task<FlowResult<FlowTransition>> InitFlowTransitionAsync(InitFlowTransitionModel initModel);
+        Task<FlowResult<FlowTransition>> InitFlowTransitionAsync(InitFlowTransitionRequest initRequest);
 
         #endregion Init
 
@@ -40,7 +40,7 @@ namespace Magenta.Workflow
         /// <summary>
         /// Move instance to next state
         /// </summary>
-        Task<FlowResult<FlowStep>> MoveAsync(MoveModel moveModel);
+        Task<FlowResult<FlowStep>> MoveAsync(MoveRequest moveRequest);
 
         #endregion Move
 

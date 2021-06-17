@@ -28,7 +28,7 @@ namespace Magenta.Workflow.Tests.UseCases
             var activeState = MockData.GetFlowStates()
                 .ToList().FirstOrDefault(x => x.Name == "Active");
 
-            var initModel = new InitFlowTransitionModel()
+            var initModel = new InitFlowTransitionRequest()
             {
                 Name = "FinalApprove",
                 Title = "FinalApprove",
@@ -57,7 +57,7 @@ namespace Magenta.Workflow.Tests.UseCases
             var closeState = MockData.GetFlowStates()
                 .ToList().FirstOrDefault(x => x.Name == "Close");
 
-            var initModel = new InitFlowTransitionModel()
+            var initModel = new InitFlowTransitionRequest()
             {
                 Name = "RejectTest",
                 Title = "RejectTest",

@@ -26,7 +26,7 @@ namespace Magenta.Workflow.Builder
         public string Name { get; set; }
         public FlowTransitionTypes TransitionType { get; set; }
 
-        public async Task<InitFlowTransitionModel> MapToInitAsync(
+        public async Task<InitFlowTransitionRequest> MapToInitAsync(
             IFlowSet<FlowState> flowStateSet, Guid typeId)
         {
             var source = await flowStateSet
@@ -39,7 +39,7 @@ namespace Magenta.Workflow.Builder
             Guid sourceId = source?.Id ?? Guid.NewGuid();
             Guid destinationId = destination?.Id ?? Guid.NewGuid();
 
-            return new InitFlowTransitionModel()
+            return new InitFlowTransitionRequest()
             {
                 SourceId = sourceId,
                 DestinationId = destinationId,

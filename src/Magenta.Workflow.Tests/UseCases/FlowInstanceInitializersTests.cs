@@ -19,7 +19,7 @@ namespace Magenta.Workflow.Tests.UseCases
             //Arrange
             var stateManager = new MockState().MockStateManager();
             var flowManager = new ManagerFactory().GetFlowManager(stateManager);
-            var initModel = new InitFlowModel()
+            var initModel = new InitFlowRequest()
             {
                 TypeId = MockData.GetFlowTypes()[0].Id,
                 AccessPhrase = "secure",
@@ -41,7 +41,7 @@ namespace Magenta.Workflow.Tests.UseCases
             //Arrange
             var stateManager = new MockState().MockStateManager();
             var flowManager = new ManagerFactory().GetFlowManager(stateManager);
-            var initModel = new InitFlowModel()
+            var initModel = new InitFlowRequest()
             {
                 TypeId = MockData.GetFlowTypes()[0].Id,
                 AccessPhrase = "secure",
@@ -63,7 +63,7 @@ namespace Magenta.Workflow.Tests.UseCases
             //Arrange
             var stateManager = new MockState().MockStateManager();
             var flowManager = new ManagerFactory().GetFlowManager(stateManager);
-            var initModel = new InitFlowModel()
+            var initModel = new InitFlowRequest()
             {
                 TypeId = MockData.GetFlowTypes()[0].Id,
                 AccessPhrase = "secure",

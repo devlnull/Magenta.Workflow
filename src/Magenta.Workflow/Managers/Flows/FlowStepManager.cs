@@ -8,9 +8,9 @@ namespace Magenta.Workflow.Managers.Flows
     public partial class FlowManager
     {
 
-        public async Task<FlowResult<FlowStep>> MoveAsync(MoveModel moveModel)
+        public async Task<FlowResult<FlowStep>> MoveAsync(MoveRequest moveRequest)
         {
-            var result = await HandleRequestAsync(new MoveRequest(StepService), moveModel);
+            var result = await HandleRequestAsync(new MoveRequestHandler(StepService), moveRequest);
             return result;
         }
 

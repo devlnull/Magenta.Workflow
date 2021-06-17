@@ -29,7 +29,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(InitFlowTypeTextModel flowTypeTextModel)
         {
-            var flowTypeModel = new InitFlowTypeModel()
+            var flowTypeModel = new InitFlowTypeRequest()
             {
                 Name = flowTypeTextModel.Name,
             };

@@ -39,14 +39,14 @@ namespace Magenta.Workflow.Managers.Flows
         #region Helpers
 
         private async Task<FlowResult<TResultModel>> HandleRequestAsync<TModel, TResultModel>(
-            IFlowRequest<TModel, TResultModel> request, TModel model)
+            IFlowRequestHandler<TModel, TResultModel> requestHandler, TModel model)
             where TModel : class where TResultModel : class
         {
             try
             {
                 Logger.LogInfo(FlowLogs.RequestStarted, args: model.GetType().Name);
-                if (request == null)
-                    throw new FlowException(FlowErrors.ServiceIsNull, nameof(request));
+                if (requestHandler == null)
+                    throw new FlowException(FlowErrors.ServiceIsNull, nameof(requestHandler));
 
                 var validator = ObjectActivator.GetValidator<TModel>();
 
@@ -60,7 +60,7 @@ namespace Magenta.Workflow.Managers.Flows
 
 
                 Logger.LogInfo(FlowLogs.RequestOperationStarted, args: model.GetType().Name);
-                var requestResult = await request.DoAsync(model);
+                var requestResult = await requestHandler.DoAsync(model);
                 Logger.LogInfo(FlowLogs.RequestOperationFinished, args: model.GetType().Name);
 
                 if (validateResult.Warned)

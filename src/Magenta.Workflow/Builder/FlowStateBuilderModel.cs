@@ -22,9 +22,9 @@ namespace Magenta.Workflow.Builder
         public string Tag { get; set; }
         public FlowStateTypes StateType { get; set; }
 
-        public InitFlowStateModel MapToInit(Guid flowTypeId)
+        public InitFlowStateRequest MapToInit(Guid flowTypeId)
         {
-            return new InitFlowStateModel()
+            return new InitFlowStateRequest()
             {
                 Name = Name,
                 StateType = StateType,
