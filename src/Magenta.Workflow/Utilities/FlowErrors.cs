@@ -10,6 +10,7 @@
         public const string ServiceIsEmpty = "{0} is empty.";
         public const string ServiceNotResolved = "service with name {0} could not be resolved.";
         public const string ErrorOccurred = "an error happended, to resolve the problem check the logs.";
+        public const string ItemAlreadyExist = "an item with {0} '{1}' already exist.";
 
         #endregion General
 

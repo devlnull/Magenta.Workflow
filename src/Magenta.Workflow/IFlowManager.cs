@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Magenta.Workflow.Builder;
 using Magenta.Workflow.Context.Flows;
 using Magenta.Workflow.Core.Tasks;
 using Magenta.Workflow.UseCases.InitFlow;
@@ -42,5 +43,14 @@ namespace Magenta.Workflow
         Task<FlowResult<FlowStep>> MoveAsync(MoveModel moveModel);
 
         #endregion Move
+
+        #region Build
+        /// <summary>
+        /// workflow builder get a configuration by builder class and makes a flow type with all details
+        /// </summary>
+        /// <returns>build result</returns>
+        Task<FlowResult> BuildWorkflowAsync(WorkflowBuilder workflowBuilder);
+
+        #endregion Build
     }
 }
