@@ -43,7 +43,7 @@ namespace Magenta.Workflow.Tests.Mock
                     Name = "JobSeekerRequest",
                     Title = "Job Seeker Request",
                     TypeId = GetFlowTypes()[0].Id,
-                    StateType = (byte) FlowStateTypes.Purposed,
+                    StateType = (byte) FlowStateTypes.In,
                 },
                 new FlowState()
                 {
@@ -54,7 +54,7 @@ namespace Magenta.Workflow.Tests.Mock
                     Name = "Close",
                     Title = "Closed",
                     TypeId = GetFlowTypes()[0].Id,
-                    StateType = (byte) FlowStateTypes.Close,
+                    StateType = (byte) FlowStateTypes.Out,
                 },
                 new FlowState()
                 {
@@ -65,7 +65,7 @@ namespace Magenta.Workflow.Tests.Mock
                     Name = "Review",
                     Title = "Reviewed By HR",
                     TypeId = GetFlowTypes()[0].Id,
-                    StateType = (byte) FlowStateTypes.Purposed,
+                    StateType = (byte) FlowStateTypes.In,
                 },
                 new FlowState()
                 {
@@ -76,7 +76,7 @@ namespace Magenta.Workflow.Tests.Mock
                     Name = "Approve1",
                     Title = "Approve by Technical Manager",
                     TypeId = GetFlowTypes()[0].Id,
-                    StateType = (byte) FlowStateTypes.Purposed,
+                    StateType = (byte) FlowStateTypes.In,
                 },
                 new FlowState()
                 {
@@ -87,7 +87,7 @@ namespace Magenta.Workflow.Tests.Mock
                     Name = "Approve2",
                     Title = "Approved by CEO",
                     TypeId = GetFlowTypes()[0].Id,
-                    StateType = (byte) FlowStateTypes.Purposed,
+                    StateType = (byte) FlowStateTypes.In,
                 },
                 new FlowState()
                 {
@@ -98,7 +98,7 @@ namespace Magenta.Workflow.Tests.Mock
                     Name = "Active",
                     Title = "Working",
                     TypeId = GetFlowTypes()[0].Id,
-                    StateType = (byte) FlowStateTypes.Active,
+                    StateType = (byte) FlowStateTypes.InOut,
                 },
             };
         }
@@ -140,7 +140,7 @@ namespace Magenta.Workflow.Tests.Mock
                     Deleted = false,
                     Name = "Accept",
                     Title = "Accept",
-                    TransitionType = FlowTransitionTypes.Accept,
+                    TransitionType = FlowTransitionTypes.Positive,
                     SourceId = Guid.Parse("1b016ce2-9625-17ca-9f3a-e2b239d8e1d5"),
                     DestinationId = Guid.Parse("3b016ce1-5225-35ca-9f2a-e2b239d8e1d2"),
                 },
@@ -153,7 +153,7 @@ namespace Magenta.Workflow.Tests.Mock
                     Deleted = false,
                     Name = "Reject",
                     Title = "Reject",
-                    TransitionType = FlowTransitionTypes.Reject,
+                    TransitionType = FlowTransitionTypes.Negative,
                     SourceId = Guid.Parse("1b016ce2-9625-17ca-9f3a-e2b239d8e1d5"),
                     DestinationId = Guid.Parse("2b016ce1-9625-17ca-9f2a-e2b239d8e1d1"),
                 },
@@ -168,7 +168,7 @@ namespace Magenta.Workflow.Tests.Mock
                     Deleted = false,
                     Name = "Accept",
                     Title = "Accept",
-                    TransitionType = FlowTransitionTypes.Accept,
+                    TransitionType = FlowTransitionTypes.Positive,
                     SourceId = Guid.Parse("3b016ce1-5225-35ca-9f2a-e2b239d8e1d2"),
                     DestinationId = Guid.Parse("4b021ce1-5225-42ca-9f2a-e2b215d8e1d2"),
                 },
@@ -181,7 +181,7 @@ namespace Magenta.Workflow.Tests.Mock
                     Deleted = false,
                     Name = "Reject",
                     Title = "Reject",
-                    TransitionType = FlowTransitionTypes.Reject,
+                    TransitionType = FlowTransitionTypes.Negative,
                     SourceId = Guid.Parse("3b016ce1-5225-35ca-9f2a-e2b239d8e1d2"),
                     DestinationId = Guid.Parse("2b016ce1-9625-17ca-9f2a-e2b239d8e1d1"),
                 },
@@ -196,7 +196,7 @@ namespace Magenta.Workflow.Tests.Mock
                     Deleted = false,
                     Name = "Accept",
                     Title = "Accept",
-                    TransitionType = FlowTransitionTypes.Accept,
+                    TransitionType = FlowTransitionTypes.Positive,
                     SourceId = Guid.Parse("4b021ce1-5225-42ca-9f2a-e2b215d8e1d2"),
                     DestinationId = Guid.Parse("5b021ce1-5225-42ca-9f2a-e2b215d8e1d2"),
                 },
@@ -209,7 +209,7 @@ namespace Magenta.Workflow.Tests.Mock
                     Deleted = false,
                     Name = "Reject",
                     Title = "Reject",
-                    TransitionType = FlowTransitionTypes.Reject,
+                    TransitionType = FlowTransitionTypes.Negative,
                     SourceId = Guid.Parse("4b021ce1-5225-42ca-9f2a-e2b215d8e1d2"),
                     DestinationId = Guid.Parse("2b016ce1-9625-17ca-9f2a-e2b239d8e1d1"),
                 },
@@ -224,7 +224,7 @@ namespace Magenta.Workflow.Tests.Mock
                     Deleted = false,
                     Name = "Accept",
                     Title = "Accept",
-                    TransitionType = FlowTransitionTypes.Accept,
+                    TransitionType = FlowTransitionTypes.Positive,
                     SourceId = Guid.Parse("5b021ce1-5225-42ca-9f2a-e2b215d8e1d2"),
                     DestinationId = Guid.Parse("6b021ce1-6665-42ca-9f2a-e2b215d8e1d2"),
                 },
@@ -237,7 +237,7 @@ namespace Magenta.Workflow.Tests.Mock
                     Deleted = false,
                     Name = "Reject",
                     Title = "Reject",
-                    TransitionType = FlowTransitionTypes.Reject,
+                    TransitionType = FlowTransitionTypes.Negative,
                     SourceId = Guid.Parse("5b021ce1-5225-42ca-9f2a-e2b215d8e1d2"),
                     DestinationId = Guid.Parse("2b016ce1-9625-17ca-9f2a-e2b239d8e1d1"),
                 },
@@ -252,7 +252,7 @@ namespace Magenta.Workflow.Tests.Mock
                     Deleted = false,
                     Name = "Reject",
                     Title = "Reject",
-                    TransitionType = FlowTransitionTypes.Reject,
+                    TransitionType = FlowTransitionTypes.Negative,
                     SourceId = Guid.Parse("6b021ce1-6665-42ca-9f2a-e2b215d8e1d2"),
                     DestinationId = Guid.Parse("2b016ce1-9625-17ca-9f2a-e2b239d8e1d1"),
                 },

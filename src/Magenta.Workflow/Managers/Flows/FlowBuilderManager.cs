@@ -59,8 +59,7 @@ namespace Magenta.Workflow.Managers.Flows
         }
 
         async Task<IEnumerable<FlowResult<FlowTransition>>> BuilderCreateFlowTransitionsAsync(
-            Guid flowTypeId,
-            IEnumerable<FlowTransitionBuilderModel> models)
+            Guid flowTypeId, IEnumerable<FlowTransitionBuilderModel> models)
         {
             var result = new List<FlowResult<FlowTransition>>();
             var set = StateManager.GetFlowSet<FlowState>();

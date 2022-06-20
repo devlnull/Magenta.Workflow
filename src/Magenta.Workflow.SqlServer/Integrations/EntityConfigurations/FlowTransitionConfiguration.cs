@@ -22,7 +22,7 @@ namespace Magenta.Workflow.SqlServer.Integrations.EntityConfigurations
                 .HasForeignKey(x => x.DestinationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(x => x.Type)
+            builder.HasOne(x => x.FlowType)
                 .WithMany(x => x.Transitions)
                 .HasForeignKey(x=>x.TypeId)
                 .IsRequired();

@@ -1,4 +1,6 @@
-﻿namespace Magenta.Workflow.Core.Tasks
+﻿using System.Linq;
+
+namespace Magenta.Workflow.Core.Tasks
 {
     public class FlowResult<TResult> : FlowResult
     {
@@ -10,7 +12,7 @@
         }
 
         public new TResult Result { get; set; }
-
+        
         public void SetResult(TResult result) => Result = result;
 
         public static new FlowResult<TResult> Failed(params FlowError[] errors)

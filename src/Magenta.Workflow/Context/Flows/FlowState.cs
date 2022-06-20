@@ -18,6 +18,7 @@ namespace Magenta.Workflow.Context.Flows
         public string Tag { get; set; }
         //TODO: use state type enum instead byte
         public byte StateType { get; set; }
+        public string Function { get; set; }
         public FlowType Type { get; set; }
         public Guid TypeId { get; set; }
         public ICollection<FlowIdentity> Identities { get; set; }

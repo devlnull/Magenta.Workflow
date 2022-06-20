@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Magenta.Workflow.Builder;
 using Magenta.Workflow.Context.Structures;
 using Magenta.Workflow.Tests.Infrastructures;
@@ -17,25 +18,34 @@ namespace Magenta.Workflow.Tests.Builder
         [Fact]
         public async Task WorkflowBuilder_WithCorrectModel_MustCreateWholeGraph()
         {
-            //Arrange
             var stateManager = new MockState().MockStateManager();
             var flowManager = new ManagerFactory().GetFlowManager(stateManager);
-            var flowReportManager = new ManagerFactory().GetFlowReportManager(stateManager);
 
-            var workflowBuilder = new WorkflowBuilder("Order");
-            workflowBuilder.AddFlowState(new FlowStateBuilderModel("New", "New", "New", FlowStateTypes.Purposed))
-                .AddFlowTransition(new FlowTransitionBuilderModel("Confirmed", "Confirm", "Confirm", FlowTransitionTypes.Accept))
-                .AddFlowTransition(new FlowTransitionBuilderModel("UnSuccessful", "Reject", "Reject", FlowTransitionTypes.Reject));
-            
-            workflowBuilder.AddFlowState(new FlowStateBuilderModel("Confirmed", "Confirmed", "Confirmed", FlowStateTypes.Active))
-                .AddFlowTransition(new FlowTransitionBuilderModel("Finalized", "Pay", "Pay", FlowTransitionTypes.Accept))
-                .AddFlowTransition(new FlowTransitionBuilderModel("UnSuccessful", "Reject", "Reject", FlowTransitionTypes.Reject));
-            
-            workflowBuilder.AddFlowState(new FlowStateBuilderModel("UnSuccessful", "UnSuccessful", "UnSuccessful", FlowStateTypes.Close));
-            workflowBuilder.AddFlowState(new FlowStateBuilderModel("Finalized", "Finalized", "Finalized", FlowStateTypes.Close));
-            //Act
+            var workflowBuilder = new WorkflowBuilder("Order")
+                .AddInitialTransition<TestService, TestModel, CancellationToken, TestResult>(
+                    "Start", "Start", "Start", FlowTransitionTypes.Start,
+                    (testService, model, cancellationToken) => testService.TestAsync(model, cancellationToken));
+            workflowBuilder.AddFlowState("New", "New", FlowStateTypes.In)
+                .AddFlowTransition<TestService, TestModel, CancellationToken, TestResult>(
+                    "Confirmed", "Confirm", "Confirm", FlowTransitionTypes.Positive,
+                    (testService, model, cancellationToken) => testService.TestAsync(model, cancellationToken))
+                .AddFlowTransition<TestService, TestModel, CancellationToken, TestResult>(
+                    "UnSuccessful", "Reject", "Reject", FlowTransitionTypes.Negative,
+                    (testService, model, cancellationToken) => testService.TestAsync(model, cancellationToken));
+
+            workflowBuilder.AddFlowState("Confirmed", "Confirmed", FlowStateTypes.InOut)
+                .AddFlowTransition<TestService, TestModel, CancellationToken, TestResult>(
+                    "Finalized", "Pay", "Pay", FlowTransitionTypes.Positive,
+                    (testService, model, cancellationToken) => testService.TestAsync(model, cancellationToken))
+                .AddFlowTransition<TestService, TestModel, CancellationToken, TestResult>(
+                    "UnSuccessful", "Reject", "Reject", FlowTransitionTypes.Negative,
+                    (testService, model, cancellationToken) => testService.TestAsync(model, cancellationToken));
+
+            workflowBuilder.AddFlowState("UnSuccessful", "UnSuccessful", FlowStateTypes.Out);
+            workflowBuilder.AddFlowState("Finalized", "Finalized", FlowStateTypes.Out);
+
             var result = await flowManager.BuildWorkflowAsync(workflowBuilder);
-            //Assert
+
             Assert.True(result.Succeeded);
         }
     }

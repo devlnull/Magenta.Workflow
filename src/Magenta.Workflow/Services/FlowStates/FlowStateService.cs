@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Magenta.Workflow.UseCases.InitFlowState;
 using System.Threading.Tasks;
 using Magenta.Workflow.Context.Base;
@@ -24,7 +25,7 @@ namespace Magenta.Workflow.Services.FlowStates
             if (type == null)
                 return FlowResult<FlowState>
                     .Failed(new FlowError(FlowErrors.ItemNotFound, nameof(type)));
-
+            
             var entity = FlowEntity.InitializeType(new FlowState()
             {
                 Name = request.Name,

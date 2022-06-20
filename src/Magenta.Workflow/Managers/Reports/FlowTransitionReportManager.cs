@@ -78,7 +78,7 @@ namespace Magenta.Workflow.Managers.Reports
                         select new FlowTransition()
                         {
                             Id = transition.Id,
-                            Type = type,
+                            FlowType = type,
                             CreatedAt = transition.CreatedAt,
                             ModifiedAt = transition.ModifiedAt,
                             Deleted = transition.Deleted,

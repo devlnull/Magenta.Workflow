@@ -6,21 +6,17 @@ namespace Magenta.Workflow.Builder
 {
     public class FlowStateBuilderModel
     {
-        public FlowStateBuilderModel() { }
-
-        public FlowStateBuilderModel(string name, string title,
-            string tag, FlowStateTypes stateType)
+        public FlowStateBuilderModel(string name, string title, FlowStateTypes stateType)
         {
             Name = name;
             Title = title;
-            Tag = tag;
             StateType = stateType;
         }
 
         public string Name { get; set; }
-        public string Title { get; set; }
-        public string Tag { get; set; }
-        public FlowStateTypes StateType { get; set; }
+        private string Title { get; set; }
+        private string Tag { get; set; }
+        private FlowStateTypes StateType { get; set; }
 
         public InitFlowStateRequest MapToInit(Guid flowTypeId)
         {

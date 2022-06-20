@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 
 namespace Magenta.Workflow.Core.Tasks
@@ -15,6 +16,8 @@ namespace Magenta.Workflow.Core.Tasks
 
         private List<FlowError> _errors = new List<FlowError>();
         private List<FlowWarn> _warns = new List<FlowWarn>();
+
+        public FlowError Error => this.Errors.FirstOrDefault();
 
         private bool _succeeded;
         public bool Succeeded

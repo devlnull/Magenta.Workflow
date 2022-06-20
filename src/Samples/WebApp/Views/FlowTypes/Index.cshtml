@@ -29,7 +29,7 @@
                         <td>@item.ModifiedAt</td>
                         <td>@item.Deleted</td>
                         <td><a asp-action="Index" asp-controller="FlowStates" asp-route-flowTypeId="@item.Id" class="btn btn-info">States</a></td>
-                        <td><a asp-action="Index" asp-controller="FlowInstances" asp-route-flowTypeId="@item.Id" class="btn btn-info">Instances</a></td>
+                        @* <td><a asp-action="Index" asp-controller="FlowInstances" asp-route-flowTypeId="@item.Id" class="btn btn-info">Instances</a></td> *@
                     </tr>
                 }
             </tbody>

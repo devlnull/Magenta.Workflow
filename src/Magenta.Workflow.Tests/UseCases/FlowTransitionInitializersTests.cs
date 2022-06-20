@@ -34,7 +34,7 @@ namespace Magenta.Workflow.Tests.UseCases
                 Title = "FinalApprove",
                 SourceId = approve1State.Id,
                 DestinationId = activeState.Id,
-                TransitionType = FlowTransitionTypes.Reject,
+                TransitionType = FlowTransitionTypes.Negative,
                 TypeId = flowType.Id
             };
             //Act
@@ -63,7 +63,7 @@ namespace Magenta.Workflow.Tests.UseCases
                 Title = "RejectTest",
                 SourceId = reviewState.Id,
                 DestinationId = closeState.Id,
-                TransitionType = FlowTransitionTypes.Reject,
+                TransitionType = FlowTransitionTypes.Negative,
                 TypeId = flowType.Id
             };
             //Act

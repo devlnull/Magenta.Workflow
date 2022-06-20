@@ -28,13 +28,13 @@ namespace Magenta.Workflow.Managers.Flows
             StepService = new FlowStepService(StateManager);
         }
 
-        public IFlowLogger Logger { get; set; }
-        public IStateManager StateManager { get; set; }
-        public FlowInstanceService InstanceService { get; }
-        public FlowTypeService TypeService { get; }
-        public FlowStateService StateService { get; }
-        public FlowTransitionService TransitionService { get; }
-        public FlowStepService StepService { get; set; }
+        private IFlowLogger Logger { get; set; }
+        private IStateManager StateManager { get; set; }
+        private FlowInstanceService InstanceService { get; }
+        private FlowTypeService TypeService { get; }
+        private FlowStateService StateService { get; }
+        private FlowTransitionService TransitionService { get; }
+        private FlowStepService StepService { get; set; }
 
         #region Helpers
 

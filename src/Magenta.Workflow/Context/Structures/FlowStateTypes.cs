@@ -2,12 +2,9 @@
 {
     public enum FlowStateTypes : byte
     {
-        Purposed = 1,
-        Active = 2,
-        Request = 3,
-        Close = 4,
-        Suspend = 5,
-        Expired = 6,
+        In = 1,
+        Out = 2,
+        InOut = 3,
         Other = 255,
     }
 }

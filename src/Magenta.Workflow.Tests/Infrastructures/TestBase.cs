@@ -44,8 +44,7 @@ namespace Magenta.Workflow.Tests.Infrastructures
                 var serialized = JsonSerializer.Serialize(obj,
                     options: new JsonSerializerOptions()
                     {
-                        PropertyNameCaseInsensitive = true,
-                        IgnoreNullValues = true,
+                        PropertyNameCaseInsensitive = true
                     });
                 strBuilder.AppendLine("Object result props:");
                 strBuilder.AppendLine(serialized);
