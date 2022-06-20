@@ -21,7 +21,7 @@ namespace System.Diagnostics.CodeAnalysis
 // ReSharper disable InconsistentNaming
 
 // ReSharper disable once CheckNamespace
-namespace Hangfire.Annotations
+namespace Magenta.Workflow.Utilities
 {
   /// <summary>
   /// Indicates that the value of the marked element could be <c>null</c> sometimes,

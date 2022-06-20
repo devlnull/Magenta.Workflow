@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Hangfire.Annotations;
 using Magenta.Workflow.Utilities;
 
 namespace Magenta.Workflow.Builder;

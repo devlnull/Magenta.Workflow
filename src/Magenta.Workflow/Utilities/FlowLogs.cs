@@ -3,7 +3,7 @@
     internal class FlowLogs
     {
         public const string StateNotfound = "state with id '{0}' not found.";
-        public const string TranistionNotfound = "transition with id '{0}' not found.";
+        public const string TransitionNotfound = "transition with id '{0}' not found.";
         public const string InstanceNotfound = "instance with id '{0}' not found.";
         public const string StepNotfound = "step with id '{0}' not found.";
         public const string FlowtypeNotfound = "flow type '{0}' not found.";
